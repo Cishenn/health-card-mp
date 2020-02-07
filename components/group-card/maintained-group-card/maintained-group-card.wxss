@@ -1,0 +1,31 @@
+/* components/group-card/maintained-group-card/maintained-group-card.wxss */
+.card {
+  width: 690rpx;
+}
+
+.card-body {
+  background-color: turquoise;
+  width: 610rpx;
+  height: 120rpx;
+  margin: 20rpx;
+  padding: 30rpx 20rpx;
+  font-size: 38rpx;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-foot {
+  margin: 20rpx 60rpx;
+  font-size: 28rpx;
+  overflow: hidden;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
