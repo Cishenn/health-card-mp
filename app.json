@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/home-page/home-page",
-    "pages/index/clock-in/clock-in"
+    "pages/index/clock-in/clock-in",
+    "pages/group/group"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -32,6 +33,5 @@
   "usingComponents": {
     "van-dialog": "@vant/weapp/dialog"
   },
-
   "sitemapLocation": "sitemap.json"
 }
