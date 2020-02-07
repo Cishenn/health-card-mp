@@ -3,7 +3,8 @@
     "pages/index/home-page/home-page",
     "pages/index/clock-in/clock-in",
     "pages/group/group",
-    "pages/created"
+    "pages/created",
+    "pages/groupInfo/groupInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",
