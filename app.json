@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/home-page/home-page",
     "pages/index/clock-in/clock-in",
-    "pages/group/group"
+    "pages/group/group",
+    "pages/created"
   ],
   "window": {
     "backgroundTextStyle": "light",

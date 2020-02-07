@@ -1,0 +1,52 @@
+/* .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+.img{
+  width: 350rpx;
+  height: 350rpx;
+}
+.success{
+  font-size: 60rpx;
+  margin-bottom: 50rpx;
+}
+/* .groupName {
+  width: 90%;
+  border: 1px solid grey;
+}
+.introduction {
+  width: 90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+} */
+.groupName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.creatorName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;  
+}
+.invitationCodes{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx; 
+}
+/* .radio{
+  padding:30rpx;
+  margin-top: 20rpx;
+} */
+.invitation{
+  width:90%;
+  margin-top: 20rpx;
+}
+.back{
+  width:90%;
+  margin-top: 20rpx;
+}
