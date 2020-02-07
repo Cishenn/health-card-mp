@@ -1,0 +1,38 @@
+/* components/group-card/joined-group-card/joined-group-card.wxss */
+.card-no-post, .card-with-post {
+  background-color: turquoise;
+  width: 610rpx;
+  height: 160rpx;
+  margin: 20rpx;
+  padding: 30rpx 20rpx;
+}
+
+.card-no-post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card-with-post {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.group-name {
+  font-size: 38rpx;
+  font-weight: bold;
+}
+
+.post {
+  font-size: 28rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.post text ::before {
+  content: "公告：";
+}

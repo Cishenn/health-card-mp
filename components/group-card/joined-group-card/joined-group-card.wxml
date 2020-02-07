@@ -1,0 +1,8 @@
+<!--components/group-card/joined-group-card/joined-group-card.wxml-->
+<view wx:if="{{''===groupInfo.post}}" class="card-no-post" bind:tap="goToGroup">
+  <view class="group-name">{{groupInfo.name}}</view>
+</view>
+<view wx:else class="card-with-post" bind:tap="goToGroup">
+  <view class="group-name">{{groupInfo.name}}</view>
+  <view class="post"><text>{{groupInfo.post}}</text></view>
+</view>
