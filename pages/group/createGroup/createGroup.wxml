@@ -1,0 +1,15 @@
+<!--pages/group/group.wxml-->
+<view class="container">
+    <textarea class="groupName" placeholder="起个名字(20字以内)" value="groupName"></textarea>  
+    <textarea class="introduction" placeholder="简介(50字以内)" value="introduction"></textarea>
+    <input class="creatorName" value="creatorName" placeholder="创建人姓名"></input>
+    <input class="creatorPhone" value="creatorPhone" placeholder="创建人电话"></input>
+    <text>类型</text>
+    <radio-group class="radio-group">
+      <radio class="radio">社区学校</radio>
+      <radio class="radio">学校</radio>
+      <radio class="radio">其他</radio>
+    </radio-group>
+    <button class="submit" bindtap="toSubmit">提交</button>
+</view>
+

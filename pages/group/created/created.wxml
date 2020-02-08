@@ -1,0 +1,14 @@
+<view class="container">
+    <image class="img" src="../../assets/success.png"></image>
+    <!-- ../../assets/success.png -->
+    <text class="success">小组创建成功</text>
+    <text>小组名称</text>
+    <input class="groupName">{{groupInfo.groupName}}</input>
+    <text>创建人</text>
+    <input class="creatorName">{{groupInfo.creatorName}}</input>
+    <text>邀请码</text>
+    <input class="invitationCodes">{{groupInfo.invitationCodes}}</input>
+    
+    <button class="invitation" bindtap="toInvite">邀请人员加入</button>
+    <button class="back" bindtap="toBack">返回首页</button>
+</view>

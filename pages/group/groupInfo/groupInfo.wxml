@@ -1,0 +1,21 @@
+<view class="container">
+    <view class="groupName">
+      <!-- 获得小组姓名并显示在此 -->
+    </view>
+    <text class="text">创建人: {{groupInfo.creatorName}}</text>
+    <text class="text">邀请码: {{groupInfo.invitationCodes}}</text>
+    <text>简介: {{groupInfo.introduction}}</text>
+    <button class="application" bindtap="applyTo">申请加入小组</button>
+</view>
+
+<!-- 对话窗口, 参照home-page里对话框, vant框架??? -->
+<van-dialog
+  use-slot
+  title="加入小组"
+  bind:confirm="confirmJoin"
+>
+  <form>
+    <input placeholder-class="placeholder" placeholder="请输入真实姓名" name="name" value="{{personalName}}" />
+    <input placeholder-class="placeholder" placeholder="请输入手机号" type="number" maxlength="11" name="phone" value="{{personalPhone}}"/>
+  </form>
+</van-dialog>

@@ -1,11 +1,28 @@
-// pages/groupInfo/groupInfo.js
+// pages/group/group.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    groupName: "xxx",
+    introduction: "xxx",
+    creatorName: "xxx",
+    creatorPhone: "13855146666",
+    // raido here to complemented.
+  },
 
+  /**
+   * 自定义事件 --- 按钮事件
+   */
+  toSubmit: function() {
+    // 向后台发送数据 ... 怎么判断是否有空选项?等问题, 带参考其他界面
+    // ...
+
+    // 跳转创建成功页面
+    wx.navigateTo({
+      url: '../created/created',
+    })
   },
 
   /**

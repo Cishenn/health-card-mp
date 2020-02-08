@@ -5,7 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
+    groupInfo: {}
+  },
 
+  /**
+   * 按钮事件
+   */
+  toInvite: function(){
+    // 分享给其他人
+  },
+
+  toBack: function(){
+    wx.navigateTo({
+      url: '../../index/home-page/home-page',    // 返回首页
+    })
   },
 
   /**

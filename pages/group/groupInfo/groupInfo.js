@@ -1,12 +1,32 @@
-// pages/group/group.js
+// pages/groupInfo/groupInfo.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    groupInfo: {},
+    personalName: 'xxx',
+    personalPhone: '13855146666',
   },
+
+  /**
+   * 按钮事件
+   */
+  applyTo: function(){
+    // 打开小窗口 van-dialog?
+  },
+
+  /**
+   * 对话框确认加入小组
+   */
+  confirmJoin: function(){
+    // 正则判定输入规范 
+    //Toast("将信息全部补充完整")
+    //Toast("手机号码不符合规范")
+
+    //发送申请
+  }
 
   /**
    * 生命周期函数--监听页面加载
