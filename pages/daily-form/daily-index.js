@@ -13,20 +13,20 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var app = getApp();
-    var hasGroup = app.globalData.hasGroup;
-    var role = app.globalData.role;
-    console.log(hasGroup)
+  onLoad: function() {
+    const app = getApp();
+    const hasGroup = app.globalData.hasGroup;
+    const role = app.globalData.role;
+    console.log(hasGroup);
     this.setData({
       hasGroup: hasGroup,
       role: role
     });
-    console.log(this.data)
+    console.log(this.data);
     if (hasGroup) {
       wx.setNavigationBarTitle({
         title: '新型肺炎日报',
-      })
+      });
     }
   }
-})
+});

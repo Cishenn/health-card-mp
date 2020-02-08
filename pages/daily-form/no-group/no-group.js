@@ -1,6 +1,6 @@
 // pages/daily-form/no-group/no-group.js
 Component({
-  properties:{
+  properties: {
 
   },
   data: {
@@ -9,8 +9,8 @@ Component({
   methods: {
     backHome() {
       wx.switchTab({
-        url: "/pages/index/home-page/home-page"
-      })
+        url: '/pages/index/home-page/home-page'
+      });
     }
   }
-})
+});
