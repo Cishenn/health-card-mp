@@ -1,0 +1,15 @@
+/* pages/daily-form/community/community.wxss */
+.value-class {
+  flex: none !important;
+}
+.btn {
+  margin: 5%;
+  text-align: center;
+}
+
+.delbtn {
+  background-color: transparent;
+  border:none;
+  color: black;
+  top:50rpx;
+}

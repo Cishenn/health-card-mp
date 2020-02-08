@@ -1,7 +1,11 @@
 {
   "pages": [
+    "pages/daily-form/daily-index",
     "pages/index/home-page/home-page",
-    "pages/index/clock-in/clock-in"
+    "pages/index/clock-in/clock-in",
+    "pages/daily-form/community/community",
+    "pages/daily-form/school/school",
+    "pages/daily-form/other/other"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -22,7 +26,7 @@
         "selectedIconPath": "assets/home-page-checked.png"
       },
       {
-        "pagePath": "pages/index/clock-in/clock-in",
+        "pagePath": "pages/daily-form/daily-index",
         "text": "每日填报",
         "iconPath": "assets/clock-in.png",
         "selectedIconPath": "assets/clock-in-checked.png"
@@ -30,8 +34,20 @@
     ]
   },
   "usingComponents": {
-    "van-dialog": "@vant/weapp/dialog"
+    "van-dialog": "@vant/weapp/dialog",
+    "van-button": "@vant/weapp/button",
+    "van-cell": "@vant/weapp/cell",
+    "van-checkbox-group": "@vant/weapp/checkbox-group",
+    "van-checkbox": "@vant/weapp/checkbox",
+    "van-radio": "@vant/weapp/radio",
+    "van-radio-group": "@vant/weapp/radio-group",
+    "van-tag": "@vant/weapp/tag",
+    "van-field": "@vant/weapp/field",
+    "van-image": "@vant/weapp/image",
+    "van-row": "@vant/weapp/row",
+    "van-col": "@vant/weapp/col",
+    "van-cell-group": "@vant/weapp/cell-group",
+    "van-popup": "@vant/weapp/popup"
   },
-
   "sitemapLocation": "sitemap.json"
 }
