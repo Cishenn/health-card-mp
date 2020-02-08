@@ -1,0 +1,20 @@
+/* pages/post/post-management/post-management.wxss */
+.textarea {
+  width: 650rpx;
+  margin: 30rpx;
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+  border: 2rpx solid #585858;
+  font-size: 30rpx;
+}
+
+.post-btn {
+  font-size: 28rpx;
+  background-color: lightgray;
+  height: 50rpx;
+  line-height: 50rpx;
+  width: fit-content;
+  padding: 0 60rpx;
+  border: 2rpx solid gray;
+  margin: 30rpx auto;
+}

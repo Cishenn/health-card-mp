@@ -1,0 +1,3 @@
+<!--pages/post/post-management/post-management.wxml-->
+<textarea class="textarea" id="textarea" placeholder="请编写小组公告(140字以内)" value="{{groupInfo.post.content}}" maxlength="140"></textarea>
+<view class="post-btn">提交</view>

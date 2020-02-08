@@ -1,0 +1,37 @@
+/* pages/group/group-management/group-management.wxss */
+.section {
+  width: 630rpx;
+  margin: 30rpx;
+  padding: 30rpx;
+  background-color: #fff;
+  border: 2rpx dotted black
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.head-title {
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+.head-btn {
+  font-size: 24rpx;
+  background-color: lightgray;
+  height: 36rpx;
+  line-height: 36rpx;
+  width: fit-content;
+  padding: 0 14rpx;
+  border: 2rpx solid gray;
+}
+
+.info-item {
+  margin: 20rpx 0;
+}
+
+.section view:last-child {
+  margin-bottom: 0;
+}

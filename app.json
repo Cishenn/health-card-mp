@@ -1,7 +1,11 @@
 {
   "pages": [
     "pages/index/home-page/home-page",
-    "pages/index/clock-in/clock-in"
+    "pages/index/clock-in/clock-in",
+    "pages/group/group-detail/group-detail",
+    "pages/group/group-management/group-management",
+    "pages/post/post-detail/post-detail",
+    "pages/post/post-management/post-management"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -30,8 +34,12 @@
     ]
   },
   "usingComponents": {
-    "van-dialog": "@vant/weapp/dialog"
+    "van-dialog": "@vant/weapp/dialog",
+    "van-toast": "@vant/weapp/toast",
+    "van-collapse": "@vant/weapp/collapse",
+    "van-collapse-item": "@vant/weapp/collapse-item",
+    "van-cell": "@vant/weapp/cell",
+    "ec-canvas": "ec-canvas/ec-canvas"
   },
-
   "sitemapLocation": "sitemap.json"
 }

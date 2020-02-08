@@ -1,14 +1,14 @@
 // pages/index/home-page/home-page.js
+
+import Toast from '@vant/weapp/toast/toast';
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
     showJoin: false,
-    joiningGroupId: '',
-    joiningName: '',
-    joiningPhone: '',
+    joiningGroupId: null,
+    joiningName: null,
+    joiningPhone: null,
     joinedGroupList: [
       {
         id: 1,
@@ -39,7 +39,18 @@ Page({
         type: 'community',
         name: '监利县书香四季城A栋小区',
         digest: '',
-        post: "",
+        post: '',
+        maintainer: {
+          name: '小明',
+          phone: 13766668888,
+        }
+      },
+      {
+        id: 4,
+        type: 'community',
+        name: '监利县书香四季城A栋小区',
+        digest: '',
+        post: '',
         maintainer: {
           name: '小明',
           phone: 13766668888,
@@ -51,66 +62,57 @@ Page({
   showJoinDialog: function() {
     this.setData({
       showJoin: true
-    })
+    });
   },
 
-  onClose() {
-    this.setData({ show: false });
+  joinGroup: function() {
+    const id = this.data.joiningGroupId;
+    const name = this.data.joiningName;
+    const phone = this.data.joiningPhone;
+    if (!id || !name || !phone) {
+      console.log(id, name, phone);
+      Toast('请填写正确的信息');
+      this.setData({ showJoin: true });
+      this.selectComponent('#van-dialog').stopLoading();
+    }
+    else if (phone < 10000000000) {
+      Toast('手机号码不足 11 位');
+      this.setData({ showJoin: true });
+      this.selectComponent('#van-dialog').stopLoading();
+    }
+    else {
+      // TODO: 发送申请加入小组的网络请求
+      this.setData({
+        showJoin: false,
+        joiningGroupId: null,
+        joiningName: null,
+        joiningPhone: null
+      });
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  cancelJoinGroup: function() {
+    this.setData({
+      showJoin: false,
+      joiningGroupId: null,
+      joiningName: null,
+      joiningPhone: null
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  inputId: function(e) {
+    this.setData({
+      joiningGroupId: Number(e.detail.value)
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  inputName: function(e) {
+    this.setData({
+      joiningName: e.detail.value
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  inputPhone: function(e) {
+    this.setData({
+      joiningPhone: Number(e.detail.value)
+    });
   }
-})
+});

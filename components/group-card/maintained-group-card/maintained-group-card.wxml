@@ -1,8 +1,11 @@
 <!--components/group-card/maintained-group-card/maintained-group-card.wxml-->
 <view class="card">
-  <view class="card-body">{{groupInfo.name}}</view>
+  <view class="card-body" bindtap="goToGroup">
+    <view class="group-name">{{groupInfo.name}}</view>
+    <view class="group-id"><text>{{groupInfo.id}}</text></view>
+  </view>
   <view class="card-foot">
-    <view class="left" bind:tap="showInvite">邀请好友</view>
-    <view class="right" bind:tap="goManage">小组管理</view>
+    <view class="left" bind:tap="goInvite">邀请好友</view>
+    <view class="right" bind:tap="goToManage">小组管理</view>
   </view>
 </view>
