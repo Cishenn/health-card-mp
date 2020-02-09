@@ -33,7 +33,15 @@
     ]
   },
   "usingComponents": {
-    "van-dialog": "@vant/weapp/dialog"
+    "van-dialog": "@vant/weapp/dialog",
+    "van-toast": "@vant/weapp/toast",
+    "van-collapse": "@vant/weapp/collapse",
+    "van-collapse-item": "@vant/weapp/collapse-item",
+    "van-cell": "@vant/weapp/cell",
+    "van-cell-group": "@vant/weapp/cell-group",
+    "van-field": "@vant/weapp/field",
+    "van-button": "@vant/weapp/button",
+    "ec-canvas": "ec-canvas/ec-canvas"   
   },
   "sitemapLocation": "sitemap.json"
 }
