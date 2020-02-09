@@ -1,0 +1,22 @@
+<!--pages/daily-form/no-group/no-group.wxml-->
+<view >
+  <view  class="img" >
+    <van-row>
+      <image src="/assets/飞机.png"/>
+    </van-row>
+    <van-row>
+      未加入任何小组，暂时不需要填报哦！
+    </van-row>
+  </view>
+
+
+  <view class="btn">
+    <van-button 
+    color="#666666"  
+    type="default" 
+    bind:click="backHome"> 
+    去创建或加入小组
+    </van-button>
+
+  </view>
+</view>

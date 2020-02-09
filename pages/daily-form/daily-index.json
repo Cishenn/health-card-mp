@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "no-group": "./no-group/no-group",
+    "community": "./community/community",
+    "school": "./school/school",
+    "other": "./other/other"
+  }
+}
