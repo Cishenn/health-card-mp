@@ -1,13 +1,38 @@
 <view class="container">
-    <view class="groupName">
-      <!-- 获得小组姓名并显示在此 -->
-    </view>
-    <text class="text">创建人: {{groupInfo.creatorName}}</text>
-    <text class="text">邀请码: {{groupInfo.invitationCodes}}</text>
-    <text>简介: {{groupInfo.introduction}}</text>
-    <button class="application" bindtap="applyTo">申请加入小组</button>
-</view>
+<!-- 获得小组姓名并显示在此 -->
+    <van-row
+    class="groupName"
+    value="{{groupInfo.Name}}">
+    </van-row>
 
+    <van-cell-group>
+    <van-cell
+    class="text"
+    title="创建人"
+    value="{{groupInfo.creatorName}}">
+    </van-cell>
+
+    <van-cell
+    class="text"
+    title="邀请码"
+    value="{{groupInfo.invitationCodes}}">
+    </van-cell>
+
+    <van-cell
+    class="text"
+    title="简介"
+    value="{{groupInfo.introduction}}">
+    </van-cell>
+    </van-cell-group>
+
+    <van-button
+    class="application"
+    type="primary"
+    bindtap="applyTo">
+    申请加入小组
+    </van-button>
+</view>
+ 
 <!-- 对话窗口, 参照home-page里对话框, vant框架??? -->
 <van-dialog
   use-slot

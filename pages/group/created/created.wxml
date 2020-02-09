@@ -1,14 +1,43 @@
 <view class="container">
-    <image class="img" src="../../assets/success.png"></image>
-    <!-- ../../assets/success.png -->
-    <text class="success">小组创建成功</text>
-    <text>小组名称</text>
-    <input class="groupName">{{groupInfo.groupName}}</input>
-    <text>创建人</text>
-    <input class="creatorName">{{groupInfo.creatorName}}</input>
-    <text>邀请码</text>
-    <input class="invitationCodes">{{groupInfo.invitationCodes}}</input>
+    <van-image
+    class="img"
+    src="../../../assets/success.png">
+    </van-image>
+
+    <!-- van-row 感觉内容重复 可删? -->
+    <van-row class="success">小组创建成功</van-row>
+    <van-row>小组名称</van-row>
+    <van-cell
+    class="groupName"
+    title="小组名称"
+    value="{{groupInfo.groupName}}">
+    </van-cell>
+
+    <van-row>创建人</van-row>
+    <van-cell
+    class="creatorName"
+    title="创建人"
+    value="{{groupInfo.creatorName}}">
+    </van-cell>
+
+    <van-row>邀请码</van-row>
+    <van-cell
+    class="invitationCodes"
+    title="邀请码"
+    value="{{groupInfo.invitationCodes}}">
+    </van-cell>
     
-    <button class="invitation" bindtap="toInvite">邀请人员加入</button>
-    <button class="back" bindtap="toBack">返回首页</button>
+    <van-button
+    class="invitation"
+    type="primary"
+    bindtap="toInvite">
+    邀请人员加入
+    </van-button>
+
+    <van-button
+    class="back"
+    type="primary"
+    bindtap="toBack">
+    返回首页
+    </van-button>
 </view>

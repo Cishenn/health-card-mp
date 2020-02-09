@@ -2,9 +2,9 @@
   "pages": [
     "pages/index/home-page/home-page",
     "pages/index/clock-in/clock-in",
-    "pages/group/group",
-    "pages/created",
-    "pages/groupInfo/groupInfo"
+    "pages/group/createGroup/createGroup",
+    "pages/group/created/created",
+    "pages/group/groupInfo/groupInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",
