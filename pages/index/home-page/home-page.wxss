@@ -60,3 +60,7 @@ input {
   border: 2rpx solid #303030;
   text-align: center;
 }
+
+.van-dialog__header {
+  padding: var(--dialog-header-padding-top, 14px) !important;
+}
