@@ -38,6 +38,7 @@ App({
   globalData: {
     userInfo: null,
     hasGroup: true,
-    role: 'community'
+    role: 'community',
+    hasSubmit: false
   }
 });

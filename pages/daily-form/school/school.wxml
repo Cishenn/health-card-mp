@@ -198,8 +198,16 @@
     <van-button
     type="info"
     block
-    bind:click="submit">
+    bind:click="submit"
+    wx:if="{{!hasSubmit}}">
     提交
+    </van-button>
+    <van-button
+    type="info"
+    block
+    disabled
+    wx:elif="{{hasSubmit}}">
+    已提交
     </van-button>
   </view>
 </view>

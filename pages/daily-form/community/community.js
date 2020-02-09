@@ -2,7 +2,9 @@
 
 Component({
   properties: {
-
+    hasSubmit: {
+      type: 'Boolean'
+    }
   },
   data: {
     dayTime: '',
@@ -25,6 +27,7 @@ Component({
   },
 
   attached: function() {
+    console.log('properties', this.properties);
     const time = new Date();
     this.setData({
       dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
@@ -35,7 +38,9 @@ Component({
       const key = e.currentTarget.dataset.source;
       console.log(key);
       this.setData({
-        [key]: e.detail
+        [key]: e.detail,
+        hasLocation: false,
+        hasStatus: false
       });
       console.log(this.data);
     },
@@ -56,7 +61,9 @@ Component({
       const { name } = e.currentTarget.dataset;
       const key = e.currentTarget.dataset.source;
       this.setData({
-        [key]: name
+        [key]: name,
+        hasLocation: false,
+        hasStatus: false
       });
       console.log(this.data[key]);
     },
@@ -111,6 +118,8 @@ Component({
       console.log(index, key, e.currentTarget.dataset);
       const tmplist = this.data.familyList;
       tmplist[index][key] = e.detail;
+      tmplist[index]['hasLocation'] = false;
+      tmplist[index]['hasStatus'] = false;
       this.setData({
         familyList: tmplist
       });
@@ -145,6 +154,8 @@ Component({
       const key = e.currentTarget.dataset.source;
       const tmplist = this.data.familyList;
       tmplist[index][key] = name;
+      tmplist[index]['hasLocation'] = false;
+      tmplist[index]['hasStatus'] = false;
       this.setData({
         familyList: tmplist
       });
@@ -157,32 +168,29 @@ Component({
       checkbox.toggle();
     },
     submit() {
-      let flag = true;
       if (!this.data.door || !this.data.location || !this.data.status) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
           duration: 2000
         });
-        flag = false;
+
+        return;
       }
-      if (this.data.familyList.length > 0) {
-        const tmplist = this.data.familyList;
-        for (let i = 0; i < tmplist.length; i ++) {
-          if (!tmplist[i].name || !tmplist[i].telephone || !tmplist[i].location || !tmplist[i].status) {
-            wx.showToast({
-              title: '家属信息有空',
-              icon: 'none',
-              duration: 2000
-            });
-            flag = false;
-            break;
-          }
-        }
+      const uncompleteList = this.data.familyList.filter(member => {
+        return (!member.name || !member.telephone || !member.location || !member.status);
+      });
+      if (uncompleteList.length > 0) {
+        wx.showToast({
+          title: '家属信息有空',
+          icon: 'none',
+          duration: 2000
+        });
+
+        return;
       }
-      if (flag) {
-        console.log('submit');
-      }
+
+      console.log('submit');
     }
   }
 

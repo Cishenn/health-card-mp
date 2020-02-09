@@ -6,10 +6,7 @@
   margin: 5%;
   text-align: center;
 }
-
-.delbtn {
-  background-color: transparent;
-  border:none;
-  color: black;
-  top:50rpx;
+.rfooter {
+  /* text-align: right; */
+  float:right;
 }

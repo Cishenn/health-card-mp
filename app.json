@@ -47,7 +47,9 @@
     "van-row": "@vant/weapp/row",
     "van-col": "@vant/weapp/col",
     "van-cell-group": "@vant/weapp/cell-group",
-    "van-popup": "@vant/weapp/popup"
+    "van-popup": "@vant/weapp/popup",
+    "van-panel": "@vant/weapp/panel",
+    "van-icon": "@vant/weapp/icon"
   },
   "sitemapLocation": "sitemap.json"
 }

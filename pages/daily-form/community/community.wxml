@@ -129,15 +129,17 @@
 <view wx:for="{{familyList}}" wx:key="index">
 
   <van-cell-group title=" ">
-    <van-button
-    class="delbtn"
-    icon="cross"
-    round
-    size="mini"
-    data-main-index="{{index}}"
-    bind:click="deleteFamily"
-    >
-    </van-button>
+    <van-cell>
+      <view slot="title">
+        <view class="van-cell-text">家属{{index+1}}</view>
+      </view>
+      <view
+        slot="right-icon">
+        <van-icon name="cross" size="40rpx" color="red"
+        data-main-index="{{index}}"
+        bind:click="deleteFamily"/>
+      </view>
+    </van-cell>
     <van-field
     clearable
     label="家属姓名"
@@ -305,8 +307,16 @@
     <van-button
     type="info"
     block
-    bind:click="submit">
+    bind:click="submit"
+    wx:if="{{!hasSubmit}}">
     提交
+    </van-button>
+    <van-button
+    type="info"
+    block
+    disabled
+    wx:elif="{{hasSubmit}}">
+    已提交
     </van-button>
   </view>
 </view>

@@ -6,7 +6,8 @@ Page({
    */
   data: {
     hasGroup: null,
-    role: null
+    role: null,
+    hasSubmit: null
 
   },
 
@@ -17,10 +18,12 @@ Page({
     const app = getApp();
     const hasGroup = app.globalData.hasGroup;
     const role = app.globalData.role;
+    const hasSubmit = app.globalData.hasSubmit;
     console.log(hasGroup);
     this.setData({
       hasGroup: hasGroup,
-      role: role
+      role: role,
+      hasSubmit: hasSubmit
     });
     console.log(this.data);
     if (hasGroup) {

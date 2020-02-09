@@ -2,7 +2,9 @@
 
 Component({
   properties: {
-
+    hasSubmit: {
+      type: 'Boolean'
+    }
   },
   data: {
     dayTime: '',
@@ -40,7 +42,9 @@ Component({
       const key = e.currentTarget.dataset.source;
       console.log(key);
       this.setData({
-        [key]: e.detail
+        [key]: e.detail,
+        hasLocation: false,
+        hasStatus: false
       });
       console.log(this.data);
     },
@@ -61,7 +65,9 @@ Component({
       const { name } = e.currentTarget.dataset;
       const key = e.currentTarget.dataset.source;
       this.setData({
-        [key]: name
+        [key]: name,
+        hasLocation: false,
+        hasStatus: false
       });
       console.log(this.data[key]);
     },
@@ -71,26 +77,17 @@ Component({
       checkbox.toggle();
     },
 
-
-    clickItemSymptoms(e) {
-      const { index } = e.currentTarget.dataset;
-      const maninIndex = e.currentTarget.dataset.mainIndex;
-      const checkbox = this.selectComponent(`.checkboxes-${maninIndex}-${index}`);
-      checkbox.toggle();
-    },
     submit() {
-      let flag = true;
       if (!this.data.location || !this.data.status || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
           duration: 2000
         });
-        flag = false;
+
+        return;
       }
-      if (flag) {
-        console.log('submit');
-      }
+      console.log('submit');
     }
   }
 
