@@ -3,6 +3,6 @@
   <view class="group-name">{{groupInfo.name}}</view>
 </view>
 <view wx:else class="card-with-post" bind:tap="goToGroup">
-  <view class="group-name">{{groupInfo.name}}</view>
+  <view class="group-name">{{groupInfo.name}}</view>  
   <view class="post"><text>{{groupInfo.post}}</text></view>
 </view>

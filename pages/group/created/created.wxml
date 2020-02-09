@@ -1,26 +1,25 @@
-<view class="container">
-    <van-image
+<view class="scontainer">
+    <image
     class="img"
-    src="../../../assets/success.png">
-    </van-image>
+    src="/assets/success.png"/>
 
     <!-- van-row 感觉内容重复 可删? -->
     <van-row class="success">小组创建成功</van-row>
-    <van-row>小组名称</van-row>
+    <!-- <van-row>小组名称</van-row> -->
     <van-cell
     class="groupName"
     title="小组名称"
     value="{{groupInfo.groupName}}">
     </van-cell>
 
-    <van-row>创建人</van-row>
+    <!-- <van-row>创建人</van-row> -->
     <van-cell
     class="creatorName"
     title="创建人"
     value="{{groupInfo.creatorName}}">
     </van-cell>
 
-    <van-row>邀请码</van-row>
+    <!-- <van-row>邀请码</van-row> -->
     <van-cell
     class="invitationCodes"
     title="邀请码"

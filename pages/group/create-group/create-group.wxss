@@ -1,5 +1,6 @@
 /* pages/group/group.wxss */
-.groupName {
+
+/* .groupName {
   width: 90%;
   border: 1px solid grey;
 }
@@ -25,4 +26,9 @@
 .submit{
   width:50%;
   margin-top: 20rpx;
+} */
+
+.btn {
+  margin: 5%;
+  text-align: center;
 }

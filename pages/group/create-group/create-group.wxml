@@ -1,0 +1,87 @@
+<!--pages/group/group.wxml-->
+<view class="scontainer">  
+    <van-field 
+    clearable
+    label="姓名"
+    disabled
+    required
+    value="{{groupName}}"/>
+    
+    <van-field 
+    clearable
+    label="简介(50字内)"
+    disabled
+    required
+    value="{{introduction}}"
+    bind:change="getIntro"/>
+    
+
+    <van-field
+    clearable
+    label="创建人姓名"
+    disabled
+    required
+    value="{{creatorName}}"
+    bind:change="getCreator"/>
+    
+
+    <van-field 
+    clearable
+    label="创建人电话"
+    disabled
+    required
+    value="{{creatorPhone}}"
+    bind:change="getPhone"/>
+    
+
+    
+    <van-cell
+    is-link
+    required
+    data-status="hasType"
+    bind:click="show"
+    title="类型">{{type}}
+    </van-cell>
+    <van-popup
+    show="{{hasType}}"
+    position="bottom"
+    data-status="hasType"
+    bind:close="close">
+      <van-radio-group
+      value="{{type}}"
+      data-source="type"
+      bind:change="changeValue">
+        <van-cell-group>
+          <van-cell
+            wx:for="{{typeList}}"
+            wx:key="index"
+            title="{{item}}"
+            clickable
+            data-name="{{item}}"
+            data-source="type"
+            bind:click="clickShow">
+            <van-radio slot="right-icon" name="{{item}}" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-popup>
+
+    
+  <view class="btn">
+    <van-button
+    type="info"
+    block
+    bindtap="toSubmit"
+    wx:if="{{!hasSubmit}}">
+    提交
+    </van-button>
+    <van-button
+    block
+    type="info"
+    wx:elif="{{hasSubmit}}"
+    disabled
+    >已提交
+    </van-button>
+  </view>
+</view>
+

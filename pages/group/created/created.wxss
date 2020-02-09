@@ -4,8 +4,8 @@
   align-items: center;
 } */
 .img{
-  width: 350rpx;
-  height: 350rpx;
+  width: 200rpx;
+  height: 200rpx;
 }
 .success{
   font-size: 60rpx;
@@ -44,9 +44,11 @@
 } */
 .invitation{
   width:90%;
+  margin-left: 50%;
   margin-top: 20rpx;
 }
 .back{
-  width:90%;
+  width:100%;
+  margin-left: 50%;
   margin-top: 20rpx;
 }

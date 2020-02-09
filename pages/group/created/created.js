@@ -21,7 +21,7 @@ Page({
 
   toBack: function(){
     wx.navigateTo({
-      url: '../../index/home-page/home-page',    // 返回首页
+      url: '../../../index/home-page/home-page',    // 返回首页
     })
   },
 

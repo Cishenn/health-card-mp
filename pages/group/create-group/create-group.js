@@ -13,12 +13,55 @@ Page({
     introduction: null,
     creatorName: null,
     creatorPhone: null,
+    type: '',
+
+    hasType: false,
+    hasStatus: false,
+    hasSubmit: false,  // 为什么学姐的在properties里面
+
+    typeList: ['社区','学校','其他']
     // raido here to complemented.
   },
 
   /**
    * 自定义事件 --- 按钮事件
    */
+  show(e) {
+    const key=e.currentTarget.dataset.status;
+    this.setData({
+      [key]: true
+    })
+  },
+
+  close(e){
+    const key=e.currentTarget.dataset.status;
+    this.setData({
+      [key] :false
+    });
+  },
+
+  changeValue(e) {
+    const key = e.currentTarget.dataset.source;
+    console.log(key);
+    this.setData({
+      [key]: e.detail,
+      hasType: false,
+      hasStatus: false
+    });
+    console.log(this.data);
+  },
+
+  clickShow(e) {
+    const { name } = e.currentTarget.dataset;
+    const key = e.currentTarget.dataset.source;
+    this.setData({
+      [key]: name,
+      hasType: false,
+      hasStatus: false
+    });
+    console.log(this.data[key]);
+  },
+
   toSubmit: function() {
       var name=this.data.groupName;
       var intro=this.data.introduction;
