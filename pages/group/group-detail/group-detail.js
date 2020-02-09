@@ -188,22 +188,18 @@ Page({
   backward: function() {
     const chosenData = this.data.chosenData + 1;
     this.setData({
-      chosenData
+      chosenData,
+      activeNames: []
     });
-    // const query = wx.createSelectorQuery();
-    // query.select('#pie1').setOption(getPie1Option());
-    // query.select('#pie2').setOption(getPie2Option());
     pie1.setOption(getPie1Option());
     pie2.setOption(getPie2Option());
   },
   forward: function() {
     const chosenData = this.data.chosenData - 1;
     this.setData({
-      chosenData
+      chosenData,
+      activeNames: []
     });
-    // const query = wx.createSelectorQuery();
-    // query.select('#pie1').setOption(getPie1Option());
-    // query.select('#pie2').setOption(getPie2Option());
     pie1.setOption(getPie1Option());
     pie2.setOption(getPie2Option());
   },
