@@ -16,7 +16,7 @@ Page({
       },
       maintainer: {
         name: '小明',
-        phone: 13766668888
+        phone: '13766668888'
       }
     }
   }

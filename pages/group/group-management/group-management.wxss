@@ -4,7 +4,6 @@
   margin: 30rpx;
   padding: 30rpx;
   background-color: #fff;
-  border: 2rpx dotted black
 }
 
 .section-head {
@@ -16,16 +15,6 @@
 .head-title {
   font-size: 34rpx;
   font-weight: bold;
-}
-
-.head-btn {
-  font-size: 24rpx;
-  background-color: lightgray;
-  height: 36rpx;
-  line-height: 36rpx;
-  width: fit-content;
-  padding: 0 14rpx;
-  border: 2rpx solid gray;
 }
 
 .info-item {

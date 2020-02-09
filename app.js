@@ -44,7 +44,7 @@ App({
         post: '请大家于明天中午12点之前在XXX地点统一领取口罩。',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       },
       {
@@ -55,7 +55,7 @@ App({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       },
       {
@@ -66,7 +66,7 @@ App({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       },
       {
@@ -77,7 +77,7 @@ App({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       }
     ]

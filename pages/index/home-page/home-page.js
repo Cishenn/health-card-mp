@@ -1,6 +1,7 @@
 // pages/index/home-page/home-page.js
 
 import Toast from '@vant/weapp/toast/toast';
+import { validatePhoneNumber } from '../../../utils/validate';
 
 Page({
 
@@ -18,7 +19,7 @@ Page({
         post: '请大家于明天中午12点之前在XXX地点统一领取口罩。',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       },
       {
@@ -29,7 +30,7 @@ Page({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       }
     ],
@@ -42,7 +43,7 @@ Page({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       },
       {
@@ -53,7 +54,7 @@ Page({
         post: '',
         maintainer: {
           name: '小明',
-          phone: 13766668888,
+          phone: '13766668888',
         }
       }
     ]
@@ -75,8 +76,8 @@ Page({
       this.setData({ showJoin: true });
       this.selectComponent('#van-dialog').stopLoading();
     }
-    else if (phone < 10000000000) {
-      Toast('手机号码不足 11 位');
+    else if (!validatePhoneNumber(phone)) {
+      Toast('手机号码有误');
       this.setData({ showJoin: true });
       this.selectComponent('#van-dialog').stopLoading();
     }
@@ -102,17 +103,17 @@ Page({
 
   inputId: function(e) {
     this.setData({
-      joiningGroupId: Number(e.detail.value)
+      joiningGroupId: e.detail
     });
   },
   inputName: function(e) {
     this.setData({
-      joiningName: e.detail.value
+      joiningName: e.detail
     });
   },
   inputPhone: function(e) {
     this.setData({
-      joiningPhone: Number(e.detail.value)
+      joiningPhone: e.detail
     });
   }
 });

@@ -1,40 +1,11 @@
 // pages/group/group-detail/group-detail.js
 // import * as echarts from '/ec-canvas/echarts' 为什么写绝对路径报错
 import * as echarts from '../../../ec-canvas/echarts';
-
-function initChart(canvas, width, height) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  });
-  canvas.setChart(chart);
-
-  const option = {
-    series: [{
-      name: '销量',
-      type: 'pie',
-      data: [
-        { name: '正常',
-          value: 1 },
-        { name: '自查异常',
-          value: 1 },
-        { name: '疑似',
-          value: 1 },
-        { name: '确诊',
-          value: 1 }
-      ]
-    }]
-  };
-  chart.setOption(option);
-
-  return chart;
-}
+let that = null;
+let pie1 = null;
+let pie2 = null;
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     // maintained 是否为管理员，在 onLoad 获取
     // statisticalData、detailedData 的数组下标
@@ -42,19 +13,40 @@ Page({
     // false 显示数据统计，true 显示详细数据
     showDetail: false,
     activeNames: [],
-    ec: {
-      onInit: initChart
+    ec1: {
+      onInit: function(canvas, width, height) {
+        pie1 = echarts.init(canvas, null, {
+          width: width,
+          height: height
+        });
+        canvas.setChart(pie1);
+        pie1.setOption(getPie1Option());
+
+        return pie1;
+      }
+    },
+    ec2: {
+      onInit: function(canvas, width, height) {
+        pie2 = echarts.init(canvas, null, {
+          width: width,
+          height: height
+        });
+        canvas.setChart(pie2);
+        pie2.setOption(getPie2Option());
+
+        return pie2;
+      }
     },
     groupInfo: {
       id: 1,
       type: 'school',
       name: '兰州大学计算机学院一班',
       digest: '兰州大学计算机学院学生疫情期间打卡群',
-      // post: '请大家于明天中午12点之前在XXX地点统一领取免费口罩。',
-      post: '',
+      post: '请大家于明天中午12点之前在XXX地点统一领取免费口罩。',
+      // post: '',
       maintainer: {
         name: '小明',
-        phone: 13766668888,
+        phone: '13766668888',
       },
       statisticalData: [
         {
@@ -63,16 +55,22 @@ Page({
           abnormal: 1,
           suspected: 1,
           confirmed: 1,
+          domestic: 2,
+          home: 1,
+          abroad: 1,
           total: 4,
           checked: 3,
           unchecked: 1
         },
         {
           date: '02-05',
-          normal: 1,
-          abnormal: 1,
-          suspected: 1,
-          confirmed: 1,
+          normal: 4,
+          abnormal: 0,
+          suspected: 0,
+          confirmed: 0,
+          domestic: 4,
+          home: 0,
+          abroad: 0,
           total: 4,
           checked: 3,
           unchecked: 1
@@ -83,6 +81,9 @@ Page({
           abnormal: 1,
           suspected: 1,
           confirmed: 1,
+          domestic: 2,
+          home: 1,
+          abroad: 1,
           total: 4,
           checked: 3,
           unchecked: 1
@@ -94,7 +95,7 @@ Page({
             date: '02-06',
             id: 1,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -102,7 +103,7 @@ Page({
             date: '02-06',
             id: 2,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -110,7 +111,7 @@ Page({
             date: '02-06',
             id: 3,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           }
@@ -120,7 +121,7 @@ Page({
             date: '02-05',
             id: 1,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -128,7 +129,7 @@ Page({
             date: '02-05',
             id: 2,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -136,7 +137,7 @@ Page({
             date: '02-05',
             id: 3,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           }
@@ -146,7 +147,7 @@ Page({
             date: '02-04',
             id: 1,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -154,7 +155,7 @@ Page({
             date: '02-04',
             id: 2,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           },
@@ -162,7 +163,7 @@ Page({
             date: '02-04',
             id: 3,
             name: '小红',
-            phone: 13766668888,
+            phone: '13766668888',
             position: '武汉市内',
             status: '正常'
           }
@@ -172,7 +173,6 @@ Page({
   },
 
   goToPost: function() {
-    console.log(this.data.maintained);
     if (this.data.maintained) {
       wx.navigateTo({
         url: `/pages/post/post-management/post-management?id=${this.data.groupInfo.id}`
@@ -190,12 +190,22 @@ Page({
     this.setData({
       chosenData
     });
+    // const query = wx.createSelectorQuery();
+    // query.select('#pie1').setOption(getPie1Option());
+    // query.select('#pie2').setOption(getPie2Option());
+    pie1.setOption(getPie1Option());
+    pie2.setOption(getPie2Option());
   },
   forward: function() {
     const chosenData = this.data.chosenData - 1;
     this.setData({
       chosenData
     });
+    // const query = wx.createSelectorQuery();
+    // query.select('#pie1').setOption(getPie1Option());
+    // query.select('#pie2').setOption(getPie2Option());
+    pie1.setOption(getPie1Option());
+    pie2.setOption(getPie2Option());
   },
 
   switchDataTab: function() {
@@ -215,11 +225,8 @@ Page({
     // TODO:
   },
 
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function(options) {
+    that = this;
     wx.setNavigationBarTitle({
       title: '小组详情'
     });
@@ -230,5 +237,60 @@ Page({
     // eslint-disable-next-line no-unused-vars
     const id = Number(options.id);
     // TODO: 由id获取groupInfo
-  }
+  },
 });
+
+const getPie1Option = function() {
+  const chosenData = that.data.chosenData;
+
+  return {
+    series: [{
+      label: {
+        rich: {
+          fontSize: 18
+        }
+      },
+      type: 'pie',
+      radius: '80%',
+      data: [{
+        value: that.data.groupInfo.statisticalData[chosenData].normal,
+        name: '正常'
+      }, {
+        value: that.data.groupInfo.statisticalData[chosenData].abnormal,
+        name: '自查异常'
+      }, {
+        value: that.data.groupInfo.statisticalData[chosenData].suspected,
+        name: '疑似'
+      }, {
+        value: that.data.groupInfo.statisticalData[chosenData].confirmed,
+        name: '确诊'
+      }]
+    }]
+  };
+};
+
+const getPie2Option = function() {
+  const chosenData = that.data.chosenData;
+
+  return {
+    series: [{
+      label: {
+        rich: {
+          fontSize: 18
+        }
+      },
+      type: 'pie',
+      radius: '80%',
+      data: [{
+        value: that.data.groupInfo.statisticalData[chosenData].home,
+        name: '家中'
+      }, {
+        value: that.data.groupInfo.statisticalData[chosenData].domestic,
+        name: '国内'
+      }, {
+        value: that.data.groupInfo.statisticalData[chosenData].abroad,
+        name: '国外'
+      }]
+    }]
+  };
+};

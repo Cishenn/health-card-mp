@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    newPost: '',
     groupInfo: {
       id: 1,
       type: 'school',
@@ -15,5 +16,11 @@ Page({
         content: '请大家于明天中午12点之前在XXX地点统一领取口罩。'
       }
     }
-  }
+  },
+
+  inputPost: function(e) {
+    this.setData({
+      newPost: e.detail
+    });
+  },
 });

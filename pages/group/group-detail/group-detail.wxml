@@ -1,10 +1,7 @@
 <!--pages/group/group-detail/group-detail.wxml-->
+
 <view class="post-section" bindtap="goToPost">
-  <view class="post-body">
-    <view class="post-title">小组公告</view>
-    <view wx:if="{{'' !== groupInfo.post}}" class="post-content">{{groupInfo.post}}</view>
-  </view>
-  <view class="post-right-arrow">></view>
+  <van-cell title="小组公告" is-link label="{{groupInfo.post}}" center title-class="cell-title" label-class="cell-label"/>
 </view>
 
 <view class="switch-date-section">
@@ -32,7 +29,7 @@
   </view>
 </view>
 
-<view class="data-section" style="{{maintained ? 'margin-bottom: 130rpx' : ''}}">
+<view class="data-section" style="{{maintained ? 'margin-bottom: 130rpx' : 'margin-bottom: 30rpx'}}">
   <view class="data-section-tabbar" wx:if="{{maintained}}">
     <view class="{{showDetail === false ? 'tab-chosen' : 'tab-not-chosen'}}" bindtap="switchDataTab">数据统计</view>
     <view class="{{showDetail === false ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchDataTab">详细数据</view>
@@ -41,9 +38,12 @@
   <block wx:if="{{!showDetail}}">
     <view class="statistic-title">1. 当前健康状况</view>
     <view class="charts-container">
-      <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+      <ec-canvas id="pie1" ec="{{ ec1 }}"></ec-canvas>
     </view>
     <view class="statistic-title">2. 人员分布情况</view>
+    <view class="charts-container">
+      <ec-canvas id="pie2" ec="{{ ec2 }}"></ec-canvas>
+    </view>
   </block>
 
   <block wx:else>
@@ -63,4 +63,4 @@
 
 
 
-<view class="export-data" wx:if="{{maintained}}" bindtap="exportData">导出数据</view>
+<cover-view class="export-data" wx:if="{{maintained}}" bindtap="exportData">导出数据</cover-view>

@@ -4,7 +4,7 @@
 }
 
 .card-body {
-  background-color: turquoise;
+  background-color: #ccffff;
   width: 610rpx;
   height: 140rpx;
   margin: 20rpx 0;

@@ -10,6 +10,5 @@
   margin: 30rpx;
   padding: 30rpx 20rpx;
   background-color: #fff;
-  border: 2rpx dotted black;
   font-size: 30rpx;
 }
