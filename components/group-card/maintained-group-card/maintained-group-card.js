@@ -31,7 +31,16 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    goInvite() {},
-    goManage() {}
+    goToGroup() {
+      wx.navigateTo({
+        url: `/pages/group/group-detail/group-detail?maintained=1&id=${this.data.groupInfo.id}`
+      });
+    },
+    // goInvite() {},
+    goToManage() {
+      wx.navigateTo({
+        url: '/pages/group/group-management/group-management'
+      });
+    }
   }
-})
+});

@@ -1,10 +1,11 @@
 /* components/group-card/joined-group-card/joined-group-card.wxss */
 .card-no-post, .card-with-post {
-  background-color: turquoise;
+  background-color: #ccffff;
   width: 610rpx;
-  height: 160rpx;
-  margin: 20rpx;
+  height: 140rpx;
+  margin: 20rpx 0 40rpx 0;
   padding: 30rpx 20rpx;
+  border-radius: 12rpx;
 }
 
 .card-no-post {
@@ -28,6 +29,7 @@
 
 .post {
   font-size: 28rpx;
+  width: 600rpx;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

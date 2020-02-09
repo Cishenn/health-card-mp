@@ -1,0 +1,16 @@
+/* pages/post/post-management/post-management.wxss */
+.textarea {
+  width: 690rpx;
+  margin: 30rpx;
+  padding-bottom: 40rpx;
+  background-color: #fff;
+}
+
+.block-van-btn {
+  width: 300rpx;
+  margin: 0 auto;
+}
+
+.field-input {
+  font-size: 30rpx !important;
+}

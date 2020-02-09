@@ -2,30 +2,64 @@
 
 <view class="title">
   <view class="title-label">我加入的小组</view>
-  <view class="title-btn" bind:tap="showJoinDialog">加小组</view>
+  <van-button round size="small" type="info" bind:tap="showJoinDialog" wx:if="{{0 !== joinedGroupList.length}}">加小组</van-button>
+  <!-- <view class="title-btn">加小组</view> -->
+</view>
+<view wx:if="{{0 !== joinedGroupList.length}}" class="card-list">
+  <joined-group-card wx:for="{{joinedGroupList}}" wx:key="id" groupInfo="{{item}}"></joined-group-card>
+</view>
+<view wx:else class="no-group">
+  <view>暂时没有加入任何小组</view>
+  <view class="big-btn" bind:tap="showJoinDialog">加小组</view>
+</view>
 
-</view>
-<view class="card-list">
-<joined-group-card wx:for="{{joinedGroupList}}" wx:key="{{item.id}}" groupInfo="{{item}}"></joined-group-card>
-</view>
 <view class="title">
   <view class="title-label">我创建的小组</view>
-  <view class="title-btn" bind:tap="goDetail">新增</view>
+  <van-button round size="small" type="info" wx:if="{{0 !== maintainedGroupList.length}}">新增</van-button>
+  <!-- <navigator class="title-btn">新增</navigator> -->
 </view>
-<view class="card-list">
-  <maintained-group-card wx:for="{{maintainedGroupList}}" wx:key="{{item.id}}" groupInfo="{{item}}"></maintained-group-card>
+<view wx:if="{{0 !== maintainedGroupList.length}}" class="card-list">
+  <maintained-group-card wx:for="{{maintainedGroupList}}" wx:key="id" groupInfo="{{item}}"></maintained-group-card>
 </view>
+<view wx:else class="no-group">
+  <view>暂时没有创建任何小组</view>
+  <navigator class="big-btn">去创建</navigator>
+</view>
+
+
 <van-dialog
+  id="van-dialog" 
   use-slot
   title="加入小组"
   show="{{ showJoin }}"
   show-cancel-button
-  confirm-button-open-type="joinGroup"
-  bind:close="onClose"
+  bind:confirm="joinGroup"
+  bind:cancel="cancelJoinGroup"
+  asyncClose
+  z-index="100"
 >
-  <form>
-    <input placeholder-class="placeholder" placeholder="请输入邀请码" name="group-id" value="{{joiningGroupId}}" />
-    <input placeholder-class="placeholder" placeholder="请输入真实姓名" name="name" value="{{joiningName}}" />
-    <input placeholder-class="placeholder" placeholder="请输入手机号" type="number" maxlength="11" name="phone" value="{{joiningPhone}}"/>
-  </form>
+  <van-cell-group>
+    <van-field
+      value="{{ joiningGroupId }}"
+      label="邀请码"
+      placeholder="请输入邀请码"
+      bind:change="inputId"
+    />
+    <van-field
+      value="{{ joiningName }}"
+      label="姓名"
+      placeholder="请输入真实姓名"
+      bind:change="inputName"
+    />
+    <van-field
+      value="{{ joiningPhone }}"
+      label="手机号"
+      placeholder="请输入手机号"
+      maxlength="11"
+      type="number"
+      bind:change="inputPhone"
+    />
+  </van-cell-group>
 </van-dialog>
+
+<van-toast id="van-toast" />
