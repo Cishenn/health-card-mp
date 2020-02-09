@@ -3,26 +3,30 @@
     <van-field 
     class="groupName" 
     placeholder="起个名字(20字以内)" 
-    value="groupName">
-    </van-field>
+    value="{{groupName}}"
+    bind:change="getName"/>
+    
 
     <van-field 
     class="introduction" 
     placeholder="简介(50字以内)" 
-    value="introduction">
-    </van-field>
+    value="{{introduction}}"
+    bind:change="getIntro"/>
+    
 
     <van-field
     class="creatorName" 
-    value="creatorName" 
-    placeholder="创建人姓名">
-    </van-field>
+    value="{{creatorName}}" 
+    placeholder="创建人姓名"
+    bind:change="getCreator"/>
+    
 
     <van-field 
     class="creatorPhone"
-    value="creatorPhone" 
-    placeholder="创建人电话">
-    </van-field>
+    value="{{creatorPhone}}" 
+    placeholder="创建人电话"
+    bind:change="getPhone"/>
+    
 
     
     <van-row>类型</van-row>

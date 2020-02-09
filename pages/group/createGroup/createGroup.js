@@ -1,14 +1,18 @@
 // pages/group/group.js
+
+import Toast from '@vant/weapp/toast/toast';
+import {validatePhoneNumber} from '../../../utils/validate.js'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    groupName: "xxx",
-    introduction: "xxx",
-    creatorName: "xxx",
-    creatorPhone: "13855146666",
+    groupName: null,
+    introduction: null,
+    creatorName: null,
+    creatorPhone: null,
     // raido here to complemented.
   },
 
@@ -16,13 +20,59 @@ Page({
    * 自定义事件 --- 按钮事件
    */
   toSubmit: function() {
-    // 向后台发送数据 ... 怎么判断是否有空选项?等问题, 待参考其他界面
-    // ...
+      var name=this.data.groupName;
+      var intro=this.data.introduction;
+      var creator=this.data.creatorName;
+      var phone=this.data.creatorPhone;
+      if(!name||!intro||!creator||!phone){
+        Toast("请将以上信息填充完整!");
+        console.log(name,intro,creator,phone);
+      }
+      else if(!validatePhoneNubmer(phone)){
+        Toast('请输入正确的手机号码!');
+      }
+      else{
+        // 向后台发送数据 ... 怎么判断是否有空选项?等问题, 待参考其他界面
+        // ...
+
+        // reset the related data
+        this.setData({
+          groupName: null,
+          introduction: null,
+          creatorName: null,
+          creatorPhone: null
+        });
+      }
+    
 
     // 跳转创建成功页面
     wx.navigateTo({
       url: '../created/created',
     })
+  },
+
+  getName: function(e){
+    this.setData({
+      groupName:e.detail
+    });
+  },
+
+  getIntro: function(e){
+    this.setData({
+      introduction:e.detail
+    });
+  },
+
+  getCreator: function(e){
+    this.setData({
+      creatorName:e.detail
+    });
+  },
+
+  getPhone: function(e){
+    this.setData({
+      creatorPhone:e.detail
+    });
   },
 
   /**

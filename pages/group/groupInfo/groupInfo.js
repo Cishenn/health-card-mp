@@ -1,32 +1,69 @@
 // pages/groupInfo/groupInfo.js
+
+import Toast from '@vant/weapp/toast/toast';
+import {validatePhoneNumber} from '../../../utils/validate.js';
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    groupInfo: {},
-    personalName: 'xxx',
-    personalPhone: '13855146666',
+    groupInfo: {
+      creatorName: "somebody",
+      invitationCodes: "66666", // temporary five
+      introduction: "It's a strong group"
+    },
+    personalName: null,
+    personalPhone: null,
   },
 
   /**
    * 按钮事件
    */
   applyTo: function(){
-    // 打开小窗口 van-dialog?
+    // 打开小窗口 
   },
 
   /**
    * 对话框确认加入小组
    */
-  confirmJoin: function(){
-    // 正则判定输入规范 
-    //Toast("将信息全部补充完整")
-    //Toast("手机号码不符合规范")
-
-    //发送申请
+  confirmTo: function(){
+    var name=this.data.personalName;
+    var phone=this.data.personalPhone;
+    if(!name||!phone){
+      Toast('请完整输入您的真实姓名和手机号码!');
+      console.log(name,phone);
+      this.selectComponent('#dialog').stopLoading();
+    }
+    else if(!validatePhoneNumber(phone)){
+      Toast('请输入正确的手机号码!');
+      this.selectComponent('#dialog').stopLoading();
+    }
+    else{
+      // phone & name 数据传请求
+      // ...
+      
+      //reset the related data
+      this.setData({
+        personalName: null,
+        personalPhone: null
+      })
+    }
   },
+  
+  getName: function(e){
+    this.setData({
+      personalName: e.detail
+    });
+  },
+
+  getPhone: function(e){
+    this.setData({
+      personalPhone: e.detil
+    });
+  },
+
 
   /**
    * 生命周期函数--监听页面加载

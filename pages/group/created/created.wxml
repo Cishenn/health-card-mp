@@ -30,7 +30,8 @@
     <van-button
     class="invitation"
     type="primary"
-    bindtap="toInvite">
+    bindtap="toInvite"
+    open-type="share">  <!-- 调用微信的share功能-->
     邀请人员加入
     </van-button>
 

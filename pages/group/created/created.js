@@ -16,7 +16,7 @@ Page({
    * 按钮事件
    */
   toInvite: function(){
-    // 分享给其他人
+    // 分享给其他人-
   },
 
   toBack: function(){
