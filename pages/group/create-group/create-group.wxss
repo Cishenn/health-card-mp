@@ -1,5 +1,10 @@
 /* pages/group/group.wxss */
 
+.btn {
+  margin: 5%;
+  text-align: center;
+}
+
 /* .groupName {
   width: 90%;
   border: 1px solid grey;
@@ -28,7 +33,4 @@
   margin-top: 20rpx;
 } */
 
-.btn {
-  margin: 5%;
-  text-align: center;
-}
+

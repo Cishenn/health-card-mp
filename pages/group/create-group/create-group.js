@@ -17,7 +17,6 @@ Page({
 
     hasType: false,
     hasStatus: false,
-    hasSubmit: false,  // 为什么学姐的在properties里面
 
     typeList: ['社区','学校','其他']
     // raido here to complemented.

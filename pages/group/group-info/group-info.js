@@ -10,10 +10,14 @@ Page({
    */
   data: {
     groupInfo: {
+      groupName: "兰州",
       creatorName: "somebody",
       invitationCodes: "66666", // temporary five
       introduction: "It's a strong group"
     },
+
+    isShown:false,
+
     personalName: null,
     personalPhone: null,
   },
@@ -22,22 +26,26 @@ Page({
    * 按钮事件
    */
   applyTo: function(){
-    // 打开小窗口 
+    this.setData({
+      isShown:true
+    });
   },
 
   /**
    * 对话框确认加入小组
    */
-  confirmTo: function(){
+  clickConfirm: function(){
     var name=this.data.personalName;
     var phone=this.data.personalPhone;
     if(!name||!phone){
       Toast('请完整输入您的真实姓名和手机号码!');
       console.log(name,phone);
+      this.setData({isShown:true});
       this.selectComponent('#dialog').stopLoading();
     }
     else if(!validatePhoneNumber(phone)){
       Toast('请输入正确的手机号码!');
+      this.setData({isShown:true});
       this.selectComponent('#dialog').stopLoading();
     }
     else{
@@ -46,12 +54,21 @@ Page({
       
       //reset the related data
       this.setData({
+        isShown: false,
         personalName: null,
         personalPhone: null
       })
     }
   },
   
+  clickCancel: function(){
+    this.setData({
+      isShown: false,
+      personalName: null,
+      personalPhone: null
+    }); 
+  },
+
   getName: function(e){
     this.setData({
       personalName: e.detail

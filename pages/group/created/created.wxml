@@ -1,4 +1,4 @@
-<view class="scontainer">
+<view class="created">
     <image
     class="img"
     src="/assets/success.png"/>
@@ -26,9 +26,10 @@
     value="{{groupInfo.invitationCodes}}">
     </van-cell>
     
+    <view class="btn">
     <van-button
     class="invitation"
-    type="primary"
+    type="info"
     bindtap="toInvite"
     open-type="share">  <!-- 调用微信的share功能-->
     邀请人员加入
@@ -36,8 +37,9 @@
 
     <van-button
     class="back"
-    type="primary"
+    type="info"
     bindtap="toBack">
     返回首页
     </van-button>
+    </view>
 </view>

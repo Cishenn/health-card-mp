@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
-  "component": true
+  "component": true,
+  "navigationBarTitleText": "小组信息"
 }

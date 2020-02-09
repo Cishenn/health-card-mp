@@ -15,13 +15,10 @@ Page({
   /**
    * 按钮事件
    */
-  toInvite: function(){
-    // 分享给其他人-
-  },
 
   toBack: function(){
     wx.navigateTo({
-      url: '../../../index/home-page/home-page',    // 返回首页
+      url: '../../../index/home-page/home-page',    // 返回首页?
     })
   },
 

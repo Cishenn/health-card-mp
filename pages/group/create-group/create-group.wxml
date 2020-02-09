@@ -1,16 +1,14 @@
 <!--pages/group/group.wxml-->
-<view class="scontainer">  
+<view class="create-group">  
     <van-field 
     clearable
     label="姓名"
-    disabled
     required
     value="{{groupName}}"/>
     
     <van-field 
     clearable
     label="简介(50字内)"
-    disabled
     required
     value="{{introduction}}"
     bind:change="getIntro"/>
@@ -19,7 +17,6 @@
     <van-field
     clearable
     label="创建人姓名"
-    disabled
     required
     value="{{creatorName}}"
     bind:change="getCreator"/>
@@ -28,7 +25,6 @@
     <van-field 
     clearable
     label="创建人电话"
-    disabled
     required
     value="{{creatorPhone}}"
     bind:change="getPhone"/>
@@ -74,13 +70,6 @@
     bindtap="toSubmit"
     wx:if="{{!hasSubmit}}">
     提交
-    </van-button>
-    <van-button
-    block
-    type="info"
-    wx:elif="{{hasSubmit}}"
-    disabled
-    >已提交
     </van-button>
   </view>
 </view>

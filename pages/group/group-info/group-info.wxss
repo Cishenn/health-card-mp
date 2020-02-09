@@ -45,11 +45,16 @@
   padding:30rpx;
   margin-top: 20rpx;
 } */
+.groupN{
+  text-align:center;
+  margin: 5%;
+}
 .application{
-  width:90%;
-  margin-top: 60rpx;
-  
+  margin-left: 30%;
 }
 .join{
   width:90%;
+}
+.btn{
+  margin-top: 20%;
 }
