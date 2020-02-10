@@ -1,0 +1,12 @@
+/* pages/daily-form/community/community.wxss */
+.value-class {
+  flex: none !important;
+}
+.btn {
+  margin: 5%;
+  text-align: center;
+}
+.rfooter {
+  /* text-align: right; */
+  float:right;
+}

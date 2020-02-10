@@ -1,0 +1,174 @@
+<!--pages/daily-form/community/community.wxml-->
+<view>
+<van-cell-group>
+  <van-cell title="报告日期" value="{{dayTime}}" />
+</van-cell-group>
+
+<van-cell-group title=" ">
+  <van-field
+  clearable
+  label="姓名"
+  disabled
+  required
+  value="{{name}}" />
+  <van-field
+  clearable
+  label="手机号"
+  disabled
+  required
+  value="{{telephone}}" />
+
+
+  <van-cell
+  is-link
+  required
+  data-status="hasLocation"
+  bind:click="show"
+  title="当前位置">{{location}}
+  </van-cell>
+  <van-popup
+  show="{{hasLocation}}"
+  position="bottom"
+  data-status="hasLocation"
+  bind:close="close">
+    <van-radio-group
+    value="{{location}}"
+    data-source="location"
+    bind:change="changeValue">
+      <van-cell-group>
+        <van-cell
+          wx:for="{{locationList}}"
+          wx:key="index"
+          title="{{item}}"
+          clickable
+          data-name="{{item}}"
+          data-source="location"
+          bind:click="clickShow"
+        >
+          <van-radio slot="right-icon" name="{{item}}" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </van-popup>
+
+
+  <van-cell
+  is-link
+  required
+  bind:click="show"
+  data-status="hasStatus"
+  title="本人状态">{{status}}
+  </van-cell>
+  <van-popup
+  show="{{hasStatus}}"
+  position="bottom"
+  data-status="hasStatus"
+  bind:close="close">
+    <van-radio-group
+    value="{{status}}"
+    data-source="status"
+    bind:change="changeValue">
+      <van-cell-group>
+        <van-cell
+          wx:for="{{statusList}}"
+          wx:key="index"
+          title="{{item}}"
+          clickable
+          data-source="status"
+          data-name="{{item}}"
+          bind:click="clickShow"
+        >
+          <van-radio slot="right-icon" name="{{item}}" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </van-popup>
+
+
+  <van-cell
+  is-link
+  data-status="hasSymptoms"
+  bind:click="show"
+  title="本人症状">{{symptoms}}
+  </van-cell>
+  <van-popup
+  show="{{hasSymptoms}}"
+  position="bottom"
+  data-status="hasSymptoms"
+  bind:close="close">
+    <van-checkbox-group
+    value="{{symptoms}}"
+    data-source="symptoms"
+    bind:change="changeValue">
+      <van-cell-group>
+        <van-cell
+          wx:for="{{symptomsList}}"
+          wx:key="index"
+          title="{{item}}"
+          clickable
+          value-class="value-class"
+          data-index="{{index}}"
+          bind:click="clickSymptoms"
+        >
+          <van-checkbox
+          shape="square"
+          class="checkboxes-{{index}}"
+          name="{{item}}" />
+        </van-cell>
+      </van-cell-group>
+    </van-checkbox-group>
+  </van-popup>
+
+  <van-field
+  clearable
+  label="家属人数"
+  placeholder="请输入家属人数"
+  type="number"
+  required
+  data-source="familyNum"
+  bind:change="changeValue"
+  value="{{familyNum}}" />
+  <van-field
+  clearable
+  label="家属疑似或确诊人数"
+  placeholder="请输入家属疑似或确诊人数"
+  type="number"
+  required
+  data-source="familyUnhealthyNum"
+  bind:change="changeValue"
+  value="{{familyUnhealthyNum}}" />
+</van-cell-group>
+
+
+<van-cell-group title=" ">
+  <van-field
+    value="{{ message }}"
+    label="其他说明"
+    clearable
+    type="textarea"
+    placeholder=""
+    autosize
+    data-source="message"
+    bind:change="changeValue"
+    border="{{ false }}"
+  />
+</van-cell-group>
+
+
+  <view class="btn">
+    <van-button
+    type="info"
+    block
+    bind:click="submit"
+    wx:if="{{!hasSubmit}}">
+    提交
+    </van-button>
+    <van-button
+    type="info"
+    block
+    disabled
+    wx:elif="{{hasSubmit}}">
+    已提交
+    </van-button>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+<!--pages/post/post-management/post-management.wxml-->
+<view class="textarea">
+    <van-field
+      value="{{ groupInfo.post.content }}"
+      type="textarea"
+      placeholder="请编写小组公告（140字以内）"
+      autosize
+      focus
+      border="{{ false }}"
+      bind:change="inputPost"
+      input-class="field-input"
+    />
+</view>
+<view class="block-van-btn">
+  <van-button plain type="primary" block>提交</van-button>
+</view>

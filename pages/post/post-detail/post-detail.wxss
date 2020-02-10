@@ -1,0 +1,14 @@
+/* pages/post/post-detail/post-detail.wxss */
+.info {
+  margin: 30rpx 40rpx;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+.section {
+  width: 650rpx;
+  margin: 30rpx;
+  padding: 30rpx 20rpx;
+  background-color: #fff;
+  font-size: 30rpx;
+}

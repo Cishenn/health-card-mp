@@ -5,6 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "@vant/weapp": "^1.0.4",
-    "vant-weapp": "^0.5.27"
+    "dayjs": "^1.8.20",
+    "qs": "^6.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
   }
 }
