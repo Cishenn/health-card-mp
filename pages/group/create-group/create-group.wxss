@@ -1,0 +1,36 @@
+/* pages/group/group.wxss */
+
+.btn {
+  margin: 5%;
+  text-align: center;
+}
+
+/* .groupName {
+  width: 90%;
+  border: 1px solid grey;
+}
+.introduction {
+  width: 90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+}
+.creatorName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+}
+.creatorPhone{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+}
+.radio{
+  padding:30rpx;
+  margin-top: 20rpx;
+}
+.submit{
+  width:50%;
+  margin-top: 20rpx;
+} */
+
+

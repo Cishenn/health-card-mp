@@ -1,0 +1,51 @@
+/* .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+ .img{
+  width: 200rpx;
+  height: 200rpx;
+  margin-left: 37%;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.txt{
+  display: flex;
+}
+.success{
+  font-size: 60rpx;
+  margin-bottom: 10%;
+  margin-left: 29%;
+}
+/*
+.groupName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.creatorName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;  
+}
+.invitationCodes{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx; 
+}
+*/
+.invitation{
+  margin-left: 10%;
+  
+}
+.back{ 
+  margin-left: 10%;
+} 
+.btn{
+  margin-top: 15%;
+  margin-left: 50rpx;
+}

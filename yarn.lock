@@ -23,6 +23,12 @@
   resolved "https://registry.npm.taobao.org/@vant/weapp/download/@vant/weapp-1.0.4.tgz#056cd6e98f9a95046732a76341671ebfca32b7d1"
   integrity sha1-BWzW6Y+alQRnMqdjQWcev8oyt9E=
 
+<<<<<<< HEAD
+vant-weapp@^0.5.27:
+  version "0.5.27"
+  resolved "https://registry.npm.taobao.org/vant-weapp/download/vant-weapp-0.5.27.tgz#b029980dbdcc7f90aff9dc9db8e2bac5ef118d1b"
+  integrity sha1-sCmYDb3Mf5Cv+dyduOK6xe8RjRs=
+=======
 acorn-jsx@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.1.0.tgz#294adb71b57398b0680015f0a38c563ee1db5384"
@@ -829,3 +835,4 @@ write@1.0.3:
   integrity sha512-/lg70HAjtkUgWPVZhZcm+T4hkL8Zbtp1nFNOn3lRrxnlv50SRBv7cR7RqR+GMsd3hUXy9hWBo4CHTbFTcOYwig==
   dependencies:
     mkdirp "^0.5.1"
+>>>>>>> 1.0-dev

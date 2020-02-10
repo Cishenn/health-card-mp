@@ -1,0 +1,61 @@
+/* pages/groupInfo/groupInfo.wxss */
+/* .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+/* .img{
+  width: 350rpx;
+  height: 350rpx;
+} */
+.groupName{
+  font-size: 80rpx;
+  margin-bottom: 50rpx;
+}
+/* .groupName {
+  width: 90%;
+  border: 1px solid grey;
+}
+.introduction {
+  width: 90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+} */
+/* .groupName{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}*/
+.name{
+  width:90%;
+  border: 1px solid grey;
+  margin-top: 40rpx;
+  margin-bottom: 10rpx;  
+} 
+.phone{
+  width:90%;
+  border: 1px solid grey;
+  margin-bottom: 20rpx;  
+}
+.text{
+  margin-bottom: 30rpx; 
+} 
+/* .radio{
+  padding:30rpx;
+  margin-top: 20rpx;
+} */
+.groupN{
+  text-align:center;
+  margin: 5%;
+}
+.application{
+  margin-left: 30%;
+}
+.join{
+  width:90%;
+}
+.btn{
+  margin: 5%;
+  text-align: center;
+}
