@@ -1,11 +1,12 @@
 {
   "pages": [
-    
+    "pages/group/group-info/group-info",
     "pages/group/create-group/create-group",
     "pages/index/home-page/home-page",
-    "pages/index/clock-in/clock-in",
+    
     "pages/group/created/created",
-    "pages/group/group-info/group-info"
+    
+    "pages/index/clock-in/clock-in"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -36,10 +37,23 @@
   "usingComponents": {
     "van-dialog": "@vant/weapp/dialog",
     "van-toast": "@vant/weapp/toast",
+    "van-collapse": "@vant/weapp/collapse",
+    "van-collapse-item": "@vant/weapp/collapse-item",
     "van-cell": "@vant/weapp/cell",
     "van-cell-group": "@vant/weapp/cell-group",
     "van-field": "@vant/weapp/field",
-    "van-button": "@vant/weapp/button"
+    "van-button": "@vant/weapp/button",
+    "van-checkbox-group": "@vant/weapp/checkbox-group",
+    "van-checkbox": "@vant/weapp/checkbox",
+    "van-radio": "@vant/weapp/radio",
+    "van-radio-group": "@vant/weapp/radio-group",
+    "van-tag": "@vant/weapp/tag",
+    "van-image": "@vant/weapp/image",
+    "van-row": "@vant/weapp/row",
+    "van-col": "@vant/weapp/col",
+    "van-popup": "@vant/weapp/popup",
+    "van-panel": "@vant/weapp/panel",
+    "van-icon": "@vant/weapp/icon"
   },
   "sitemapLocation": "sitemap.json"
 }

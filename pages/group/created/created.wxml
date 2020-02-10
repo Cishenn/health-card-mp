@@ -3,8 +3,9 @@
     class="img"
     src="/assets/success.png"/>
 
-    <!-- van-row 感觉内容重复 可删? -->
+    <view class="txt">
     <van-row class="success">小组创建成功</van-row>
+    </view>
     <!-- <van-row>小组名称</van-row> -->
     <van-cell
     class="groupName"
@@ -43,3 +44,5 @@
     </van-button>
     </view>
 </view>
+
+<van-toast id="van-toast" />

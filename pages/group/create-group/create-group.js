@@ -1,7 +1,7 @@
 // pages/group/group.js
 
 import Toast from '@vant/weapp/toast/toast';
-import {validatePhoneNumber} from '../../../utils/validate.js'
+import { validatePhoneNumber } from '../../../utils/validate';
 
 Page({
 
@@ -66,15 +66,17 @@ Page({
       var intro=this.data.introduction;
       var creator=this.data.creatorName;
       var phone=this.data.creatorPhone;
-      if(!name||!intro||!creator||!phone){
+      if(!name||!intro||!creator||!phone||!this.data.type){
         Toast("请将以上信息填充完整!");
-        console.log(name,intro,creator,phone);
+        console.log(name, intro, creator, phone, this.data.type);
+        return;
       }
-      else if(!validatePhoneNubmer(phone)){
+      else if(!validatePhoneNumber(phone)){
         Toast('请输入正确的手机号码!');
+        return;
       }
       else{
-        // 向后台发送数据 ... 怎么判断是否有空选项?等问题, 待参考其他界面
+        // 向后台发送数据 ... 待参考其他界面
         // ...
 
         // reset the related data
@@ -82,7 +84,8 @@ Page({
           groupName: null,
           introduction: null,
           creatorName: null,
-          creatorPhone: null
+          creatorPhone: null,
+          type: ''
         });
       }
     

@@ -18,7 +18,7 @@ Page({
 
   toBack: function(){
     wx.navigateTo({
-      url: '../../../index/home-page/home-page',    // 返回首页?
+      url: 'pages/daily-form/daily-index',    // 返回首页, 待mr修改后写正确的url
     })
   },
 

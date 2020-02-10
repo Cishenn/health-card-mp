@@ -4,7 +4,8 @@
     clearable
     label="姓名"
     required
-    value="{{groupName}}"/>
+    value="{{groupName}}"
+    bind:change="getName"/>
     
     <van-field 
     clearable
@@ -74,3 +75,4 @@
   </view>
 </view>
 
+<van-toast id="van-toast" />

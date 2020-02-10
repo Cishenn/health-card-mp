@@ -61,8 +61,10 @@
       label="手机号"
       placeholder="请输入手机号"
       maxlength="11"
+      type="number"
       bind:change="getPhone"
     />
   </van-cell-group>
 </van-dialog>
 
+<van-toast id="van-toast" />

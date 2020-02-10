@@ -35,16 +35,17 @@ Page({
    * 对话框确认加入小组
    */
   clickConfirm: function(){
-    var name=this.data.personalName;
-    var phone=this.data.personalPhone;
+    const name=this.data.personalName;
+    const phone=this.data.personalPhone;
     if(!name||!phone){
       Toast('请完整输入您的真实姓名和手机号码!');
-      console.log(name,phone);
       this.setData({isShown:true});
+      
       this.selectComponent('#dialog').stopLoading();
     }
     else if(!validatePhoneNumber(phone)){
       Toast('请输入正确的手机号码!');
+      console.log('请输入正确的手机号码!');
       this.setData({isShown:true});
       this.selectComponent('#dialog').stopLoading();
     }
@@ -70,14 +71,16 @@ Page({
   },
 
   getName: function(e){
+    console.log('1');
     this.setData({
       personalName: e.detail
     });
   },
 
   getPhone: function(e){
+    console.log('2');
     this.setData({
-      personalPhone: e.detil
+      personalPhone: e.detail
     });
   },
 
