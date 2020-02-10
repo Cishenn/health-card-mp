@@ -9,10 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupName: null,
-    introduction: null,
-    creatorName: null,
-    creatorPhone: null,
+    name: null,
+    description: null,
+    managerName: null,
+    managerPhone: null,
     type: '',
 
     hasType: false,
@@ -62,10 +62,10 @@ Page({
   },
 
   toSubmit: function() {
-      var name=this.data.groupName;
-      var intro=this.data.introduction;
-      var creator=this.data.creatorName;
-      var phone=this.data.creatorPhone;
+      var name=this.data.name;
+      var intro=this.data.description;
+      var creator=this.data.managerName;
+      var phone=this.data.managerPhone;
       if(!name||!intro||!creator||!phone||!this.data.type){
         Toast("请将以上信息填充完整!");
         console.log(name, intro, creator, phone, this.data.type);
@@ -82,10 +82,10 @@ Page({
         // reset the related data
         Toast.success('创建成功');
         this.setData({
-          groupName: null,
-          introduction: null,
-          creatorName: null,
-          creatorPhone: null,
+          name: null,
+          description: null,
+          managerName: null,
+          managerPhone: null,
           type: ''
         });
       }
@@ -99,25 +99,25 @@ Page({
 
   getName: function(e){
     this.setData({
-      groupName:e.detail
+      name:e.detail
     });
   },
 
   getIntro: function(e){
     this.setData({
-      introduction:e.detail
+      description:e.detail
     });
   },
 
   getCreator: function(e){
     this.setData({
-      creatorName:e.detail
+      managerName:e.detail
     });
   },
 
   getPhone: function(e){
     this.setData({
-      creatorPhone:e.detail
+      managerPhone:e.detail
     });
   },
 

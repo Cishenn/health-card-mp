@@ -15,7 +15,7 @@
 
 <view class="title">
   <view class="title-label">我创建的小组</view>
-  <van-button round size="small" type="info" wx:if="{{0 !== maintainedGroupList.length}}">新增</van-button>
+  <van-button round size="small" type="info" wx:if="{{0 !== maintainedGroupList.length}}" bind:tap="createGroup">新增</van-button>
   <!-- <navigator class="title-btn">新增</navigator> -->
 </view>
 <view wx:if="{{0 !== maintainedGroupList.length}}" class="card-list">

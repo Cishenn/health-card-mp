@@ -9,17 +9,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupInfo: {
-      groupName: "兰州",
-      creatorName: "somebody",
-      invitationCodes: "66666", // temporary five
-      introduction: "It's a strong group"
-    },
+    
+    name: "兰大",
+    managerName: "somebody",
+    invitationCode: "66666", // temporary five
+    description: "It's a strong group",
+    
 
     isShown:false,
 
-    personalName: null,
-    personalPhone: null,
+    name: null,
+    phone: null,
   },
 
   /**
@@ -35,8 +35,8 @@ Page({
    * 对话框确认加入小组
    */
   clickConfirm: function(){
-    const name=this.data.personalName;
-    const phone=this.data.personalPhone;
+    const name=this.data.name;
+    const phone=this.data.phone;
     if(!name||!phone){
       Toast('请完整输入您的真实姓名和手机号码!');
       this.setData({isShown:true});
@@ -57,8 +57,8 @@ Page({
       Toast.success('申请成功,等待审核');
       this.setData({
         isShown: false,
-        personalName: null,
-        personalPhone: null
+        name: null,
+        phone: null
       })
     }
   },
@@ -66,22 +66,22 @@ Page({
   clickCancel: function(){
     this.setData({
       isShown: false,
-      personalName: null,
-      personalPhone: null
+      name: null,
+      phone: null
     }); 
   },
 
   getName: function(e){
     console.log('1');
     this.setData({
-      personalName: e.detail
+      name: e.detail
     });
   },
 
   getPhone: function(e){
     console.log('2');
     this.setData({
-      personalPhone: e.detail
+      phone: e.detail
     });
   },
 

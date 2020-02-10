@@ -5,11 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupInfo: {
-      groupName: "xxx",
-      creatorName: "xxx",
-      invitationCodes: "123"
-    }
+    
+    name: "兰大",
+    managerName: "somebody",
+    invitationCode: "123456"
+    
   },
 
   /**
@@ -18,10 +18,13 @@ Page({
 
   toBack: function(){
     wx.navigateTo({
-      url: 'pages/daily-form/daily-index',    // 返回首页, 待mr修改后写正确的url
+      url: '../../index/home-page/home-page',    // 返回首页, 为什么回不去???
     })
   },
 
+  toInvite: function(){
+    // TODO:
+  },
   /**
    * 生命周期函数--监听页面加载
    */

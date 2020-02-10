@@ -2,16 +2,16 @@
 <view class="create-group">  
     <van-field 
     clearable
-    label="姓名"
+    label="组名"
     required
-    value="{{groupName}}"
+    value="{{name}}"
     bind:change="getName"/>
     
     <van-field 
     clearable
     label="简介(50字内)"
     required
-    value="{{introduction}}"
+    value="{{description}}"
     bind:change="getIntro"/>
     
 
@@ -19,7 +19,7 @@
     clearable
     label="创建人姓名"
     required
-    value="{{creatorName}}"
+    value="{{managerName}}"
     bind:change="getCreator"/>
     
 
@@ -27,7 +27,7 @@
     clearable
     label="创建人电话"
     required
-    value="{{creatorPhone}}"
+    value="{{managerPhone}}"
     bind:change="getPhone"/>
     
 
