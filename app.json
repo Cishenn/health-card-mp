@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/group/group-info/group-info",
+    
     "pages/group/create-group/create-group",
     "pages/index/home-page/home-page",
-    
+    "pages/group/group-info/group-info",
     "pages/group/created/created",
     
     "pages/index/clock-in/clock-in"

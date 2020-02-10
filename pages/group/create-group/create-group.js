@@ -80,6 +80,7 @@ Page({
         // ...
 
         // reset the related data
+        Toast.success('创建成功');
         this.setData({
           groupName: null,
           introduction: null,

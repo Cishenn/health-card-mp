@@ -40,7 +40,7 @@ Page({
     if(!name||!phone){
       Toast('请完整输入您的真实姓名和手机号码!');
       this.setData({isShown:true});
-      
+
       this.selectComponent('#dialog').stopLoading();
     }
     else if(!validatePhoneNumber(phone)){
@@ -54,6 +54,7 @@ Page({
       // ...
       
       //reset the related data
+      Toast.success('申请成功,等待审核');
       this.setData({
         isShown: false,
         personalName: null,
