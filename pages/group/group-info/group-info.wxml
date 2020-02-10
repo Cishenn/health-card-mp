@@ -32,6 +32,7 @@
       <van-button
       class="application"
       type="info"
+      block
       bindtap="applyTo">
       申请加入小组
       </van-button>
