@@ -5,19 +5,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-    groupInfo: {
-      id: 1,
-      type: 'school',
-      name: '兰州大学计算机学院一班',
-      digest: '兰州大学计算机学院学生疫情期间打卡群',
-      post: {
-        time: '2020-02-08 09:00',
-        content: '请大家于明天中午12点之前在XXX地点统一领取口罩。'
+    groupInfo: null,
+    announcement: null
+  },
+
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '公告详情'
+    });
+    let groupInfo = null;
+    let announcement = null;
+    wx.request({
+      url: `${getApp().globalData.apiUrl}group/${options.id}`,
+      success: res => {
+        groupInfo = res.data;
       },
-      maintainer: {
-        name: '小明',
-        phone: '13766668888'
+      fail: err => {
+        console.log(err);
       }
-    }
+    });
+    wx.request({
+      url: `${getApp().globalData.apiUrl}group/${options.id}/announcement`,
+      success: res => {
+        announcement = res.data;
+      },
+      fail: err => {
+        console.log(err);
+      }
+    });
+    this.setData({
+      groupInfo,
+      announcement
+    });
   }
 });

@@ -18,3 +18,17 @@ const formatNumber = n => {
 export {
   formatTime
 };
+
+const getDate = addDayCount => {
+  const date = new Date();
+  date.setDate(date.getDate() + addDayCount);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${[year, month, day].map(formatNumber).join('')}`;
+};
+
+export {
+  getDate
+};
