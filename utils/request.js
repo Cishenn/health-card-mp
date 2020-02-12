@@ -2,12 +2,8 @@ import { stringify as queryStringify } from 'qs';
 
 const validStatusCodes = new Set([200]);
 
-// function setValidStatusCodes(codes) {
-//   validStatusCodes = new Set(codes);
-// }
-
 function request(options, cb) {
-  if (!options.noCookie) {
+  if ( !options.noCookie ) {
     const token = wx.getStorageSync('health-card-token');
 
     if (token) {
@@ -19,8 +15,8 @@ function request(options, cb) {
     }
   }
 
-  if (options.method === 'GET' &&
-    options.data) {
+  if ( options.method === 'GET' &&
+      options.data ) {
     const querystring = queryStringify(options.data, {
       arrayFormat: 'repeat',
     });
@@ -29,12 +25,12 @@ function request(options, cb) {
     options.url = `${options.url}?${querystring}`;
   }
 
-  options.complete = function (res) {
+  options.complete = function(res) {
     if (!cb || typeof cb !== 'function') {
       return;
     }
 
-    if (validStatusCodes.has(res.statusCode)) {
+    if ( validStatusCodes.has(res.statusCode) ) {
       cb(null, res);
 
       return;
@@ -48,7 +44,7 @@ function request(options, cb) {
 
 function requestAsync(options) {
   return new Promise((resolve, reject) => {
-    request(options, function (err, res) {
+    request(options, function(err, res) {
       if (err) {
         return reject(err);
       }

@@ -1,23 +1,34 @@
 // pages/post/post-detail/post-detail.js
+import { getGroupDetail, getAnnouncement } from '../../../api/service/group.js';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    groupInfo: {
-      id: 1,
-      type: 'school',
-      name: '兰州大学计算机学院一班',
-      digest: '兰州大学计算机学院学生疫情期间打卡群',
-      post: {
-        time: '2020-02-08 09:00',
-        content: '请大家于明天中午12点之前在XXX地点统一领取口罩。'
-      },
-      maintainer: {
-        name: '小明',
-        phone: '13766668888'
-      }
-    }
+    groupInfo: null,
+    announcement: null
+  },
+
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '公告详情'
+    });
+    let groupInfo = null;
+    let announcement = null;
+    getGroupDetail(options.id).then(res => {
+      groupInfo = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    getAnnouncement(options.id).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    this.setData({
+      groupInfo,
+      announcement
+    });
   }
 });

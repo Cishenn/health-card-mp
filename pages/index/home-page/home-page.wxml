@@ -2,11 +2,10 @@
 
 <view class="title">
   <view class="title-label">我加入的小组</view>
-  <van-button round size="small" type="info" bind:tap="showJoinDialog" wx:if="{{0 !== joinedGroupList.length}}">加小组</van-button>
-  <!-- <view class="title-btn">加小组</view> -->
+  <van-button round size="small" type="info" bind:tap="showJoinDialog" wx:if="{{0 !== joinedGroupList.total}}">加小组</van-button>
 </view>
-<view wx:if="{{0 !== joinedGroupList.length}}" class="card-list">
-  <joined-group-card wx:for="{{joinedGroupList}}" wx:key="id" groupInfo="{{item}}"></joined-group-card>
+<view wx:if="{{0 !== joinedGroupList.total}}" class="card-list">
+  <joined-group-card wx:for="{{joinedGroupList.groups}}" wx:key="UserGroup.GroupId" groupInfo="{{item}}"></joined-group-card>
 </view>
 <view wx:else class="no-group">
   <view>暂时没有加入任何小组</view>
@@ -15,15 +14,14 @@
 
 <view class="title">
   <view class="title-label">我创建的小组</view>
-  <van-button round size="small" type="info" wx:if="{{0 !== maintainedGroupList.length}}" bind:tap="createGroup">新增</van-button>
-  <!-- <navigator class="title-btn">新增</navigator> -->
+  <van-button round size="small" type="info" wx:if="{{0 !== managedGroupList.total}}">新增</van-button>
 </view>
-<view wx:if="{{0 !== maintainedGroupList.length}}" class="card-list">
-  <maintained-group-card wx:for="{{maintainedGroupList}}" wx:key="id" groupInfo="{{item}}"></maintained-group-card>
+<view wx:if="{{0 !== managedGroupList.total}}" class="card-list">
+  <managed-group-card wx:for="{{managedGroupList.groups}}" wx:key="index" groupInfo="{{item}}"></managed-group-card>
 </view>
 <view wx:else class="no-group">
   <view>暂时没有创建任何小组</view>
-  <navigator class="big-btn">去创建</navigator>
+  <view class="big-btn" bind:tap="goToCreateGroup">去创建</view>
 </view>
 
 
@@ -40,7 +38,7 @@
 >
   <van-cell-group>
     <van-field
-      value="{{ joiningGroupId }}"
+      value="{{ joiningGroupInviteCode }}"
       label="邀请码"
       placeholder="请输入邀请码"
       bind:change="inputId"
