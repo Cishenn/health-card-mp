@@ -1,27 +1,31 @@
 // pages/group/group-detail/group-detail.js
-// import * as echarts from '/ec-canvas/echarts' 为什么写绝对路径报错
+
 import * as echarts from '../../../ec-canvas/echarts';
 import Dialog from '@vant/weapp/dialog/dialog';
-import { getDate } from '../../../utils/util';
-let that = null;
+import { getDate, formatDate, getDisplayDate } from '../../../utils/util.js';
+import { getPie1Option, getPie2Option } from '../../../utils/charts.js';
+import { exportData, getGroupDetail, getAnnouncement,
+  getClockInData, getHealthData, getDistributeData, getClockInDetail
+} from '../../../api/service/group.js';
+
 let pie1 = null;
 let pie2 = null;
 
 Page({
   data: {
     groupId: null,
-    maintained: null,
+    managed: null,
     groupInfo: null,
     announcement: null,
     clockInData: null,
     healthData: null,
-    positionData: null,
+    distributeData: null,
     clockInDetail: null,
     _chosenDate: 0,
+    // chosenDate = getDate(_chosenDate)
     chosenDate: getDate(0),
     latestDate: getDate(0),
     firstDate: null,
-    // chosenDate = getDate(addDayCount)
     displayedDate: null,
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
@@ -54,7 +58,7 @@ Page({
 
 
   goToPost: function() {
-    if (this.data.maintained) {
+    if (this.data.managed) {
       wx.navigateTo({
         url: `/pages/post/post-management/post-management?id=${this.data.groupId}`
       });
@@ -64,17 +68,6 @@ Page({
         url: `/pages/post/post-detail/post-detail?id=${this.data.groupId}`
       });
     }
-  },
-
-
-  formatDate: function(chosenDate) {
-    if (chosenDate.length !== 8) {
-      console.log('formatDate() 参数格式错误');
-
-      return '';
-    }
-
-    return `${chosenDate.substr(4, 2)}-${chosenDate.substr(6, 2)}`;
   },
 
 
@@ -94,11 +87,11 @@ Page({
       activeNames: []
     });
     this.getNormalData();
-    if (this.data.maintained) {
+    if (this.data.managed) {
       this.getManageData();
     }
-    pie1.setOption(getPie1Option());
-    pie2.setOption(getPie2Option());
+    pie1.setOption(getPie1Option(this.data.healthData));
+    pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
   },
 
 
@@ -118,223 +111,103 @@ Page({
 
 
   exportData: function() {
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/report-excel/${this.data.groupId}?time/${this.data.chosenDate}`,
-      success: res => {
-        const download = `https://health-card.dataee.net/file/${res.data}`;
-        let copied = false;
-        let message = '';
-        wx.setClipboardData({
-          data: download,
-          success: () => {
-            copied = true;
-          }
-        });
-        if (copied) {
-          message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
+    exportData(this.data.groupId, this.chosenDate).then(res => {
+      const download = `https://health-card.dataee.net/file/${res.data}`;
+      let copied = false;
+      let message = '';
+      wx.setClipboardData({
+        data: download,
+        success: () => {
+          copied = true;
         }
-        else {
-          message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
-        }
-        Dialog.alert({
-          message: message
-        });
+      });
+      if (copied) {
+        message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
       }
+      else {
+        message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
+      }
+      Dialog.alert({
+        message: message
+      });
+    }).catch(err => {
+      console.error(err);
     });
   },
 
 
   onLoad: function(options) {
-    that = this;
     wx.setNavigationBarTitle({
       title: '小组详情'
     });
-    const maintained = Boolean(Number(options.maintained));
+    const managed = Boolean(Number(options.managed));
+    const groupId = options.id;
     let groupInfo = null;
     let announcement = null;
     let firstDate = null;
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}`,
-      success: res => {
-        groupInfo = res.data;
-        firstDate = groupInfo.createdAt.split('T')[0].split('-').join('');
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getGroupDetail(groupId).then(res => {
+      groupInfo = res.data;
+      firstDate = formatDate(groupInfo.createdAt);
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}/announcement`,
-      success: res => {
-        announcement = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getAnnouncement(groupId).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-
     this.setData({
-      groupId: options.id,
-      maintained,
+      groupId,
+      managed,
       groupInfo,
       announcement,
       firstDate,
-      displayedDate: this.formatDate(getDate(0))
+      displayedDate: getDisplayDate(getDate(0))
     });
     this.getNormalData();
-    if (maintained) {
+    if (managed) {
       this.getManageData();
     }
   },
 
 
+  // 普通用户能看到的数据
   getNormalData: function() {
+    const groupId = this.data.groupId;
+    const date = this.data.chosenDate;
     let clockInData = null;
     let healthData = null;
-    let positionData = null;
-
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/report-number-data/${this.data.groupId}?time=${this.chosenDate}`,
-      success: res => {
-        clockInData = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    let distributeData = null;
+    getClockInData(groupId, date).then(res => {
+      clockInData = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/report-health-data/${this.data.groupId}?time=${this.chosenDate}`,
-      success: res => {
-        healthData = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getHealthData(groupId, date).then(res => {
+      healthData = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/report-distribute-data/${this.data.groupId}?time=${this.chosenDate}`,
-      success: res => {
-        positionData = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getDistributeData(groupId, date).then(res => {
+      distributeData = res.data;
+    }).catch(err => {
+      console.error(err);
     });
     this.setData({
       clockInData,
       healthData,
-      positionData
+      distributeData
     });
   },
 
-
+  // 管理员能看到的数据
   getManageData: function() {
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${this.data.groupId}/member/report?time=${this.chosenDate}`,
-      success: res => {
-        this.setData({
-          clockInDetail: res.data
-        });
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getClockInDetail(this.data.groupId, this.chosenDate).then(res => {
+      this.setData({
+        clockInDetail: res.data
+      });
+    }).catch(err => {
+      console.error(err);
     });
   }
 });
-
-
-const getPie1Option = function() {
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        }
-      },
-      type: 'pie',
-      radius: '80%',
-      data: [{
-        value: that.data.healthData.fine,
-        name: '正常'
-      }, {
-        value: that.data.healthData.selfDange,
-        name: '自查异常'
-      }, {
-        value: that.data.healthData.danger,
-        name: '疑似'
-      }, {
-        value: that.data.healthData.ill,
-        name: '确诊'
-      }]
-    }]
-  };
-};
-
-const getPie2Option = function() {
-  let data = null;
-  if (that.data.groupInfo.type === '社区') {
-    data = [{
-      value: that.data.positionData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: that.data.positionData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: that.data.positionData.inCountry,
-      name: '国内'
-    }, {
-      value: that.data.positionData.outCountry,
-      name: '国外'
-    }, {
-      value: that.data.positionData.localCommunity,
-      name: '本社区'
-    }];
-  }
-  else if (that.data.groupInfo.type === '学校') {
-    data = [{
-      value: that.data.positionData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: that.data.positionData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: that.data.positionData.inCountry,
-      name: '国内'
-    }, {
-      value: that.data.positionData.outCountry,
-      name: '国外'
-    }, {
-      value: that.data.positionData.localSchool,
-      name: '本学校'
-    }];
-  }
-  else {
-    data = [{
-      value: that.data.positionData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: that.data.positionData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: that.data.positionData.inCountry,
-      name: '国内'
-    }, {
-      value: that.data.positionData.outCountry,
-      name: '国外'
-    }];
-  }
-
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        }
-      },
-      type: 'pie',
-      radius: '80%',
-      data: data
-    }]
-  };
-};

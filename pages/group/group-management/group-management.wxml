@@ -11,12 +11,12 @@
     <view class="head-title">小组信息</view>
     <van-button plain size="small" hairline type="primary">修改信息</van-button>
   </view>
-  <view class="info-item">小组名：{{groupInfo.name}}</view>
-  <view class="info-item">小组简介：{{groupInfo.description}}</view>
-  <view class="info-item">创建人：{{groupInfo.managerName}}</view>
-  <view class="info-item">创建人电话：{{groupInfo.managerPhone}}</view>
-  <view class="info-item">类型：{{groupInfo.type}}</view>
-  <view class="info-item">邀请码：{{groupInfo.invitationCode}}</view>
+  <view class="info-item">小组名：{{groupDetail.name}}</view>
+  <view class="info-item">小组简介：{{groupDetail.description}}</view>
+  <view class="info-item">创建人：{{groupDetail.managerName}}</view>
+  <view class="info-item">创建人电话：{{groupDetail.managerPhone}}</view>
+  <view class="info-item">类型：{{groupDetail.type}}</view>
+  <view class="info-item">邀请码：{{groupDetail.invitationCode}}</view>
 </view>
 <view class="section">
   <view class="section-head">

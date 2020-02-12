@@ -1,15 +1,16 @@
 // pages/group/group-management/group-management.js
+import { getGroupDetail, getAnnouncement, getMembers } from '../../../api/service/group.js';
 Page({
 
   data: {
-    groupInfo: null,
+    groupDetail: null,
     announcement: null,
     members: []
   },
 
   goToPostManagement: function() {
     wx.navigateTo({
-      url: `/pages/post/post-management/post-management?id=${this.data.groupInfo.id}`
+      url: `/pages/post/post-management/post-management?id=${this.data.groupDetail.id}`
     });
   },
 
@@ -17,38 +18,27 @@ Page({
     wx.setNavigationBarTitle({
       title: '小组管理'
     });
-    let groupInfo = null;
+    const groupId = options.id;
+    let groupDetail = null;
     let announcement = null;
     let members = [];
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}`,
-      success: res => {
-        groupInfo = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getGroupDetail(groupId).then(res => {
+      groupDetail = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}/announcement`,
-      success: res => {
-        announcement = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getAnnouncement(groupId).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}/member`,
-      success: res => {
-        members = res.data.users;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getMembers(groupId).then(res => {
+      members = res.data;
+    }).catch(err => {
+      console.error(err);
     });
     this.setData({
-      groupInfo,
+      groupDetail,
       announcement,
       members
     });

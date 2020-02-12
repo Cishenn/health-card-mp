@@ -1,5 +1,6 @@
 // pages/post/post-management/post-management.js
 import Toast from '@vant/weapp/toast/toast';
+import { getAnnouncement, setAnnouncement } from '../../../api/service/group.js';
 Page({
   data: {
     newPost: '',
@@ -12,14 +13,10 @@ Page({
       title: '修改公告'
     });
     let announcement = null;
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}/announcement`,
-      success: res => {
-        announcement = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getAnnouncement(options.id).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
     });
     this.setData({
       groupId: options.id,
@@ -34,16 +31,11 @@ Page({
   },
 
   commit: function() {
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${this.data.groupId}/announcement`,
-      method: 'POST',
-      success: () => {
-        wx.navigateBack();
-      },
-      fail: err => {
-        console.log(err);
-        Toast('修改失败');
-      }
+    setAnnouncement(this.data.groupId, this.data.newPost).then(() => {
+      wx.navigateBack();
+    }).catch(err => {
+      console.error(err);
+      Toast('修改失败');
     });
   }
 });

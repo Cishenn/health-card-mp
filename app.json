@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/daily-form/daily-index",
     "pages/index/home-page/home-page",
+    "pages/daily-form/daily-index",
     "pages/index/clock-in/clock-in",
     "pages/group/group-detail/group-detail",
     "pages/group/group-management/group-management",

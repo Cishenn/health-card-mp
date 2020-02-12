@@ -2,6 +2,7 @@
 
 import Toast from '@vant/weapp/toast/toast';
 import { validatePhoneNumber } from '../../../utils/validate';
+import { getJoinedGroups, getManagedGroups, joinGroup } from '../../../api/service/group.js';
 
 Page({
 
@@ -11,40 +12,26 @@ Page({
     joiningName: null,
     joiningPhone: null,
     joinedGroupList: [],
-    maintainedGroupList: []
+    managedGroupList: []
   },
 
   onLoad: function() {
-    this.getJoinedGroupList();
-    this.getMaintainedGroupList();
-  },
-
-  getJoinedGroupList: function() {
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/join`,
-      succuess: res => {
-        this.setData({
-          joinedGroupList: res.data
-        });
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getJoinedGroups().then(res => {
+      this.setData({
+        joinedGroupList: res.data
+      });
+    }).catch(err => {
+      console.error(err);
     });
-    // TODO: 在使用应用的过程中，如果某管理员通过的用户加小组申请，怎么及时地刷新加入的小组列表
-  },
-  getMaintainedGroupList: function() {
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/manage`,
-      succuess: res => {
-        this.setData({
-          maintainedGroupList: res.data
-        });
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getManagedGroups().then(res => {
+      this.setData({
+        managedGroupList: res.data
+      });
+    }).catch(err => {
+      console.error(err);
     });
+    // TODO: 在使用应用的过程中，如果某管理员通过的用户加小组申请
+    // 怎么及时地刷新加入的小组列表，还是用户手动下拉刷新
   },
 
   showJoinDialog: function() {
@@ -69,26 +56,27 @@ Page({
       this.selectComponent('#van-dialog').stopLoading();
     }
     else {
-      wx.request({
-        url: `${getApp().globalData.apiUrl}/group/join`,
-        method: 'POST',
-        data: {
-          name,
-          phone,
-          invitationCode
-        },
-        succuess: () => {
-          this.setData({
-            showJoin: false,
-            joiningGroupInviteCode: null,
-            joiningName: null,
-            joiningPhone: null
-          });
-        },
-        fail: err => {
+      joinGroup({
+        name,
+        phone,
+        invitationCode
+      }).then(() => {
+        this.setData({
+          showJoin: false,
+          joiningGroupInviteCode: null,
+          joiningName: null,
+          joiningPhone: null
+        });
+      }).catch(err => {
+        if (err.data.code === 1001) {
           this.setData({ showJoin: true, });
           this.selectComponent('#van-dialog').stopLoading();
-          console.log(err);
+          Toast(`${err.data.message}`);
+        }
+        else {
+          this.setData({ showJoin: true, });
+          this.selectComponent('#van-dialog').stopLoading();
+          console.error(err);
           Toast('网络错误，申请失败');
         }
       });

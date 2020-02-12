@@ -1,4 +1,5 @@
 // pages/post/post-detail/post-detail.js
+import { getGroupDetail, getAnnouncement } from '../../../api/service/group.js';
 Page({
 
   /**
@@ -15,23 +16,15 @@ Page({
     });
     let groupInfo = null;
     let announcement = null;
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}`,
-      success: res => {
-        groupInfo = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getGroupDetail(options.id).then(res => {
+      groupInfo = res.data;
+    }).catch(err => {
+      console.error(err);
     });
-    wx.request({
-      url: `${getApp().globalData.apiUrl}group/${options.id}/announcement`,
-      success: res => {
-        announcement = res.data;
-      },
-      fail: err => {
-        console.log(err);
-      }
+    getAnnouncement(options.id).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
     });
     this.setData({
       groupInfo,

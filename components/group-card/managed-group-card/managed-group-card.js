@@ -1,4 +1,4 @@
-// components/group-card/maintained-group-card/maintained-group-card.js
+// components/group-card/managed-group-card/managed-group-card.js
 Component({
   properties: {
     groupInfo: {
@@ -17,7 +17,7 @@ Component({
   methods: {
     goToGroup() {
       wx.navigateTo({
-        url: `/pages/group/group-detail/group-detail?maintained=1&id=${this.data.groupInfo.id}`
+        url: `/pages/group/group-detail/group-detail?managed=1&id=${this.data.groupInfo.id}`
       });
     },
     // goInvite() {},
