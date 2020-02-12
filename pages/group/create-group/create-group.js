@@ -78,6 +78,23 @@ Page({
       else{
         // 向后台发送数据 ... 待参考其他界面
         // ...
+        wx.request({
+          url:'',
+          data: {
+            name: '',
+            description: '',
+            managerName: '',
+            managerPhone: '',
+            type: ''
+          },
+          method: 'GET',
+          header: {
+            "content-type": 'application/json'
+          },
+          success: function(res){
+            console.log(res.data)
+          }
+        })
 
         // reset the related data
         Toast.success('创建成功');
@@ -93,7 +110,7 @@ Page({
 
     // 跳转创建成功页面
     wx.navigateTo({
-      url: '../created/created',
+      url: '/pages/group/created/created',
     })
   },
 
