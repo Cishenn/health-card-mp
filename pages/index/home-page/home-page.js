@@ -3,6 +3,7 @@
 import Toast from '@vant/weapp/toast/toast';
 import { validatePhoneNumber } from '../../../utils/validate';
 import { getJoinedGroups, getManagedGroups, joinGroup } from '../../../api/service/group.js';
+import { onLogin } from '../../../utils/events';
 
 Page({
 
@@ -16,22 +17,24 @@ Page({
   },
 
   onLoad: function() {
-    getJoinedGroups().then(res => {
-      this.setData({
-        joinedGroupList: res.data
+    onLogin(() => {
+      getJoinedGroups().then(res => {
+        this.setData({
+          joinedGroupList: res.data
+        });
+      }).catch(err => {
+        console.error(err);
       });
-    }).catch(err => {
-      console.error(err);
-    });
-    getManagedGroups().then(res => {
-      this.setData({
-        managedGroupList: res.data
+      getManagedGroups().then(res => {
+        this.setData({
+          managedGroupList: res.data
+        });
+      }).catch(err => {
+        console.error(err);
       });
-    }).catch(err => {
-      console.error(err);
+      // TODO: 在使用应用的过程中，如果某管理员通过的用户加小组申请
+      // 怎么及时地刷新加入的小组列表，还是用户手动下拉刷新
     });
-    // TODO: 在使用应用的过程中，如果某管理员通过的用户加小组申请
-    // 怎么及时地刷新加入的小组列表，还是用户手动下拉刷新
   },
 
   showJoinDialog: function() {
