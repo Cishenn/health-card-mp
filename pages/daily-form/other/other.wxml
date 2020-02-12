@@ -16,7 +16,7 @@
   label="手机号"
   disabled
   required
-  value="{{telephone}}" />
+  value="{{phone}}" />
 
 
   <van-cell
@@ -24,6 +24,7 @@
   required
   data-status="hasLocation"
   bind:click="show"
+  disabled="{{hasSubmit}}"
   title="当前位置">{{location}}
   </van-cell>
   <van-popup
@@ -33,6 +34,7 @@
   bind:close="close">
     <van-radio-group
     value="{{location}}"
+    disabled="{{hasSubmit}}"
     data-source="location"
     bind:change="changeValue">
       <van-cell-group>
@@ -56,6 +58,7 @@
   is-link
   required
   bind:click="show"
+  disabled="{{hasSubmit}}"
   data-status="hasStatus"
   title="本人状态">{{status}}
   </van-cell>
@@ -67,6 +70,7 @@
     <van-radio-group
     value="{{status}}"
     data-source="status"
+    disabled="{{hasSubmit}}"
     bind:change="changeValue">
       <van-cell-group>
         <van-cell
@@ -89,6 +93,7 @@
   is-link
   data-status="hasSymptoms"
   bind:click="show"
+  disabled="{{hasSubmit}}"
   title="本人症状">{{symptoms}}
   </van-cell>
   <van-popup
@@ -98,6 +103,7 @@
   bind:close="close">
     <van-checkbox-group
     value="{{symptoms}}"
+    disabled="{{hasSubmit}}"
     data-source="symptoms"
     bind:change="changeValue">
       <van-cell-group>
@@ -124,6 +130,7 @@
   label="家属人数"
   placeholder="请输入家属人数"
   type="number"
+  disabled="{{hasSubmit}}"
   required
   data-source="familyNum"
   bind:change="changeValue"
@@ -133,6 +140,7 @@
   label="家属疑似或确诊人数"
   placeholder="请输入家属疑似或确诊人数"
   type="number"
+  disabled="{{hasSubmit}}"
   required
   data-source="familyUnhealthyNum"
   bind:change="changeValue"
@@ -145,6 +153,7 @@
     value="{{ message }}"
     label="其他说明"
     clearable
+    disabled="{{hasSubmit}}"
     type="textarea"
     placeholder=""
     autosize

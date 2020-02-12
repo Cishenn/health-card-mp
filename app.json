@@ -60,7 +60,8 @@
     "van-col": "@vant/weapp/col",
     "van-popup": "@vant/weapp/popup",
     "van-panel": "@vant/weapp/panel",
-    "van-icon": "@vant/weapp/icon"
+    "van-icon": "@vant/weapp/icon",
+    "van-notify": "@vant/weapp/notify"
   },
   "sitemapLocation": "sitemap.json"
 }
