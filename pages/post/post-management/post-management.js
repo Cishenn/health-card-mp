@@ -1,21 +1,27 @@
 // pages/post/post-management/post-management.js
+import Toast from '@vant/weapp/toast/toast';
+import { getAnnouncement, setAnnouncement } from '../../../api/service/group.js';
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     newPost: '',
-    groupInfo: {
-      id: 1,
-      type: 'school',
-      name: '兰州大学计算机学院一班',
-      digest: '兰州大学计算机学院学生疫情期间打卡群',
-      post: {
-        time: '2020-02-08 09:00',
-        content: '请大家于明天中午12点之前在XXX地点统一领取口罩。'
-      }
-    }
+    groupId: '',
+    announcement: null
+  },
+
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: '修改公告'
+    });
+    let announcement = null;
+    getAnnouncement(options.id).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    this.setData({
+      groupId: options.id,
+      announcement
+    });
   },
 
   inputPost: function(e) {
@@ -23,4 +29,13 @@ Page({
       newPost: e.detail
     });
   },
+
+  commit: function() {
+    setAnnouncement(this.data.groupId, this.data.newPost).then(() => {
+      wx.navigateBack();
+    }).catch(err => {
+      console.error(err);
+      Toast('修改失败');
+    });
+  }
 });

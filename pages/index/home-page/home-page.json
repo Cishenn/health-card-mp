@@ -1,6 +1,6 @@
 {
   "usingComponents": {
     "joined-group-card": "/components/group-card/joined-group-card/joined-group-card",
-    "maintained-group-card": "/components/group-card/maintained-group-card/maintained-group-card"
+    "managed-group-card": "/components/group-card/managed-group-card/managed-group-card"
   }
 }

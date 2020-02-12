@@ -1,16 +1,33 @@
 // pages/group/group-detail/group-detail.js
-// import * as echarts from '/ec-canvas/echarts' 为什么写绝对路径报错
+
 import * as echarts from '../../../ec-canvas/echarts';
-let that = null;
+import Dialog from '@vant/weapp/dialog/dialog';
+import { getDate, formatDate, getDisplayDate } from '../../../utils/util.js';
+import { getPie1Option, getPie2Option } from '../../../utils/charts.js';
+import { exportData, getGroupDetail, getAnnouncement,
+  getClockInData, getHealthData, getDistributeData, getClockInDetail
+} from '../../../api/service/group.js';
+
 let pie1 = null;
 let pie2 = null;
 
 Page({
   data: {
-    // maintained 是否为管理员，在 onLoad 获取
-    // statisticalData、detailedData 的数组下标
-    chosenData: 0,
-    // false 显示数据统计，true 显示详细数据
+    groupId: null,
+    managed: null,
+    groupInfo: null,
+    announcement: null,
+    clockInData: null,
+    healthData: null,
+    distributeData: null,
+    clockInDetail: null,
+    _chosenDate: 0,
+    // chosenDate = getDate(_chosenDate)
+    chosenDate: getDate(0),
+    latestDate: getDate(0),
+    firstDate: null,
+    displayedDate: null,
+    // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
     activeNames: [],
     ec1: {
@@ -36,173 +53,47 @@ Page({
 
         return pie2;
       }
-    },
-    groupInfo: {
-      id: 1,
-      type: 'school',
-      name: '兰州大学计算机学院一班',
-      digest: '兰州大学计算机学院学生疫情期间打卡群',
-      post: '请大家于明天中午12点之前在XXX地点统一领取免费口罩。',
-      // post: '',
-      maintainer: {
-        name: '小明',
-        phone: '13766668888',
-      },
-      statisticalData: [
-        {
-          date: '02-06',
-          normal: 1,
-          abnormal: 1,
-          suspected: 1,
-          confirmed: 1,
-          domestic: 2,
-          home: 1,
-          abroad: 1,
-          total: 4,
-          checked: 3,
-          unchecked: 1
-        },
-        {
-          date: '02-05',
-          normal: 4,
-          abnormal: 0,
-          suspected: 0,
-          confirmed: 0,
-          domestic: 4,
-          home: 0,
-          abroad: 0,
-          total: 4,
-          checked: 3,
-          unchecked: 1
-        },
-        {
-          date: '02-04',
-          normal: 1,
-          abnormal: 1,
-          suspected: 1,
-          confirmed: 1,
-          domestic: 2,
-          home: 1,
-          abroad: 1,
-          total: 4,
-          checked: 3,
-          unchecked: 1
-        }
-      ],
-      detailedData: [
-        [
-          {
-            date: '02-06',
-            id: 1,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-06',
-            id: 2,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-06',
-            id: 3,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          }
-        ],
-        [
-          {
-            date: '02-05',
-            id: 1,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-05',
-            id: 2,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-05',
-            id: 3,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          }
-        ],
-        [
-          {
-            date: '02-04',
-            id: 1,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-04',
-            id: 2,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          },
-          {
-            date: '02-04',
-            id: 3,
-            name: '小红',
-            phone: '13766668888',
-            position: '武汉市内',
-            status: '正常'
-          }
-        ]
-      ]
     }
   },
 
+
   goToPost: function() {
-    if (this.data.maintained) {
+    if (this.data.managed) {
       wx.navigateTo({
-        url: `/pages/post/post-management/post-management?id=${this.data.groupInfo.id}`
+        url: `/pages/post/post-management/post-management?id=${this.data.groupId}`
       });
     }
     else {
       wx.navigateTo({
-        url: `/pages/post/post-detail/post-detail?id=${this.data.groupInfo.id}`
+        url: `/pages/post/post-detail/post-detail?id=${this.data.groupId}`
       });
     }
   },
 
+
   backward: function() {
-    const chosenData = this.data.chosenData + 1;
-    this.setData({
-      chosenData,
-      activeNames: []
-    });
-    pie1.setOption(getPie1Option());
-    pie2.setOption(getPie2Option());
+    this.changeData(this.data._chosenDate - 1);
   },
   forward: function() {
-    const chosenData = this.data.chosenData - 1;
+    this.changeData(this.data._chosenDate + 1);
+  },
+  changeData: function(_chosenDate) {
+    const chosenDate = getDate(_chosenDate);
+    const displayedDate = this.formatDate(chosenDate);
     this.setData({
-      chosenData,
+      _chosenDate,
+      chosenDate,
+      displayedDate,
       activeNames: []
     });
-    pie1.setOption(getPie1Option());
-    pie2.setOption(getPie2Option());
+    this.getNormalData();
+    if (this.data.managed) {
+      this.getManageData();
+    }
+    pie1.setOption(getPie1Option(this.data.healthData));
+    pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
   },
+
 
   switchDataTab: function() {
     const showDetail = !this.data.showDetail;
@@ -211,82 +102,112 @@ Page({
     });
   },
 
+
   onChange: function(event) {
     this.setData({
       activeNames: event.detail
     });
   },
 
+
   exportData: function() {
-    // TODO:
+    exportData(this.data.groupId, this.chosenDate).then(res => {
+      const download = `https://health-card.dataee.net/file/${res.data}`;
+      let copied = false;
+      let message = '';
+      wx.setClipboardData({
+        data: download,
+        success: () => {
+          copied = true;
+        }
+      });
+      if (copied) {
+        message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
+      }
+      else {
+        message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
+      }
+      Dialog.alert({
+        message: message
+      });
+    }).catch(err => {
+      console.error(err);
+    });
   },
 
+
   onLoad: function(options) {
-    that = this;
     wx.setNavigationBarTitle({
       title: '小组详情'
     });
-    const maintained = Boolean(Number(options.maintained));
-    this.setData({
-      maintained
+    const managed = Boolean(Number(options.managed));
+    const groupId = options.id;
+    let groupInfo = null;
+    let announcement = null;
+    let firstDate = null;
+    getGroupDetail(groupId).then(res => {
+      groupInfo = res.data;
+      firstDate = formatDate(groupInfo.createdAt);
+    }).catch(err => {
+      console.error(err);
     });
-    // eslint-disable-next-line no-unused-vars
-    const id = Number(options.id);
-    // TODO: 由id获取groupInfo
+    getAnnouncement(groupId).then(res => {
+      announcement = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    this.setData({
+      groupId,
+      managed,
+      groupInfo,
+      announcement,
+      firstDate,
+      displayedDate: getDisplayDate(getDate(0))
+    });
+    this.getNormalData();
+    if (managed) {
+      this.getManageData();
+    }
   },
+
+
+  // 普通用户能看到的数据
+  getNormalData: function() {
+    const groupId = this.data.groupId;
+    const date = this.data.chosenDate;
+    let clockInData = null;
+    let healthData = null;
+    let distributeData = null;
+    getClockInData(groupId, date).then(res => {
+      clockInData = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    getHealthData(groupId, date).then(res => {
+      healthData = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    getDistributeData(groupId, date).then(res => {
+      distributeData = res.data;
+    }).catch(err => {
+      console.error(err);
+    });
+    this.setData({
+      clockInData,
+      healthData,
+      distributeData
+    });
+  },
+
+  // 管理员能看到的数据
+  getManageData: function() {
+    getClockInDetail(this.data.groupId, this.chosenDate).then(res => {
+      this.setData({
+        clockInDetail: res.data
+      });
+    }).catch(err => {
+      console.error(err);
+    });
+  }
 });
-
-const getPie1Option = function() {
-  const chosenData = that.data.chosenData;
-
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        }
-      },
-      type: 'pie',
-      radius: '80%',
-      data: [{
-        value: that.data.groupInfo.statisticalData[chosenData].normal,
-        name: '正常'
-      }, {
-        value: that.data.groupInfo.statisticalData[chosenData].abnormal,
-        name: '自查异常'
-      }, {
-        value: that.data.groupInfo.statisticalData[chosenData].suspected,
-        name: '疑似'
-      }, {
-        value: that.data.groupInfo.statisticalData[chosenData].confirmed,
-        name: '确诊'
-      }]
-    }]
-  };
-};
-
-const getPie2Option = function() {
-  const chosenData = that.data.chosenData;
-
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        }
-      },
-      type: 'pie',
-      radius: '80%',
-      data: [{
-        value: that.data.groupInfo.statisticalData[chosenData].home,
-        name: '家中'
-      }, {
-        value: that.data.groupInfo.statisticalData[chosenData].domestic,
-        name: '国内'
-      }, {
-        value: that.data.groupInfo.statisticalData[chosenData].abroad,
-        name: '国外'
-      }]
-    }]
-  };
-};

@@ -1,8 +1,8 @@
-<!--components/group-card/maintained-group-card/maintained-group-card.wxml-->
+<!--components/group-card/managed-group-card/managed-group-card.wxml-->
 <view class="card">
   <view class="card-body" bindtap="goToGroup">
     <view class="group-name">{{groupInfo.name}}</view>
-    <view class="group-id"><text>{{groupInfo.id}}</text></view>
+    <view class="group-id"><text>{{groupInfo.invitationCode}}</text></view>
   </view>
   <view class="card-foot">
     <view class="left" bind:tap="goInvite">邀请好友</view>

@@ -1,4 +1,4 @@
 <!--pages/post/post-detail/post-detail.wxml-->
-<view class="info">管理员：{{groupInfo.maintainer.name}}</view>
-<view class="info">发布时间：{{groupInfo.post.time}}</view>
-<view class="section">{{groupInfo.post.content}}</view>
+<view class="info">管理员：{{groupInfo.managerName}}</view>
+<view class="info">发布时间：{{announcement.updatedAt}}</view>
+<view class="section">{{announcement.content}}</view>

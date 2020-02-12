@@ -1,4 +1,4 @@
-/* components/group-card/maintained-group-card/maintained-group-card.wxss */
+/* components/group-card/managed-group-card/managed-group-card.wxss */
 .card {
   width: 650rpx;
 }

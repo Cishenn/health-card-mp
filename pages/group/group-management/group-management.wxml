@@ -4,25 +4,25 @@
     <view class="head-title">小组公告</view>
     <van-button plain size="small" hairline type="primary" bindtap="goToPostManagement">修改公告</van-button>
   </view>
-  <view class="info-item">{{groupInfo.post.content}}</view>
+  <view class="info-item">{{announcement.content}}</view>
 </view>
 <view class="section">
   <view class="section-head">
     <view class="head-title">小组信息</view>
     <van-button plain size="small" hairline type="primary">修改信息</van-button>
   </view>
-  <view class="info-item">小组名：{{groupInfo.name}}</view>
-  <view class="info-item">小组简介：{{groupInfo.digest}}</view>
-  <view class="info-item">创建人：{{groupInfo.maintainer.name}}</view>
-  <view class="info-item">创建人电话：{{groupInfo.maintainer.phone}}</view>
-  <view class="info-item">类型：{{groupInfo.type}}</view>
-  <view class="info-item">邀请码：{{groupInfo.id}}</view>
+  <view class="info-item">小组名：{{groupDetail.name}}</view>
+  <view class="info-item">小组简介：{{groupDetail.description}}</view>
+  <view class="info-item">创建人：{{groupDetail.managerName}}</view>
+  <view class="info-item">创建人电话：{{groupDetail.managerPhone}}</view>
+  <view class="info-item">类型：{{groupDetail.type}}</view>
+  <view class="info-item">邀请码：{{groupDetail.invitationCode}}</view>
 </view>
 <view class="section">
   <view class="section-head">
-    <view class="head-title">小组成员（{{groupInfo.member.length}}人）</view>
+    <view class="head-title">小组成员（{{members.length}}人）</view>
   </view>
   <view class="info-item">
-    <view wx:for="{{groupInfo.member}}">{{index + 1}}. {{item.name}}</view>
+    <view wx:for="{{members}}">{{index + 1}}. {{item.name}}</view>
   </view>
 </view>

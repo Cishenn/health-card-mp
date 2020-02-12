@@ -1,36 +1,36 @@
 <!--pages/group/group-detail/group-detail.wxml-->
 
 <view class="post-section" bindtap="goToPost">
-  <van-cell title="小组公告" is-link label="{{groupInfo.post}}" center title-class="cell-title" label-class="cell-label"/>
+  <van-cell title="小组公告" is-link label="{{announcement}}" center title-class="cell-title" label-class="cell-label"/>
 </view>
 
 <view class="switch-date-section">
-  <view class="backward" bindtap="backward" style="visibility: {{chosenData === groupInfo.statisticalData.length - 1 ? 'hidden':'visible'}}">
+  <view class="backward" bindtap="backward" style="visibility: {{chosenDate === firstDate ? 'hidden':'visible'}}">
     <text>前一天</text>
   </view>
-  <view class="current">每日健康打卡 ({{groupInfo.statisticalData[chosenData].date}})</view>
-  <view class="forward" bindtap="forward" style="visibility: {{chosenData === 0 ? 'hidden':'visible'}}">
+  <view class="current">每日健康打卡 ({{displayedDate}})</view>
+  <view class="forward" bindtap="forward" style="visibility: {{chosenData === latestDate ? 'hidden':'visible'}}">
     <text>后一天</text>
   </view>
 </view>
 
 <view class="clock-in-data-section">
   <view class="clock-in-column">
-    <view class="num">{{groupInfo.statisticalData[chosenData].total}}</view>
+    <view class="num">{{clockInData.all}}</view>
     <view>应打卡</view>
   </view>
   <view class="clock-in-column">
-    <view class="num">{{groupInfo.statisticalData[chosenData].checked}}</view>
+    <view class="num">{{clockInData.already}}</view>
     <view>已打卡</view>
   </view>
   <view class="clock-in-column">
-    <view class="num">{{groupInfo.statisticalData[chosenData].unchecked}}</view>
+    <view class="num">{{clockInData.no}}</view>
     <view>未打卡</view>
   </view>
 </view>
 
-<view class="data-section" style="{{maintained ? 'margin-bottom: 130rpx' : 'margin-bottom: 30rpx'}}">
-  <view class="data-section-tabbar" wx:if="{{maintained}}">
+<view class="data-section" style="{{managed ? 'margin-bottom: 130rpx' : 'margin-bottom: 30rpx'}}">
+  <view class="data-section-tabbar" wx:if="{{managed}}">
     <view class="{{showDetail === false ? 'tab-chosen' : 'tab-not-chosen'}}" bindtap="switchDataTab">数据统计</view>
     <view class="{{showDetail === false ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchDataTab">详细数据</view>
   </view>
@@ -48,12 +48,12 @@
 
   <block wx:else>
     <van-collapse value="{{ activeNames }}" bind:change="onChange">
-      <block wx:for="{{groupInfo.detailedData[chosenData]}}">
-        <van-collapse-item title="{{'序号' + index + '. 提交时间 ' + item.date}}" name="{{item.id}}">
+      <block wx:for="{{ clockInDetail }}">
+        <van-collapse-item title="{{'序号' + index + '. 提交时间 ' + displayedDate}}" name="{{item.UserGroup.UserId}}">
           <van-cell title="姓名：{{item.name}}"/>
           <van-cell title="手机号：{{item.phone}}"/>
-          <van-cell title="所在位置：{{item.position}}"/>
-          <van-cell title="本人状态：{{item.status}}"/>
+          <van-cell title="所在位置：{{item.reports[0].location}}"/>
+          <van-cell title="本人状态：{{item.reports[0].status}}"/>
         </van-collapse-item>
       </block>
     </van-collapse>
@@ -63,4 +63,4 @@
 
 
 
-<cover-view class="export-data" wx:if="{{maintained}}" bindtap="exportData">导出数据</cover-view>
+<cover-view class="export-data" wx:if="{{managed}}" bindtap="exportData">导出数据</cover-view>
