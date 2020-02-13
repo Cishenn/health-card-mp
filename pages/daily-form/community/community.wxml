@@ -141,10 +141,10 @@
         <view class="van-cell-text">家属{{index+1}}</view>
       </view>
       <view
+        wx:if="{{!hasSubmit}}"
         slot="right-icon">
         <van-icon name="cross" size="40rpx" color="red"
         data-main-index="{{index}}"
-        disabled="{{hasSubmit}}"
         bind:click="deleteFamily"/>
       </view>
     </van-cell>

@@ -19,21 +19,12 @@ App({
         console.log(err);
       });
     });
-    wx.requestSubscribeMessage({
-      tmplIds: [''],
-      success(res) {
-        console.log(res, '订阅成功');
-      },
-      fail(err) {
-        console.log(err);
-      }
-    });
   },
   globalData: {
     userInfo: null,
     hasGroup: true,
     role: 'community',
-    hasSubmit: true,
+    hasSubmit: false,
     name: null,
     phone: null
   }

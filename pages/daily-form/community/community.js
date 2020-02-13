@@ -82,7 +82,7 @@ Component({
   methods: {
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
-      console.log(key);
+      // console.log(key);
       this.setData({
         [key]: e.detail,
         hasLocation: false,
@@ -110,7 +110,7 @@ Component({
         hasLocation: false,
         hasStatus: false
       });
-      console.log(this.data[key]);
+      // console.log(this.data[key]);
     },
     clickSymptoms(event) {
       const { index } = event.currentTarget.dataset;
@@ -250,19 +250,37 @@ Component({
         schoolId: null,
         identity: null
       };
+      const self = this;
       console.log(data);
-      createReport(data).then(() => {
-        wx.showToast({
-          title: '提交成功',
-          icon: 'success',
-          duration: 2000
-        });
-        this.setData({
-          hasSubmit: true
-        });
-      }).catch(err => {
-        console.log(err);
+      wx.requestSubscribeMessage({
+        tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
+        success(res) {
+          console.log(res, '订阅成功');
+        },
+        fail(res) {
+          console.log('订阅err', res);
+        },
+        complete() {
+          createReport(data).then(() => {
+            wx.showToast({
+              title: '提交成功',
+              icon: 'success',
+              duration: 2000
+            });
+            self.setData({
+              hasSubmit: true
+            });
+          }).catch(err => {
+            console.log(err);
+            wx.showToast({
+              title: '提交失败',
+              icon: 'none',
+              duration: 2000
+            });
+          });
+        }
       });
+
 
       console.log('submit');
     }
