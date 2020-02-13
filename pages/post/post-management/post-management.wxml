@@ -1,7 +1,7 @@
 <!--pages/post/post-management/post-management.wxml-->
 <view class="textarea">
     <van-field
-      value="{{ announcement.content }}"
+      value="{{ announcement[0].content }}"
       type="textarea"
       placeholder="请编写小组公告（140字以内）"
       autosize

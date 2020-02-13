@@ -19,28 +19,16 @@ Page({
       title: '小组管理'
     });
     const groupId = options.id;
-    let groupDetail = null;
-    let announcement = null;
-    let members = [];
-    getGroupDetail(groupId).then(res => {
-      groupDetail = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    getAnnouncement(groupId).then(res => {
-      announcement = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    getMembers(groupId).then(res => {
-      members = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    this.setData({
-      groupDetail,
-      announcement,
-      members
+    Promise.all([
+      getGroupDetail(groupId),
+      getAnnouncement(groupId),
+      getMembers(groupId)
+    ]).then(res => {
+      this.setData({
+        groupDetail: res[0].data,
+        announcement: res[1].data,
+        members: res[2].data
+      });
     });
   }
 });

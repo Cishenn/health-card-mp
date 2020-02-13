@@ -4,6 +4,7 @@ Component({
     groupInfo: {
       type: Object,
       value: {
+        id: '',
         name: '',
         announcements: [],
         UserGroup: {
@@ -23,7 +24,7 @@ Component({
   methods: {
     goToGroup() {
       wx.navigateTo({
-        url: `/pages/group/group-detail/group-detail?managed=0&id=${this.data.groupInfo.UserGroup.GroupId}`
+        url: `/pages/group/group-detail/group-detail?managed=0&id=${this.data.groupInfo.id}`
       });
     }
   }
