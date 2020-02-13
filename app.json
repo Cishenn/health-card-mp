@@ -1,14 +1,12 @@
 {
   "pages": [
+    "pages/index/home-page/home-page",
     "pages/group/create-group/create-group",
     "pages/group/created/created",
     "pages/group/group-info/group-info",
-    "pages/index/home-page/home-page",
     "pages/daily-form/daily-index",
-    
     "pages/index/clock-in/clock-in",
     "pages/group/group-detail/group-detail",
-    
     "pages/post/post-detail/post-detail",
     "pages/post/post-management/post-management",
     "pages/daily-form/community/community",

@@ -121,5 +121,24 @@ Page({
     wx.navigateTo({
       url: '/pages/group/create-group/create-group'
     });
+  },
+
+  onShareAppMessage: function(res) {
+    const id = res.target.dataset.id;
+    const name = res.target.dataset.name;
+
+    return {
+      title: `Hi,你的好友创建了${name}健康打卡，快来加入吧！`,
+      imageUrl: '/assets/share.jpeg',
+      path: `/pages/group/group-info/group-info?id=${id}`,
+      // eslint-disable-next-line no-shadow
+      success: res => {
+        console.log(res);
+      },
+      // eslint-disable-next-line no-shadow
+      fail: res => {
+        console.log(res);
+      }
+    };
   }
 });

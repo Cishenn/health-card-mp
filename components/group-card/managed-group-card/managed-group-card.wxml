@@ -5,7 +5,7 @@
     <view class="group-id"><text>{{groupInfo.invitationCode}}</text></view>
   </view>
   <view class="card-foot">
-    <view class="left" bind:tap="goInvite">邀请好友</view>
-    <view class="right" bind:tap="goToManage">小组管理</view>
+    <button hover-class="none" class="left" data-id="{{groupInfo.id}}" data-name="{{groupInfo.name}}" open-type="share">邀请好友</button>
+    <button hover-class="none" class="right" bind:tap="goToManage">小组管理</button>
   </view>
 </view>

@@ -29,15 +29,31 @@
 }
 
 .card-foot {
-  margin: 20rpx 60rpx 40rpx 60rpx;
+  margin: 10rpx 60rpx 30rpx 60rpx;
   font-size: 28rpx;
   overflow: hidden;
 }
 
 .left {
   float: left;
+  font-size: 28rpx;
 }
 
 .right {
   float: right;
+  font-size: 28rpx;
+}
+
+button{
+  line-height: 28rpx;
+  margin: 0;
+  padding: 14rpx 20rpx;
+}
+button::after{
+  border:none;
+}
+input{
+  outline:none;
+  border:none;
+  list-style: none;
 }
