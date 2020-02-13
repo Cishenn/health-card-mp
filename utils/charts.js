@@ -7,7 +7,7 @@ const getPie1Option = healthData => {
         }
       },
       type: 'pie',
-      radius: '80%',
+      radius: '75%',
       data: [{
         value: healthData.fine,
         name: '正常'
@@ -87,7 +87,7 @@ const getPie2Option = (groupType, distributeData) => {
         }
       },
       type: 'pie',
-      radius: '80%',
+      radius: '75%',
       data: chartData
     }]
   };
