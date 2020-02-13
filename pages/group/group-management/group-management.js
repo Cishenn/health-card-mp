@@ -18,7 +18,9 @@ Page({
     wx.setNavigationBarTitle({
       title: '小组管理'
     });
+    console.log(options);
     const groupId = options.id;
+    console.log(options);
     let groupDetail = null;
     let announcement = null;
     let members = [];
@@ -42,5 +44,6 @@ Page({
       announcement,
       members
     });
+    console.log(groupDetail);
   }
 });

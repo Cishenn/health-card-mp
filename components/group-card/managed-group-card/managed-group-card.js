@@ -23,7 +23,7 @@ Component({
     // goInvite() {},
     goToManage() {
       wx.navigateTo({
-        url: '/pages/group/group-management/group-management'
+        url: '/pages/group/group-management/group-management?id=${this.data.groupInfo.id}'
       });
     }
   }
