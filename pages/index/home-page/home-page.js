@@ -16,7 +16,7 @@ Page({
     managedGroupList: []
   },
 
-  onLoad: function() {
+  onShow: function() {
     onLogin(() => {
       getJoinedGroups().then(res => {
         this.setData({

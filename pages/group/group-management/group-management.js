@@ -3,6 +3,7 @@ import { getGroupDetail, getAnnouncement, getMembers } from '../../../api/servic
 Page({
 
   data: {
+    groupId: null,
     groupDetail: null,
     announcement: null,
     members: []
@@ -21,9 +22,8 @@ Page({
     const managerName = this.data.groupDetail.managerName;
     const managerPhone = this.data.groupDetail.managerPhone;
     const type = this.data.groupDetail.type;
-    console.log(`/pages/group/create-group/create-group?id=${id}&name=${name}&description=${description}&managername=${managerName}&managerphone=${managerPhone}&type=${type}`);
     wx.navigateTo({
-      url: `/pages/group/create-group/create-group?id=${id}&name=${name}&description=${description}&managername=${managerName}&managerphone=${managerPhone}&type=${type}`
+      url: `/pages/group/create-group/create-group?id=${id}&name=${name}&description=${description}&managerName=${managerName}&managerphone=${managerPhone}&type=${type}`
     });
   },
 
@@ -31,7 +31,13 @@ Page({
     wx.setNavigationBarTitle({
       title: '小组管理'
     });
-    const groupId = options.id;
+    this.setData({
+      groupId: options.id
+    });
+  },
+
+  onShow: function() {
+    const groupId = this.data.groupId;
     Promise.all([
       getGroupDetail(groupId),
       getAnnouncement(groupId),

@@ -87,7 +87,7 @@ Page({
 
   exportData: function() {
     exportData(this.data.groupId, this.data.chosenDate).then(res => {
-      if (res.data.code === '-1') {
+      if (res.data.code === -1) {
         Dialog.alert({
           message: '抱歉，数据文件尚未准备好'
         });
