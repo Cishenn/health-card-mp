@@ -93,7 +93,7 @@ Page({
         managerName,
         managerPhone,
         type,
-      }, this.data.changedGroupId).then(() => {
+      }, this.data.changedGroupId).then(res => {
         // reset related data
         Toast('修改成功');
         console.log('修改成功');
@@ -105,8 +105,11 @@ Page({
           type: null,
           isModified: false,
         });
+        console.log(res.data);
         // 跳转回去
-        wx.navigateBack();
+        wx.navigateTo({
+          url: `/pages/group/group-management/group-management?id=${this.data.changedGroupId}`
+        });
       }).catch(error => {
         console.log(error);
         Toast('error');
@@ -169,7 +172,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    if ( options ) {
+    if ( options.type ) {
       wx.setNavigationBarTitle({
         title: '修改小组信息',
       });
