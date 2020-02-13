@@ -40,10 +40,10 @@ Page({
     });
   },
 
-  createGroup: function(){
+  createGroup: function() {
     wx.navigateTo({
       url: '../../group/create-group/create-group',
-    })
+    });
   },
 
   joinGroup: function() {

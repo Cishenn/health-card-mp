@@ -2,9 +2,8 @@
 <!-- 获得小组姓名并显示在此 -->
     <view class="groupN">
     <van-row
-    class="groupName"
-    value="{{name}}">
-    {{name}}
+    class="groupName">
+    {{groupDetail.name}}
     </van-row>
     </view>
 
@@ -12,19 +11,19 @@
     <van-cell
     class="text"
     title="创建人"
-    value="{{managerName}}">
+    value="{{groupDetail.managerName}}">
     </van-cell>
 
     <van-cell
     class="text"
     title="邀请码"
-    value="{{invitationCode}}">
+    value="{{groupDetail.invitationCode}}">
     </van-cell>
 
     <van-cell
     class="text"
     title="简介"
-    value="{{description}}">
+    value="{{groupDetail.description}}">
     </van-cell>
     </van-cell-group>
     
