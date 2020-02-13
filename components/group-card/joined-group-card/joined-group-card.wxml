@@ -4,5 +4,5 @@
 </view>
 <view wx:else class="card-with-post" bind:tap="goToGroup">
   <view class="group-name">{{groupInfo.name}}</view>  
-  <view class="post"><text>{{groupInfo.announcements[0]}}</text></view>
+  <view class="post"><text>{{groupInfo.announcements[0].content}}</text></view>
 </view>

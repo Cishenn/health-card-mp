@@ -32,7 +32,7 @@ const formatDate = date => {
 };
 
 const getDisplayDate = date => {
-  return `${date.subStr(4, 2)}-${date.subStr(6, 2)}`;
+  return `${date.substr(4, 2)}-${date.substr(6, 2)}`;
 };
 
 export {

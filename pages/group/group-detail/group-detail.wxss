@@ -134,3 +134,10 @@ ec-canvas {
   bottom: 0;
   left: 245rpx;
 }
+
+.no-clock-in {
+  font-weight: bold;
+  text-align: center;
+  height: 100rpx;
+  line-height: 100rpx;
+}

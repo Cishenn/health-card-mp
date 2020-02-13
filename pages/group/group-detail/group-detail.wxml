@@ -1,7 +1,7 @@
 <!--pages/group/group-detail/group-detail.wxml-->
 
 <view class="post-section" bindtap="goToPost">
-  <van-cell title="小组公告" is-link label="{{announcement}}" center title-class="cell-title" label-class="cell-label"/>
+  <van-cell title="小组公告" is-link label="{{announcement[0].content}}" center title-class="cell-title" label-class="cell-label"/>
 </view>
 
 <view class="switch-date-section">
@@ -9,7 +9,7 @@
     <text>前一天</text>
   </view>
   <view class="current">每日健康打卡 ({{displayedDate}})</view>
-  <view class="forward" bindtap="forward" style="visibility: {{chosenData === latestDate ? 'hidden':'visible'}}">
+  <view class="forward" bindtap="forward" style="visibility: {{chosenDate === latestDate ? 'hidden':'visible'}}">
     <text>后一天</text>
   </view>
 </view>
@@ -35,18 +35,21 @@
     <view class="{{showDetail === false ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchDataTab">详细数据</view>
   </view>
 
-  <block wx:if="{{!showDetail}}">
+  <!-- <block wx:if="{{!showDetail}}"> TODO: 用wx:if控制，重新渲染时，echarts将不会显示 -->
+  <view style="display: {{!showDetail ? 'bolck':'none'}}">
     <view class="statistic-title">1. 当前健康状况</view>
     <view class="charts-container">
-      <ec-canvas id="pie1" ec="{{ ec1 }}"></ec-canvas>
+      <ec-canvas id="pie1"></ec-canvas>
     </view>
     <view class="statistic-title">2. 人员分布情况</view>
     <view class="charts-container">
-      <ec-canvas id="pie2" ec="{{ ec2 }}"></ec-canvas>
+      <ec-canvas id="pie2"></ec-canvas>
     </view>
-  </block>
+  <!-- </block> -->
+  </view>
 
-  <block wx:else>
+  <!-- <block wx:else> -->
+  <view style="display: {{showDetail ? 'bolck':'none'}}">
     <van-collapse value="{{ activeNames }}" bind:change="onChange">
       <block wx:for="{{ clockInDetail }}">
         <van-collapse-item title="{{'序号' + index + '. 提交时间 ' + displayedDate}}" name="{{item.UserGroup.UserId}}">
@@ -57,10 +60,11 @@
         </van-collapse-item>
       </block>
     </van-collapse>
-  </block>
+    <view wx:if="{{clockInDetail.length === 0}}" class="no-clock-in">无人打卡</view>
+  <!-- </block> -->
+  </view>
 
 </view>
 
-
-
+<van-dialog id="van-dialog"></van-dialog>
 <cover-view class="export-data" wx:if="{{managed}}" bindtap="exportData">导出数据</cover-view>

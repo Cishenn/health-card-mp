@@ -12,15 +12,13 @@ Page({
     wx.setNavigationBarTitle({
       title: '修改公告'
     });
-    let announcement = null;
     getAnnouncement(options.id).then(res => {
-      announcement = res.data;
+      this.setData({
+        groupId: options.id,
+        announcement: res.data
+      });
     }).catch(err => {
       console.error(err);
-    });
-    this.setData({
-      groupId: options.id,
-      announcement
     });
   },
 
@@ -32,7 +30,10 @@ Page({
 
   commit: function() {
     setAnnouncement(this.data.groupId, this.data.newPost).then(() => {
-      wx.navigateBack();
+      Toast('修改成功');
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 1000);
     }).catch(err => {
       console.error(err);
       Toast('修改失败');

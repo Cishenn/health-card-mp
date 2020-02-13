@@ -26,34 +26,11 @@ Page({
     chosenDate: getDate(0),
     latestDate: getDate(0),
     firstDate: null,
-    displayedDate: null,
+    displayedDate: getDisplayDate(getDate(0)),
+    chartsInited: false,
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
-    activeNames: [],
-    ec1: {
-      onInit: function(canvas, width, height) {
-        pie1 = echarts.init(canvas, null, {
-          width: width,
-          height: height
-        });
-        canvas.setChart(pie1);
-        pie1.setOption(getPie1Option());
-
-        return pie1;
-      }
-    },
-    ec2: {
-      onInit: function(canvas, width, height) {
-        pie2 = echarts.init(canvas, null, {
-          width: width,
-          height: height
-        });
-        canvas.setChart(pie2);
-        pie2.setOption(getPie2Option());
-
-        return pie2;
-      }
-    }
+    activeNames: []
   },
 
 
@@ -79,7 +56,7 @@ Page({
   },
   changeData: function(_chosenDate) {
     const chosenDate = getDate(_chosenDate);
-    const displayedDate = this.formatDate(chosenDate);
+    const displayedDate = formatDate(chosenDate);
     this.setData({
       _chosenDate,
       chosenDate,
@@ -90,8 +67,6 @@ Page({
     if (this.data.managed) {
       this.getManageData();
     }
-    pie1.setOption(getPie1Option(this.data.healthData));
-    pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
   },
 
 
@@ -111,25 +86,32 @@ Page({
 
 
   exportData: function() {
-    exportData(this.data.groupId, this.chosenDate).then(res => {
-      const download = `https://health-card.dataee.net/file/${res.data}`;
-      let copied = false;
-      let message = '';
-      wx.setClipboardData({
-        data: download,
-        success: () => {
-          copied = true;
-        }
-      });
-      if (copied) {
-        message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
+    exportData(this.data.groupId, this.data.chosenDate).then(res => {
+      if (res.data.code === '-1') {
+        Dialog.alert({
+          message: '抱歉，数据文件尚未准备好'
+        });
       }
       else {
-        message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
+        const download = `https://health-card.dataee.net/file/${res.data}`;
+        let copied = false;
+        let message = '';
+        wx.setClipboardData({
+          data: download,
+          success: () => {
+            copied = true;
+          }
+        });
+        if (copied) {
+          message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
+        }
+        else {
+          message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
+        }
+        Dialog.alert({
+          message: message
+        });
       }
-      Dialog.alert({
-        message: message
-      });
     }).catch(err => {
       console.error(err);
     });
@@ -142,32 +124,53 @@ Page({
     });
     const managed = Boolean(Number(options.managed));
     const groupId = options.id;
-    let groupInfo = null;
-    let announcement = null;
-    let firstDate = null;
-    getGroupDetail(groupId).then(res => {
-      groupInfo = res.data;
-      firstDate = formatDate(groupInfo.createdAt);
+    Promise.all([
+      getGroupDetail(groupId),
+      getAnnouncement(groupId),
+    ]).then(res => {
+      this.setData({
+        groupId,
+        managed,
+        groupInfo: res[0].data,
+        announcement: res[1].data,
+        firstDate: formatDate(res[0].data.createdAt)
+      });
+      this.getNormalData();
+      if (managed) {
+        this.getManageData();
+      }
     }).catch(err => {
       console.error(err);
     });
-    getAnnouncement(groupId).then(res => {
-      announcement = res.data;
-    }).catch(err => {
-      console.error(err);
+  },
+
+
+  initCharts: function() {
+    const ec1 = this.selectComponent('#pie1');
+    ec1.init((canvas, width, height) => {
+      pie1 = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      canvas.setChart(pie1);
+      pie1.setOption(getPie1Option(this.data.healthData));
+
+      return pie1;
+    });
+    const ec2 = this.selectComponent('#pie2');
+    ec2.init((canvas, width, height) => {
+      pie2 = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      canvas.setChart(pie2);
+      pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
+
+      return pie2;
     });
     this.setData({
-      groupId,
-      managed,
-      groupInfo,
-      announcement,
-      firstDate,
-      displayedDate: getDisplayDate(getDate(0))
+      chartsInited: true
     });
-    this.getNormalData();
-    if (managed) {
-      this.getManageData();
-    }
   },
 
 
@@ -175,34 +178,31 @@ Page({
   getNormalData: function() {
     const groupId = this.data.groupId;
     const date = this.data.chosenDate;
-    let clockInData = null;
-    let healthData = null;
-    let distributeData = null;
-    getClockInData(groupId, date).then(res => {
-      clockInData = res.data;
+    Promise.all([
+      getClockInData(groupId, date),
+      getHealthData(groupId, date),
+      getDistributeData(groupId, date)
+    ]).then(res => {
+      this.setData({
+        clockInData: res[0].data,
+        healthData: res[1].data,
+        distributeData: res[2].data
+      });
+      if (!this.data.chartsInited) {
+        this.initCharts();
+      }
+      else {
+        pie1.setOption(getPie1Option(this.data.healthData));
+        pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
+      }
     }).catch(err => {
       console.error(err);
-    });
-    getHealthData(groupId, date).then(res => {
-      healthData = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    getDistributeData(groupId, date).then(res => {
-      distributeData = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    this.setData({
-      clockInData,
-      healthData,
-      distributeData
     });
   },
 
   // 管理员能看到的数据
   getManageData: function() {
-    getClockInDetail(this.data.groupId, this.chosenDate).then(res => {
+    getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
       this.setData({
         clockInDetail: res.data
       });

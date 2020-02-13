@@ -7,28 +7,31 @@ Page({
    */
   data: {
     groupInfo: null,
-    announcement: null
+    announcement: null,
+    announcementPostTime: null
   },
 
   onLoad: function(options) {
     wx.setNavigationBarTitle({
       title: '公告详情'
     });
-    let groupInfo = null;
-    let announcement = null;
-    getGroupDetail(options.id).then(res => {
-      groupInfo = res.data;
+    Promise.all([
+      getGroupDetail(options.id),
+      getAnnouncement(options.id)
+    ]).then(res => {
+      this.setData({
+        groupInfo: res[0].data,
+        announcement: res[1].data,
+        announcementPostTime: this.formatTime(res[1].data[0].updatedAt)
+      });
     }).catch(err => {
       console.error(err);
     });
-    getAnnouncement(options.id).then(res => {
-      announcement = res.data;
-    }).catch(err => {
-      console.error(err);
-    });
-    this.setData({
-      groupInfo,
-      announcement
-    });
+  },
+
+  formatTime: function(time) {
+    const cut = time.split('T');
+
+    return `${cut[0]} ${cut[1].split('.')[0]}`;
   }
 });

@@ -4,12 +4,12 @@
     <view class="head-title">小组公告</view>
     <van-button plain size="small" hairline type="primary" bindtap="goToPostManagement">修改公告</van-button>
   </view>
-  <view class="info-item">{{announcement.content}}</view>
+  <view class="info-item">{{announcement[0].content}}</view>
 </view>
 <view class="section">
   <view class="section-head">
     <view class="head-title">小组信息</view>
-    <van-button plain size="small" hairline type="primary">修改信息</van-button>
+    <van-button plain size="small" hairline type="primary" bindtap="goToGroupInfoModify">修改信息</van-button>
   </view>
   <view class="info-item">小组名：{{groupDetail.name}}</view>
   <view class="info-item">小组简介：{{groupDetail.description}}</view>
@@ -20,9 +20,9 @@
 </view>
 <view class="section">
   <view class="section-head">
-    <view class="head-title">小组成员（{{members.length}}人）</view>
+    <view class="head-title">小组成员（{{members.total}}人）</view>
   </view>
   <view class="info-item">
-    <view wx:for="{{members}}">{{index + 1}}. {{item.name}}</view>
+    <view wx:for="{{members.users}}">{{index + 1}}. {{item.name}}</view>
   </view>
 </view>
