@@ -1,4 +1,5 @@
 // pages/daily-form/community/community.js
+import { getReport, createReport } from '../../../api/service/report';
 
 Component({
   properties: {
@@ -9,7 +10,7 @@ Component({
   data: {
     dayTime: '',
     name: 'xxx',
-    telephone: '18876552526',
+    phone: '18876552526',
     schoolRole: '',
     schoolId: '',
     location: '',
@@ -33,20 +34,63 @@ Component({
 
   attached: function() {
     const time = new Date();
+    const app = getApp();
     this.setData({
-      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
+      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`,
+      name: app.globalData.name,
+      phone: app.globalData.phone
     });
+    if (this.properties.hasSubmit) {
+      getReport().then(res => {
+        console.log(res);
+        if (res.data.length === 0 ) {
+          wx.showToast({
+            title: '获取日报失败',
+            icon: 'none',
+            duration: 2000
+          });
+
+          return;
+        }
+        const tmp = res.data[0];
+        const setsymptoms = tmp.symptoms.map(item => {
+          return item.detail;
+        });
+        const flist = tmp.members.map(item => {
+          const tmpit = item;
+          tmpit.symptoms = item.symptoms.map(it => {
+            return it.detail;
+          });
+
+          return tmpit;
+        });
+        this.setData({
+          door: tmp.address,
+          location: tmp.location,
+          status: tmp.status,
+          symptoms: setsymptoms,
+          familyList: flist,
+          message: tmp.other
+        });
+      }).catch(() => {
+        wx.showToast({
+          title: '获取日报失败',
+          icon: 'none',
+          duration: 2000
+        });
+      });
+    }
   },
   methods: {
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
-      console.log(key);
+      // console.log(key);
       this.setData({
         [key]: e.detail,
         hasLocation: false,
         hasStatus: false
       });
-      console.log(this.data);
+      // console.log(this.data);
     },
 
     show(e) {
@@ -69,7 +113,7 @@ Component({
         hasLocation: false,
         hasStatus: false
       });
-      console.log(this.data[key]);
+      // console.log(this.data[key]);
     },
     clickSymptoms(event) {
       const { index } = event.currentTarget.dataset;
@@ -87,7 +131,50 @@ Component({
 
         return;
       }
-      console.log('submit');
+      const data = {
+        type: '学校',
+        name: this.data.name,
+        phone: this.data.phone,
+        address: this.data.location,
+        location: this.data.location,
+        status: this.data.status,
+        other: this.data.message,
+        symptoms: this.data.symptoms,
+        familyNumber: this.familyNumber.toString(),
+        illNumber: this.familyUnhealthyNum.toString(),
+        schoolId: this.data.schoolId,
+        identity: this.data.schoolRole
+      };
+      const self = this;
+      console.log(data);
+      wx.requestSubscribeMessage({
+        tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
+        success(res) {
+          console.log(res, '订阅成功');
+        },
+        fail(res) {
+          console.log('订阅err', res);
+        },
+        complete() {
+          createReport(data).then(() => {
+            wx.showToast({
+              title: '提交成功',
+              icon: 'success',
+              duration: 2000
+            });
+            self.setData({
+              hasSubmit: true
+            });
+          }).catch(err => {
+            console.log(err);
+            wx.showToast({
+              title: '提交失败',
+              icon: 'none',
+              duration: 2000
+            });
+          });
+        }
+      });
     }
   }
 

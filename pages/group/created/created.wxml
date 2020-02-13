@@ -10,28 +10,27 @@
     <van-cell
     class="groupName"
     title="小组名称"
-    value="{{groupInfo.groupName}}">
+    value="{{groupDetail.name}}">
     </van-cell>
 
     <!-- <van-row>创建人</van-row> -->
     <van-cell
     class="creatorName"
     title="创建人"
-    value="{{groupInfo.creatorName}}">
+    value="{{groupDetail.managerName}}">
     </van-cell>
 
     <!-- <van-row>邀请码</van-row> -->
     <van-cell
     class="invitationCodes"
     title="邀请码"
-    value="{{groupInfo.invitationCodes}}">
+    value="{{groupDetail.invitationCode}}">
     </van-cell>
     
     <view class="btn">
     <van-button
     class="invitation"
     type="info"
-    bindtap="toInvite"
     open-type="share">  <!-- 调用微信的share功能-->
     邀请人员加入
     </van-button>

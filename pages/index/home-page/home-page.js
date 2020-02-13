@@ -43,6 +43,12 @@ Page({
     });
   },
 
+  createGroup: function() {
+    wx.navigateTo({
+      url: '../../group/create-group/create-group',
+    });
+  },
+
   joinGroup: function() {
     const invitationCode = this.data.joiningGroupInviteCode;
     const name = this.data.joiningName;

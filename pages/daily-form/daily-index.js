@@ -15,6 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
+    console.log('attend');
     const app = getApp();
     const hasGroup = app.globalData.hasGroup;
     const role = app.globalData.role;
