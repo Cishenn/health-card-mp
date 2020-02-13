@@ -1,5 +1,5 @@
 // pages/daily-form/community/community.js
-import { getReport, createReport } from '../../../api/service/report';
+import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 
 Component({
   properties: {
@@ -152,6 +152,7 @@ Component({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
           console.log(res, '订阅成功');
+          postSubscribe();
         },
         fail(res) {
           console.log('订阅err', res);
