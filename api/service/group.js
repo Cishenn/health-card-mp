@@ -11,6 +11,15 @@ export function createGroup(data) {
   });
 }
 
+// 修改小组
+export function modifyGroup(data, groupId) {
+  return requestAsync({
+    url: `${baseDocment}/${groupId}`,
+    method: 'PUT',
+    data
+  });
+}
+
 // 得到管理的小组
 export function getManagedGroups() {
   return requestAsync({
