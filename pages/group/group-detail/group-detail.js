@@ -122,8 +122,15 @@ Page({
     wx.setNavigationBarTitle({
       title: '小组详情'
     });
-    const managed = Boolean(Number(options.managed));
-    const groupId = options.id;
+    this.setData({
+      groupId: options.id,
+      managed: Boolean(Number(options.managed))
+    });
+  },
+
+  onShow: function() {
+    const groupId = this.data.groupId;
+    const managed = this.data.managed;
     Promise.all([
       getGroupDetail(groupId),
       getAnnouncement(groupId),

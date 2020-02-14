@@ -80,6 +80,7 @@ Page({
           joiningName: null,
           joiningPhone: null
         });
+        this.onShow();
       }).catch(err => {
         if (err.data.code === 1001) {
           this.setData({ showJoin: true, });
