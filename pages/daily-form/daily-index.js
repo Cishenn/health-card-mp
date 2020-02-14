@@ -1,4 +1,7 @@
 // pages/daily-form/daily-index.js
+
+import { getInformation } from '../../api/service/report';
+
 Page({
 
   /**
@@ -7,14 +10,16 @@ Page({
   data: {
     hasGroup: null,
     role: null,
-    hasSubmit: null
+    hasSubmit: null,
+    name: null,
+    phone: null
 
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function() {
+  onShow: function() {
     console.log('attend');
     const app = getApp();
     const hasGroup = app.globalData.hasGroup;
@@ -32,5 +37,18 @@ Page({
         title: '新型肺炎日报',
       });
     }
+
+    getInformation()
+      .then(res => {
+        app.globalData.hasGroup = res.data.hasGroup;
+        app.globalData.hasSubmit = res.data.isSubmit;
+        app.globalData.name = res.data.name;
+        app.globalData.phone = res.data.phone;
+        this.setData({
+          name: res.data.name,
+          phone: res.data.phone
+        });
+      });
   }
+
 });
