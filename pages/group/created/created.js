@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-function */
 // pages/group/created/created.js
 import { getGroupDetail } from '../../../api/service/group.js';
 
@@ -23,7 +24,7 @@ Page({
   toBack: function() {
     // console.log("111");
     wx.switchTab({
-      url: '/pages/index/home-page/home-page?id=${this.data.groupDetail.id}',
+      url: `/pages/index/home-page/home-page?id=${this.data.groupDetail.id}`,
     });
   },
 
@@ -32,8 +33,8 @@ Page({
    */
   onLoad: function(options) {
     const groupId = options.id;
-    // console.log(groupId);
-    // console.log(options);
+    console.log(groupId);
+    console.log(options);
     let groupDetail = null;
     getGroupDetail(groupId).then(res => {
       groupDetail = res.data;
@@ -98,12 +99,12 @@ Page({
     return {
       title: '健康打卡, 快来加入我的小组吧',
       path: `/pages/group/group-info/group-info?id=${this.data.groupDetail.id}`,
-      success: res => {
-        console.log(res);
-      },
-      fail: res => {
-        console.log(res);
-      }
+      // success: res => {
+      //   console.log(res);
+      // },
+      // fail: res => {
+      //   console.log(res);
+      // }
     };
   }
 });
