@@ -2,7 +2,9 @@
 
 import Toast from '@vant/weapp/toast/toast';
 import { validatePhoneNumber } from '../../../utils/validate.js';
-import { getGroupDetail, joinGroup } from '../../../api/service/group.js';
+import Dialog from '@vant/weapp/dialog/dialog';
+import { getGroupDetail, joinGroup, getJoinedGroups } from '../../../api/service/group.js';
+import { onLogin } from '../../../utils/events.js';
 Page({
 
   /**
@@ -11,7 +13,7 @@ Page({
   data: {
 
     groupDetail: null,
-
+    joinedGroupList: null,
 
     isShown: false,
 
@@ -23,9 +25,17 @@ Page({
    * 按钮事件
    */
   applyTo: function() {
-    this.setData({
-      isShown: true
-    });
+    // console.log(this.data.joinedGroupList);
+    if ( this.data.joinedGroupList.total > 10) {
+      Dialog.alert({
+        message: '最多只能加入 10 个小组。'
+      });
+    }
+    else {
+      this.setData({
+        isShown: true
+      });
+    }
   },
 
   /**
@@ -54,7 +64,7 @@ Page({
         phone
       }).then(() => {
         // reset the related data
-        Toast.success('申请成功');
+        Toast.success('申请成功,等待审核');
         this.setData({
           isShown: false,
           name: null,
@@ -111,6 +121,16 @@ Page({
   onLoad: function(options) {
     const groupId = options.id;
     let groupDetail = null;
+    onLogin(() => {
+      getJoinedGroups().then(res => {
+        this.setData({
+          joinedGroupList: res.data,
+        });
+        // console.log(this.data.joinedGroupList);
+      }).catch(error => {
+        console.log(error);
+      });
+    });
     getGroupDetail(groupId).then(res => {
       groupDetail = res.data;
       this.setData({
