@@ -54,7 +54,7 @@ Page({
         phone
       }).then(() => {
         // reset the related data
-        Toast.success('申请成功,等待审核');
+        Toast.success('申请成功');
         this.setData({
           isShown: false,
           name: null,

@@ -16,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "疫驱卡",
+    "navigationBarTitleText": "驱疫卡",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

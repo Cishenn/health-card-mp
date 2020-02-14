@@ -30,3 +30,11 @@ export function getInformation() {
     method: 'GET'
   });
 }
+
+// 订阅
+export function postSubscribe() {
+  return requestAsync({
+    url: `${baseDocment}/subscribe`,
+    method: 'POST'
+  });
+}

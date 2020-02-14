@@ -49,5 +49,9 @@ Page({
         members: res[2].data
       });
     });
-  }
+  },
+
+  onPullDownRefresh: function() {
+    this.onShow();
+  },
 });

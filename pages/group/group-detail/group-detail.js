@@ -2,11 +2,11 @@
 
 import * as echarts from '../../../ec-canvas/echarts';
 import Dialog from '@vant/weapp/dialog/dialog';
-import { getDate, formatDate, getDisplayDate } from '../../../utils/util.js';
 import { getPie1Option, getPie2Option } from '../../../utils/charts.js';
 import { exportData, getGroupDetail, getAnnouncement,
   getClockInData, getHealthData, getDistributeData, getClockInDetail
 } from '../../../api/service/group.js';
+import dayjs from 'dayjs';
 
 let pie1 = null;
 let pie2 = null;
@@ -23,10 +23,10 @@ Page({
     clockInDetail: null,
     _chosenDate: 0,
     // chosenDate = getDate(_chosenDate)
-    chosenDate: getDate(0),
-    latestDate: getDate(0),
+    chosenDate: dayjs().format('YYYYMMDD'),
+    latestDate: dayjs().format('YYYYMMDD'),
     firstDate: null,
-    displayedDate: getDisplayDate(getDate(0)),
+    displayedDate: dayjs().format('MM-DD'),
     chartsInited: false,
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
@@ -55,8 +55,8 @@ Page({
     this.changeData(this.data._chosenDate + 1);
   },
   changeData: function(_chosenDate) {
-    const chosenDate = getDate(_chosenDate);
-    const displayedDate = formatDate(chosenDate);
+    const chosenDate = dayjs().add(_chosenDate, 'day').format('YYYYMMDD');
+    const displayedDate = dayjs().add(_chosenDate, 'day').format('MM-DD');
     this.setData({
       _chosenDate,
       chosenDate,
@@ -122,8 +122,15 @@ Page({
     wx.setNavigationBarTitle({
       title: '小组详情'
     });
-    const managed = Boolean(Number(options.managed));
-    const groupId = options.id;
+    this.setData({
+      groupId: options.id,
+      managed: Boolean(Number(options.managed))
+    });
+  },
+
+  onShow: function() {
+    const groupId = this.data.groupId;
+    const managed = this.data.managed;
     Promise.all([
       getGroupDetail(groupId),
       getAnnouncement(groupId),
@@ -133,7 +140,7 @@ Page({
         managed,
         groupInfo: res[0].data,
         announcement: res[1].data,
-        firstDate: formatDate(res[0].data.createdAt)
+        firstDate: dayjs(res[0].data.createdAt).format('YYYYMMDD')
       });
       this.getNormalData();
       if (managed) {
@@ -203,11 +210,17 @@ Page({
   // 管理员能看到的数据
   getManageData: function() {
     getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
+      const clockInDetail = res.data;
+      clockInDetail.map(item => (item.formatedTime = dayjs(item.createdAt).format('MM-DD HH:mm')));
       this.setData({
-        clockInDetail: res.data
+        clockInDetail
       });
     }).catch(err => {
       console.error(err);
     });
-  }
+  },
+
+  onPullDownRefresh: function() {
+    this.onShow();
+  },
 });
