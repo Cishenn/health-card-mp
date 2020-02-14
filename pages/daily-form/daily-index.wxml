@@ -1,12 +1,19 @@
 <!--pages/daily-form/daily-index.wxml-->
 <no-group wx:if="{{hasGroup==false}}">
 </no-group>
-<community wx:elif="{{hasGroup==true&&role=='community'}}"
-hasSubmit="{{hasSubmit}}">
+<community  wx:elif="{{hasGroup==true&&role=='community'}}"
+hasSubmit="{{hasSubmit}}"
+name="{{name}}"
+phone="{{phone}}"
+>
 </community>
 <school wx:elif="{{hasGroup==true&&role=='school'}}"
-hasSubmit="{{hasSubmit}}">
+hasSubmit="{{hasSubmit}}"
+name="{{name}}"
+phone="{{phone}}">
 </school>
 <other wx:elif="{{hasGroup==true&&role=='other'}}"
-hasSubmit="{{hasSubmit}}">
+hasSubmit="{{hasSubmit}}"
+name="{{name}}"
+phone="{{phone}}">
 </other>

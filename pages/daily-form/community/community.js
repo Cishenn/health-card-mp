@@ -5,12 +5,16 @@ Component({
   properties: {
     hasSubmit: {
       type: 'Boolean'
+    },
+    name: {
+      type: 'String'
+    },
+    phone: {
+      type: 'String'
     }
   },
   data: {
     dayTime: '',
-    name: 'xxx',
-    phone: '18876552526',
     door: null,
     location: '',
     status: '',
@@ -31,53 +35,43 @@ Component({
   attached: function() {
     console.log('properties', this.properties);
     const time = new Date();
-    const app = getApp();
+
     this.setData({
-      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`,
-      name: app.globalData.name,
-      phone: app.globalData.phone
+      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
     });
 
-    if (this.properties.hasSubmit) {
-      getReport().then(res => {
-        console.log(res);
-        if (res.data.length === 0 ) {
-          wx.showToast({
-            title: '获取日报失败',
-            icon: 'none',
-            duration: 2000
-          });
-
-          return;
-        }
-        const tmp = res.data[0];
-        const setsymptoms = tmp.symptoms.map(item => {
-          return item.detail;
-        });
-        const flist = tmp.members.map(item => {
-          const tmpit = item;
-          tmpit.symptoms = item.symptoms.map(it => {
-            return it.detail;
-          });
-
-          return tmpit;
-        });
-        this.setData({
-          door: tmp.address,
-          location: tmp.location,
-          status: tmp.status,
-          symptoms: setsymptoms,
-          familyList: flist,
-          message: tmp.other
-        });
-      }).catch(() => {
-        wx.showToast({
-          title: '获取日报失败',
-          icon: 'none',
-          duration: 2000
-        });
+    getReport().then(res => {
+      console.log(res);
+      if (res.data.length === 0 ) {
+        return;
+      }
+      const tmp = res.data[0];
+      const setsymptoms = tmp.symptoms.map(item => {
+        return item.detail;
       });
-    }
+      const flist = tmp.members.map(item => {
+        const tmpit = item;
+        tmpit.symptoms = item.symptoms.map(it => {
+          return it.detail;
+        });
+
+        return tmpit;
+      });
+      this.setData({
+        door: tmp.address,
+        location: tmp.location,
+        status: tmp.status,
+        symptoms: setsymptoms,
+        familyList: flist,
+        message: tmp.other
+      });
+    }).catch(() => {
+      wx.showToast({
+        title: '获取日报失败',
+        icon: 'none',
+        duration: 2000
+      });
+    });
   },
   methods: {
     changeValue(e) {
@@ -256,13 +250,16 @@ Component({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
           console.log(res, '订阅成功');
+          wx.showLoading();
           postSubscribe();
         },
         fail(res) {
           console.log('订阅err', res);
+          wx.showLoading();
         },
         complete() {
           createReport(data).then(() => {
+            wx.hideLoading();
             wx.showToast({
               title: '提交成功',
               icon: 'success',
@@ -273,6 +270,7 @@ Component({
             });
           }).catch(err => {
             console.log(err);
+            wx.hideLoading();
             wx.showToast({
               title: '提交失败',
               icon: 'none',

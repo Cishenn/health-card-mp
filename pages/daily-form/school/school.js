@@ -5,12 +5,16 @@ Component({
   properties: {
     hasSubmit: {
       type: 'Boolean'
+    },
+    name: {
+      type: 'String'
+    },
+    phone: {
+      type: 'String'
     }
   },
   data: {
     dayTime: '',
-    name: 'xxx',
-    phone: '18876552526',
     schoolRole: '',
     schoolId: '',
     location: '',
@@ -34,52 +38,37 @@ Component({
 
   attached: function() {
     const time = new Date();
-    const app = getApp();
     this.setData({
-      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`,
-      name: app.globalData.name,
-      phone: app.globalData.phone
+      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
     });
-    if (this.properties.hasSubmit) {
-      getReport().then(res => {
-        console.log(res);
-        if (res.data.length === 0 ) {
-          wx.showToast({
-            title: '获取日报失败',
-            icon: 'none',
-            duration: 2000
-          });
-
-          return;
-        }
-        const tmp = res.data[0];
-        const setsymptoms = tmp.symptoms.map(item => {
-          return item.detail;
-        });
-        const flist = tmp.members.map(item => {
-          const tmpit = item;
-          tmpit.symptoms = item.symptoms.map(it => {
-            return it.detail;
-          });
-
-          return tmpit;
-        });
-        this.setData({
-          door: tmp.address,
-          location: tmp.location,
-          status: tmp.status,
-          symptoms: setsymptoms,
-          familyList: flist,
-          message: tmp.other
-        });
-      }).catch(() => {
-        wx.showToast({
-          title: '获取日报失败',
-          icon: 'none',
-          duration: 2000
-        });
+    getReport().then(res => {
+      console.log(res);
+      if (res.data.length === 0 ) {
+        return;
+      }
+      const tmp = res.data[0];
+      const setsymptoms = tmp.symptoms.map(item => {
+        return item.detail;
       });
-    }
+
+      this.setData({
+        door: tmp.address,
+        location: tmp.location,
+        status: tmp.status,
+        symptoms: setsymptoms,
+        message: tmp.other,
+        familyNum: tmp.familyNum,
+        familyUnhealthyNum: tmp.familyUnhealthyNum,
+        schoolRole: tmp.schoolRole,
+        schoolId: tmp.schoolId
+      });
+    }).catch(() => {
+      wx.showToast({
+        title: '获取日报失败',
+        icon: 'none',
+        duration: 2000
+      });
+    });
   },
   methods: {
     changeValue(e) {
