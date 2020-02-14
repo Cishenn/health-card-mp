@@ -23,7 +23,7 @@ Page({
     const managerPhone = this.data.groupDetail.managerPhone;
     const type = this.data.groupDetail.type;
     wx.navigateTo({
-      url: `/pages/group/create-group/create-group?id=${id}&name=${name}&description=${description}&managerName=${managerName}&managerphone=${managerPhone}&type=${type}`
+      url: `/pages/group/create-group/create-group?id=${id}&name=${name}&description=${description}&managerName=${managerName}&managerPhone=${managerPhone}&type=${type}`
     });
   },
 

@@ -188,6 +188,7 @@ Page({
         type: options.type,
         changedGroupId: options.id,
       });
+      console.log(this.data);
     }
     else {
       wx.setNavigationBarTitle({
