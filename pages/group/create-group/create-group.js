@@ -87,6 +87,7 @@ Page({
     }
 
     if ( this.data.isModified ) {
+      console.log(this.data.isModified);
       modifyGroup({
         name,
         description,
@@ -126,6 +127,7 @@ Page({
       // reset the related data
         console.log('创建成功');
         Toast('创建成功');
+        console.log(res.data);
         this.setData({
           name: null,
           description: null,

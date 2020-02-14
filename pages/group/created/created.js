@@ -33,8 +33,8 @@ Page({
    */
   onLoad: function(options) {
     const groupId = options.id;
-    // console.log(groupId);
-    // console.log(options);
+    console.log(groupId);
+    console.log(options);
     let groupDetail = null;
     getGroupDetail(groupId).then(res => {
       groupDetail = res.data;
