@@ -216,5 +216,9 @@ Page({
     }).catch(err => {
       console.error(err);
     });
-  }
+  },
+
+  onPullDownRefresh: function() {
+    this.onShow();
+  },
 });

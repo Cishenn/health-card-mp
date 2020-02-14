@@ -2,5 +2,6 @@
   "usingComponents": {
     "joined-group-card": "/components/group-card/joined-group-card/joined-group-card",
     "managed-group-card": "/components/group-card/managed-group-card/managed-group-card"
-  }
+  },
+  "enablePullDownRefresh": true
 }

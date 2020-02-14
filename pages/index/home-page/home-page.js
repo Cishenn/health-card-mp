@@ -37,6 +37,10 @@ Page({
     });
   },
 
+  onPullDownRefresh: function() {
+    this.onShow();
+  },
+
   showJoinDialog: function() {
     this.setData({
       showJoin: true

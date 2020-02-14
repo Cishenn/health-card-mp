@@ -19,10 +19,14 @@ Page({
       getGroupDetail(options.id),
       getAnnouncement(options.id)
     ]).then(res => {
+      let announcementPostTime = '';
+      if (res[1].data.length !== 0) {
+        announcementPostTime = this.formatTime(res[1].data[0].updatedAt);
+      }
       this.setData({
         groupInfo: res[0].data,
         announcement: res[1].data,
-        announcementPostTime: this.formatTime(res[1].data[0].updatedAt)
+        announcementPostTime
       });
     }).catch(err => {
       console.error(err);
