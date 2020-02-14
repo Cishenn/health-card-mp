@@ -26,7 +26,7 @@
 
 
 <van-dialog
-  id="van-dialog" 
+  id="join-dialog"
   use-slot
   title="加入小组"
   show="{{ showJoin }}"
@@ -61,3 +61,4 @@
 </van-dialog>
 
 <van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

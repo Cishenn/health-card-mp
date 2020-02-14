@@ -1,6 +1,7 @@
 // pages/index/home-page/home-page.js
 
 import Toast from '@vant/weapp/toast/toast';
+import Dialog from '@vant/weapp/dialog/dialog';
 import { validatePhoneNumber } from '../../../utils/validate';
 import { getJoinedGroups, getManagedGroups, joinGroup } from '../../../api/service/group.js';
 import { onLogin } from '../../../utils/events';
@@ -12,8 +13,8 @@ Page({
     joiningGroupInviteCode: null,
     joiningName: null,
     joiningPhone: null,
-    joinedGroupList: [],
-    managedGroupList: []
+    joinedGroupList: null,
+    managedGroupList: null
   },
 
   onShow: function() {
@@ -42,9 +43,16 @@ Page({
   },
 
   showJoinDialog: function() {
-    this.setData({
-      showJoin: true
-    });
+    if (this.data.joinedGroupList.total === 10) {
+      Dialog.alert({
+        message: '最多只能加入 10 个小组。'
+      });
+    }
+    else {
+      this.setData({
+        showJoin: true
+      });
+    }
   },
 
   createGroup: function() {
@@ -61,12 +69,12 @@ Page({
       console.log(invitationCode, name, phone);
       Toast('请填写正确的信息');
       this.setData({ showJoin: true });
-      this.selectComponent('#van-dialog').stopLoading();
+      this.selectComponent('#join-dialog').stopLoading();
     }
     else if (!validatePhoneNumber(phone)) {
       Toast('手机号码有误');
       this.setData({ showJoin: true });
-      this.selectComponent('#van-dialog').stopLoading();
+      this.selectComponent('#join-dialog').stopLoading();
     }
     else {
       joinGroup({
@@ -84,12 +92,12 @@ Page({
       }).catch(err => {
         if (err.data.code === 1001) {
           this.setData({ showJoin: true, });
-          this.selectComponent('#van-dialog').stopLoading();
+          this.selectComponent('#join-dialog').stopLoading();
           Toast(`${err.data.message}`);
         }
         else {
           this.setData({ showJoin: true, });
-          this.selectComponent('#van-dialog').stopLoading();
+          this.selectComponent('#join-dialog').stopLoading();
           console.error(err);
           Toast('网络错误，申请失败');
         }
@@ -123,9 +131,16 @@ Page({
   },
 
   goToCreateGroup: function() {
-    wx.navigateTo({
-      url: '/pages/group/create-group/create-group'
-    });
+    if (this.data.managedGroupList.total === 10) {
+      Dialog.alert({
+        message: '最多只能创建 10 个小组。'
+      });
+    }
+    else {
+      wx.navigateTo({
+        url: '/pages/group/create-group/create-group'
+      });
+    }
   },
 
   onShareAppMessage: function(res) {
