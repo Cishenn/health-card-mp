@@ -52,7 +52,7 @@
   <view style="display: {{showDetail ? 'bolck':'none'}}">
     <van-collapse value="{{ activeNames }}" bind:change="onChange">
       <block wx:for="{{ clockInDetail }}">
-        <van-collapse-item title="{{'序号' + index + '. 提交时间 ' + displayedDate}}" name="{{item.UserGroup.UserId}}">
+        <van-collapse-item title="{{'序号' + (index+1) + '. 提交时间 ' + item.formatedTime}}" name="{{item.UserGroup.UserId}}">
           <van-cell title="姓名：{{item.name}}"/>
           <van-cell title="手机号：{{item.phone}}"/>
           <van-cell title="所在位置：{{item.reports[0].location}}"/>
