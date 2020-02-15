@@ -13,7 +13,7 @@ const getPie1Option = healthData => {
         value: healthData.fine,
         name: '正常'
       }, {
-        value: healthData.selfDange,
+        value: healthData.selfDanger,
         name: '自查异常'
       }, {
         value: healthData.danger,
