@@ -136,8 +136,15 @@ ec-canvas {
 }
 
 .no-clock-in {
-  font-weight: bold;
   text-align: center;
-  height: 100rpx;
-  line-height: 100rpx;
+}
+
+.no-clock-in image {
+  width: 180rpx;
+  height: 180rpx;
+  margin: 60rpx auto 40rpx auto;
+}
+
+.no-clock-in view {
+  padding-bottom: 100rpx;
 }
