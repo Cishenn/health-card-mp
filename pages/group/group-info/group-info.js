@@ -80,19 +80,11 @@ Page({
         });
         console.log(res);
       }).catch(error => {
-        if (error.data.code === 1003) {
+        if (error.data.code === 1003 || error.data.code === 1004) {
           this.setData({
             isShown: true,
           });
-          this.selectComponent('#van-dialog').stopLoading();
-          Toast(`${error.data.message}`);
-          console.log(error.data.message);
-        }
-        else if (error.data.code === 1004) {
-          this.setData({
-            isShown: true,
-          });
-          this.selectComponent('van-toast').stopLoading();
+          this.selectComponent('#dialog').stopLoading();
           Toast(`${error.data.message}`);
           console.log(error.data.message);
         }
@@ -102,7 +94,7 @@ Page({
           this.setData({
             isShown: true,
           });
-          this.selectComponent('#van-dialog').stopLoading();
+          this.selectComponent('#dialog').stopLoading();
         }
       });
     }
