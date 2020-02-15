@@ -14,7 +14,7 @@ Page({
 
     groupDetail: null,
     joinedGroupList: null,
-
+    invitationCode: null,
     isShown: false,
 
     name: null,
@@ -44,6 +44,7 @@ Page({
   clickConfirm: function() {
     const name = this.data.name;
     const phone = this.data.phone;
+    const invitationCode = this.data.groupDetail.invitationCode;
     if (!name || !phone) {
       Toast('请完整输入您的真实姓名和手机号码!');
       this.setData({ isShown: true });
@@ -59,10 +60,13 @@ Page({
     else {
       // phone & name 数据传请求
       // ...
+      console.log(this.data.groupDetail);
+      console.log(this.data.groupDetail.invitationCode);
       joinGroup({
         name,
-        phone
-      }).then(() => {
+        phone,
+        invitationCode
+      }).then(res => {
         // reset the related data
         Toast.success('申请成功,等待审核');
         this.setData({
@@ -70,6 +74,7 @@ Page({
           name: null,
           phone: null
         });
+        console.log(res);
       }).catch(error => {
         // 邀请码不正确
         if (error.data.code === 1001) {
@@ -134,7 +139,7 @@ Page({
     getGroupDetail(groupId).then(res => {
       groupDetail = res.data;
       this.setData({
-        groupDetail
+        groupDetail,
       });
     }).catch(error => {
       console.log(error);

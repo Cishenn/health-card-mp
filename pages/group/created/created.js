@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-empty-function */
 // pages/group/created/created.js
 import { getGroupDetail } from '../../../api/service/group.js';
@@ -97,14 +98,15 @@ Page({
   onShareAppMessage: function(res) {
     // open-type 触发 对分享者而言, 不是被分享者!!!
     return {
-      title: '健康打卡, 快来加入我的小组吧',
+      title: `Hi,你的好友创建了${this.data.groupDetail.name}健康打卡，快来加入吧！`,
+      imageUrl: '/assets/share.jpeg',
       path: `/pages/group/group-info/group-info?id=${this.data.groupDetail.id}`,
-      // success: res => {
-      //   console.log(res);
-      // },
-      // fail: res => {
-      //   console.log(res);
-      // }
+      success: res => {
+        console.log(res);
+      },
+      fail: res => {
+        console.log(res);
+      }
     };
   }
 });
