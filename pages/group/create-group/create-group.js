@@ -1,3 +1,4 @@
+/* eslint-disable no-inline-comments */
 /* eslint-disable no-empty-function */
 // pages/group/group.js
 
@@ -15,7 +16,7 @@ Page({
     description: null,
     managerName: null,
     managerPhone: null,
-    type: '',
+    type: '社区',
     groupId: '',
     changedGroupId: '',
     isModified: false,
@@ -23,8 +24,8 @@ Page({
 
     hasType: false,
     hasStatus: false,
-
-    typeList: ['社区', '学校', '其他']
+    // , '学校', '其他'
+    typeList: ['社区'],
     // raido here to complemented.
   },
 
