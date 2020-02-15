@@ -38,16 +38,26 @@ Page({
       });
     }
 
+
+
     getInformation()
       .then(res => {
         app.globalData.hasGroup = res.data.hasGroup;
         app.globalData.hasSubmit = res.data.isSubmit;
         app.globalData.name = res.data.name;
         app.globalData.phone = res.data.phone;
+        if (res.data.phone === '社区') {
+          app.globalData.role = 'community';
+        }
         this.setData({
           name: res.data.name,
-          phone: res.data.phone
+          phone: res.data.phone,
+          hasGroup: res.data.hasGroup,
+          role: app.globalData.role,
+          hasSubmit: res.data.isSubmit
         });
+
+        console.log(this.data.hasGroup, 'onShow');
       });
   }
 
