@@ -139,8 +139,12 @@ Page({
           url: `/pages/group/created/created?id=${this.data.groupId}`,
         });
       }).catch(error => {
-        console.log(error);
-        Toast(error);
+        if (error.data.code) {
+          Toast(`${error.data.message}`);
+          console.log(error.data.message);
+        }
+        // console.log(error);
+        // Toast(error);
       });
     }
   },

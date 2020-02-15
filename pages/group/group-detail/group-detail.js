@@ -216,7 +216,7 @@ Page({
   getManageData: function() {
     getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
       const clockInDetail = res.data;
-      clockInDetail.map(item => (item.formatedTime = dayjs(item.createdAt).format('MM-DD HH:mm')));
+      clockInDetail.map(item => (item.formatedTime = dayjs(item.reports[0].createdAt).format('MM-DD HH:mm')));
       this.setData({
         clockInDetail
       });
