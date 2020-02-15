@@ -40,6 +40,7 @@ Page({
 
   onPullDownRefresh: function() {
     this.onShow();
+    wx.stopPullDownRefresh();
   },
 
   showJoinDialog: function() {
