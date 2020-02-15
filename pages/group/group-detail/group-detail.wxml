@@ -36,7 +36,7 @@
   </view>
 
   <!-- <block wx:if="{{!showDetail}}"> TODO: 用wx:if控制，重新渲染时，echarts将不会显示 -->
-  <view style="display: {{!showDetail ? 'bolck':'none'}}">
+  <view style="display: {{showDetail||dialogOnShow ? 'none':'block'}}">
     <view style="display: {{clockInDetail.length === 0 ? 'block':'none'}}">
       <view class="no-clock-in">
         <image src="/assets/m_dfm.svg" />
@@ -78,4 +78,4 @@
 </view>
 
 <van-dialog id="van-dialog"></van-dialog>
-<cover-view class="export-data" wx:if="{{managed}}" bindtap="exportData">导出数据</cover-view>
+<cover-view class="export-data" wx:if="{{managed}}" bindtap="exportData" style="display:{{dialogOnShow ? 'none':'block'}}">导出数据</cover-view>
