@@ -20,18 +20,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function() {
-    console.log('attend');
     const app = getApp();
     const hasGroup = app.globalData.hasGroup;
     const role = app.globalData.role;
     const hasSubmit = app.globalData.hasSubmit;
-    console.log(hasGroup);
+    // console.log(hasGroup);
     this.setData({
       hasGroup: hasGroup,
       role: role,
       hasSubmit: hasSubmit
     });
-    console.log(this.data);
+    // console.log(this.data);
     if (hasGroup) {
       wx.setNavigationBarTitle({
         title: '新型肺炎日报',
@@ -57,7 +56,7 @@ Page({
           hasSubmit: res.data.isSubmit
         });
 
-        console.log(this.data.hasGroup, 'onShow');
+        // console.log(this.data.hasGroup, 'onShow');
       });
   }
 

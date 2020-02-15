@@ -73,13 +73,11 @@ Component({
   methods: {
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
-      // console.log(key);
       this.setData({
         [key]: e.detail,
         hasLocation: false,
         hasStatus: false
       });
-      // console.log(this.data);
     },
 
     show(e) {
@@ -102,7 +100,6 @@ Component({
         hasLocation: false,
         hasStatus: false
       });
-      // console.log(this.data[key]);
     },
     clickSymptoms(event) {
       const { index } = event.currentTarget.dataset;
@@ -135,7 +132,6 @@ Component({
         identity: this.data.schoolRole
       };
       const self = this;
-      console.log(data);
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
