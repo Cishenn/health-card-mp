@@ -29,7 +29,12 @@ Page({
   },
 
   commit: function() {
-    setAnnouncement(this.data.groupId, this.data.newPost).then(() => {
+    if (this.data.newPost.trim() === '') {
+      Toast('新公告不能为空哦~');
+
+      return;
+    }
+    setAnnouncement(this.data.groupId, this.data.newPost.trim()).then(() => {
       Toast('修改成功');
       setTimeout(() => {
         wx.navigateBack();
