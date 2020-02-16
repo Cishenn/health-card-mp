@@ -37,13 +37,11 @@
 
   <!-- <block wx:if="{{!showDetail}}"> TODO: 用wx:if控制，重新渲染时，echarts将不会显示 -->
   <view style="display: {{showDetail||dialogOnShow ? 'none':'block'}}">
-    <view style="display: {{clockInDetail.length === 0 ? 'block':'none'}}">
-      <view class="no-clock-in">
-        <image src="/assets/m_dfm.svg" />
-        <view>今天没有人打卡哦~</view>
-      </view>
+    <view style="display: {{clockInData.already === 0 ? 'block':'none'}}" class="no-clock-in">
+      <image src="/assets/m_dfm.svg" />
+      <view>今天没有人打卡哦~</view>
     </view>
-    <view style="display: {{clockInDetail.length === 0 ? 'none':'block'}}">
+    <view style="display: {{clockInData.already === 0 ? 'none':'block'}}">
       <view class="statistic-title">1. 当前健康状况</view>
       <view class="charts-container">
         <ec-canvas id="pie1"></ec-canvas>
@@ -58,7 +56,7 @@
 
   <!-- <block wx:else> -->
   <view style="display: {{showDetail ? 'bolck':'none'}}">
-    <view wx:if="{{clockInDetail.length === 0}}" class="no-clock-in">
+    <view wx:if="{{clockInData.already === 0}}" class="no-clock-in">
       <image src="/assets/m_dfm.svg" />
       <view>今天没有人打卡哦~</view>
     </view>
@@ -72,8 +70,8 @@
         </van-collapse-item>
       </block>
     </van-collapse>
-  <!-- </block> -->
   </view>
+  <!-- </block> -->
 
 </view>
 
