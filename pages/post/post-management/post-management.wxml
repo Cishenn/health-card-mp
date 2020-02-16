@@ -9,6 +9,7 @@
       border="{{ false }}"
       bind:change="inputPost"
       input-class="field-input"
+      custom-style="min-height: 300rpx"
     />
 </view>
 <view class="block-van-btn">
