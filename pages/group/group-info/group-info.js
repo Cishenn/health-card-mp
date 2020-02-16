@@ -16,6 +16,7 @@ Page({
     joinedGroupList: null,
     invitationCode: null,
     isShown: false,
+    groupId: null,
 
     name: null,
     phone: null,
@@ -133,8 +134,9 @@ Page({
       getJoinedGroups().then(res => {
         this.setData({
           joinedGroupList: res.data,
+          groupId: groupId,
         });
-        // console.log(this.data.joinedGroupList);
+        console.log(this.data.joinedGroupList);
       }).catch(error => {
         console.log(error);
       });
@@ -153,7 +155,24 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    let i = null;
+    const groupId = this.data.groupId;
+    // console.log(this.data.joinedGroupList);
+    // console.log(this.data.joinedGroupList.total);
+    for (i = 0; i < this.data.joinedGroupList.total; ++ i) {
+      // console.log(groupId);
+      // console.log(this.data.joinedGroupList.groups[i].id);
+      if (groupId == this.data.joinedGroupList.groups[i].id) {
+        // console.log('yes');
+        wx.switchTab({
+          url: `/pages/index/home-page/home-page?id=${groupId}`
+        });
+        Toast('您已经加入此小组, 跳转到您的首页');
+        console.log('您已经加入此小组, 跳转到您的首页');
+        break;
+      }
+    }
+    // console.log('no');
   },
 
   /**
