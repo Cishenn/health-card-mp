@@ -203,7 +203,7 @@ Page({
         healthData: res[1].data,
         distributeData: res[2].data
       });
-      // 发现：好像如果echarts在init之后没有，其所在的view没有渲染或展示，再次展示时就会变成空白
+      // 发现：好像如果echarts在init之后，其所在的view没有渲染或展示，再次展示时就会变成空白
       // 所以：要保证echarts在init时，必须是在展示的状态
       if (!this.data.chartsInited && this.data.clockInData.already !== 0 && this.data.showDetail === false) {
         this.initCharts();
