@@ -4,10 +4,11 @@ const getPie1Option = healthData => {
       label: {
         rich: {
           fontSize: 18
-        }
+        },
+        formatter: '{b}: {c} ({d}%)',
       },
       type: 'pie',
-      radius: '65%',
+      radius: '60%',
       avoidLabelOverlap: true,
       data: [{
         value: healthData.fine,
@@ -85,10 +86,11 @@ const getPie2Option = (groupType, distributeData) => {
       label: {
         rich: {
           fontSize: 18
-        }
+        },
+        formatter: '{b}: {c} ({d}%)',
       },
       type: 'pie',
-      radius: '65%',
+      radius: '60%',
       avoidLabelOverlap: true,
       data: chartData
     }]
