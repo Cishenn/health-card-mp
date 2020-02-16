@@ -7,12 +7,13 @@ const getPie1Option = healthData => {
         }
       },
       type: 'pie',
-      radius: '75%',
+      radius: '65%',
+      avoidLabelOverlap: true,
       data: [{
         value: healthData.fine,
         name: '正常'
       }, {
-        value: healthData.selfDange,
+        value: healthData.selfDanger,
         name: '自查异常'
       }, {
         value: healthData.danger,
@@ -87,7 +88,8 @@ const getPie2Option = (groupType, distributeData) => {
         }
       },
       type: 'pie',
-      radius: '75%',
+      radius: '65%',
+      avoidLabelOverlap: true,
       data: chartData
     }]
   };

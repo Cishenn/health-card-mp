@@ -100,7 +100,7 @@ Component({
         hasLocation: false,
         hasStatus: false
       });
-      console.log(this.data[key]);
+      // console.log(this.data[key]);
     },
     clickSymptoms(event) {
       const { index } = event.currentTarget.dataset;
@@ -134,7 +134,7 @@ Component({
         members: []
       };
       const self = this;
-      console.log(data);
+      // console.log(data);
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
@@ -164,7 +164,7 @@ Component({
           });
         }
       });
-      console.log('submit');
+      // console.log('submit');
     }
   }
 

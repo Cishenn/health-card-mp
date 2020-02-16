@@ -30,6 +30,7 @@ Page({
     chartsInited: false,
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
+    dialogOnShow: false,
     activeNames: []
   },
 
@@ -86,30 +87,34 @@ Page({
 
 
   exportData: function() {
+    this.setData({ dialogOnShow: true });
     exportData(this.data.groupId, this.data.chosenDate).then(res => {
       if (res.data.code === -1) {
         Dialog.alert({
           message: '抱歉，数据文件尚未准备好'
+        }).then(() => {
+          this.setData({ dialogOnShow: false });
         });
       }
       else {
         const download = `https://health-card.dataee.net/file/${res.data}`;
-        let copied = false;
         let message = '';
+        // 注意 setClipboardData 是异步的
         wx.setClipboardData({
           data: download,
           success: () => {
-            copied = true;
+            message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
+          },
+          fail: () => {
+            message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
+          },
+          complete: () => {
+            Dialog.alert({
+              message: message
+            }).then(() => {
+              this.setData({ dialogOnShow: false });
+            });
           }
-        });
-        if (copied) {
-          message = `文件下载地址：${download}。（网址已自动复制，请进入浏览器访问该网址进行下载。）`;
-        }
-        else {
-          message = `文件下载地址：${download}。（网址自动复制失败，请手动复制后进入浏览器下载。）`;
-        }
-        Dialog.alert({
-          message: message
         });
       }
     }).catch(err => {
@@ -211,7 +216,7 @@ Page({
   getManageData: function() {
     getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
       const clockInDetail = res.data;
-      clockInDetail.map(item => (item.formatedTime = dayjs(item.createdAt).format('MM-DD HH:mm')));
+      clockInDetail.map(item => (item.formatedTime = dayjs(item.reports[0].createdAt).format('MM-DD HH:mm')));
       this.setData({
         clockInDetail
       });
@@ -222,5 +227,6 @@ Page({
 
   onPullDownRefresh: function() {
     this.onShow();
+    wx.stopPullDownRefresh();
   },
 });

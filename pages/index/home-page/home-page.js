@@ -40,6 +40,7 @@ Page({
 
   onPullDownRefresh: function() {
     this.onShow();
+    wx.stopPullDownRefresh();
   },
 
   showJoinDialog: function() {
@@ -90,7 +91,7 @@ Page({
         });
         this.onShow();
       }).catch(err => {
-        if (err.data.code === 1001) {
+        if (err.data.code) {
           this.setData({ showJoin: true, });
           this.selectComponent('#join-dialog').stopLoading();
           Toast(`${err.data.message}`);

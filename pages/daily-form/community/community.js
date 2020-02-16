@@ -114,7 +114,7 @@ Component({
 
     addFamily() {
       const tmplist = this.data.familyList;
-      console.log('add', this.data.familyList);
+      // console.log('add', this.data.familyList);
       tmplist.push({
         name: '',
         phone: '',
@@ -132,7 +132,7 @@ Component({
     deleteFamily(event) {
       const self = this;
       const index = event.currentTarget.dataset.mainIndex;
-      console.log(event.currentTarget.dataset);
+      // console.log(event.currentTarget.dataset);
       wx.showModal({
         content: '是否确认删除该家属信息',
         success(res) {
@@ -154,7 +154,7 @@ Component({
     changeItemValue(e) {
       const index = e.currentTarget.dataset.mainIndex;
       const key = e.currentTarget.dataset.source;
-      console.log(index, key, e.currentTarget.dataset);
+      // console.log(index, key, e.currentTarget.dataset);
       const tmplist = this.data.familyList;
       tmplist[index][key] = e.detail;
       tmplist[index]['hasLocation'] = false;
@@ -162,19 +162,19 @@ Component({
       this.setData({
         familyList: tmplist
       });
-      console.log(this.data);
+      // console.log(this.data);
     },
 
     showItem(e) {
       const index = e.currentTarget.dataset.mainIndex;
       const key = e.currentTarget.dataset.status;
-      console.log(index, key, e.currentTarget.dataset);
+      // console.log(index, key, e.currentTarget.dataset);
       const tmplist = this.data.familyList;
       tmplist[index][key] = true;
       this.setData({
         familyList: tmplist
       });
-      console.log(this.data);
+      // console.log(this.data);
     },
     closeItem(e) {
       const index = e.currentTarget.dataset.mainIndex;
@@ -184,7 +184,7 @@ Component({
       this.setData({
         familyList: tmplist
       });
-      console.log(this.data);
+      // console.log(this.data);
     },
 
     clickItem(e) {
@@ -198,7 +198,7 @@ Component({
       this.setData({
         familyList: tmplist
       });
-      console.log(this.data.familyList);
+      // console.log(this.data.familyList);
     },
     clickItemSymptoms(e) {
       const { index } = e.currentTarget.dataset;
@@ -245,7 +245,7 @@ Component({
         identity: null
       };
       const self = this;
-      console.log(data);
+      // console.log(data);
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
@@ -281,7 +281,7 @@ Component({
       });
 
 
-      console.log('submit');
+      // console.log('submit');
     }
   }
 

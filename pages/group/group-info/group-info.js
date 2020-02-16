@@ -69,19 +69,22 @@ Page({
       }).then(res => {
         // reset the related data
         Toast.success('申请成功,等待审核');
+        console.log('申请成功,等待审核');
         this.setData({
           isShown: false,
           name: null,
           phone: null
         });
+        wx.switchTab({
+          url: `/pages/index/home-page/home-page?id=${this.data.groupDetail.id}`,
+        });
         console.log(res);
       }).catch(error => {
-        // 邀请码不正确
-        if (error.data.code === 1001) {
+        if (error.data.code === 1003 || error.data.code === 1004) {
           this.setData({
             isShown: true,
           });
-          this.selectComponent('#van-dialog').stopLoading();
+          this.selectComponent('#dialog').stopLoading();
           Toast(`${error.data.message}`);
           console.log(error.data.message);
         }
@@ -91,7 +94,7 @@ Page({
           this.setData({
             isShown: true,
           });
-          this.selectComponent('#van-dialog').stopLoading();
+          this.selectComponent('#dialog').stopLoading();
         }
       });
     }
