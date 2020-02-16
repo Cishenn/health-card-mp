@@ -20,7 +20,7 @@ Page({
     clockInData: null,
     healthData: null,
     distributeData: null,
-    clockInDetail: null,
+    clockInDetail: [],
     _chosenDate: 0,
     // chosenDate = getDate(_chosenDate)
     chosenDate: dayjs().format('YYYYMMDD'),
@@ -76,6 +76,9 @@ Page({
     this.setData({
       showDetail
     });
+    if (showDetail === false && this.data.chartsInited === false && this.data.clockInData.already !== 0) {
+      this.initCharts();
+    }
   },
 
 
@@ -200,10 +203,12 @@ Page({
         healthData: res[1].data,
         distributeData: res[2].data
       });
-      if (!this.data.chartsInited) {
+      // 发现：好像如果echarts在init之后，其所在的view没有渲染或展示，再次展示时就会变成空白
+      // 所以：要保证echarts在init时，必须是在展示的状态
+      if (!this.data.chartsInited && this.data.clockInData.already !== 0 && this.data.showDetail === false) {
         this.initCharts();
       }
-      else {
+      else if (this.data.chartsInited && this.data.clockInData.already !== 0) {
         pie1.setOption(getPie1Option(this.data.healthData));
         pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
       }
