@@ -20,7 +20,7 @@
   <van-field
   clearable
   label="门牌号"
-  placeholder="请输入门牌号"
+  placeholder="几栋几单元几号"
   required
   disabled="{{hasSubmit}}"
   data-source="door"
