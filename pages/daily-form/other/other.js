@@ -122,7 +122,7 @@ Component({
         type: '其他',
         name: this.data.name,
         phone: this.data.phone,
-        address: this.data.location,
+        address: null,
         location: this.data.location,
         status: this.data.status,
         other: this.data.message,
