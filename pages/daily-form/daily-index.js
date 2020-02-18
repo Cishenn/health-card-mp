@@ -1,7 +1,7 @@
 // pages/daily-form/daily-index.js
 
 import { getInformation } from '../../api/service/report';
-
+import dayjs from 'dayjs';
 Page({
 
   /**
@@ -12,7 +12,8 @@ Page({
     role: null,
     hasSubmit: null,
     name: null,
-    phone: null
+    phone: null,
+    newTime: null
 
   },
 
@@ -36,7 +37,8 @@ Page({
         title: '新型肺炎日报',
       });
     }
-
+    const time = dayjs();
+    const days = ['日', '一', '二', '三', '四', '五', '六'];
 
 
     getInformation()
@@ -53,7 +55,8 @@ Page({
           phone: res.data.phone,
           hasGroup: res.data.hasGroup,
           role: app.globalData.role,
-          hasSubmit: res.data.isSubmit
+          hasSubmit: res.data.isSubmit,
+          newTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`
         });
 
         // console.log(this.data.hasGroup, 'onShow');
