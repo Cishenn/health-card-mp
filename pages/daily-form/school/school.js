@@ -1,6 +1,6 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
-
+import dayjs from 'dayjs';
 Component({
   properties: {
     hasSubmit: {
@@ -10,6 +10,9 @@ Component({
       type: 'String'
     },
     phone: {
+      type: 'String'
+    },
+    newTime: {
       type: 'String'
     }
   },
@@ -37,9 +40,11 @@ Component({
   },
 
   attached: function() {
-    const time = new Date();
+    let time = dayjs();
+    const days = ['日', '一', '二', '三', '四', '五', '六'];
+
     this.setData({
-      dayTime: `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
+      dayTime: this.properties.newTime
     });
     getReport().then(res => {
       console.log(res);
@@ -47,6 +52,7 @@ Component({
         return;
       }
       const tmp = res.data[0];
+      time = dayjs(tmp.createdAt);
       const setsymptoms = tmp.symptoms.map(item => {
         return item.detail;
       });
@@ -60,7 +66,8 @@ Component({
         familyNum: tmp.familyNum,
         familyUnhealthyNum: tmp.familyUnhealthyNum,
         schoolRole: tmp.schoolRole,
-        schoolId: tmp.schoolId
+        schoolId: tmp.schoolId,
+        dayTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`
       });
     }).catch(() => {
       wx.showToast({
