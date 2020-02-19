@@ -1,33 +1,26 @@
-const getPie1Option = healthData => {
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        },
-        formatter: '{b}: {c} ({d}%)',
-      },
-      type: 'pie',
-      radius: '60%',
-      avoidLabelOverlap: true,
-      data: [{
-        value: healthData.fine,
-        name: '正常'
-      }, {
-        value: healthData.selfDanger,
-        name: '自查异常'
-      }, {
-        value: healthData.danger,
-        name: '疑似'
-      }, {
-        value: healthData.ill,
-        name: '确诊'
-      }]
-    }]
-  };
-};
+export function getPie1Data(healthData, total) {
+  const chartData = [{
+    value: healthData.fine,
+    name: '正常',
+  }, {
+    value: healthData.selfDanger,
+    name: '自查异常',
+  }, {
+    value: healthData.danger,
+    name: '疑似',
+  }, {
+    value: healthData.ill,
+    name: '确诊',
+  }];
+  chartData.forEach(item => {
+    item.const = 'const';
+    item.percent = toPercentage(item.value, total);
+  });
 
-const getPie2Option = (groupType, distributeData) => {
+  return chartData;
+}
+
+export function getPie2Data(groupType, distributeData, total) {
   let chartData = null;
   if (groupType === '社区') {
     chartData = [{
@@ -80,24 +73,14 @@ const getPie2Option = (groupType, distributeData) => {
       name: '国外'
     }];
   }
+  chartData.forEach(item => {
+    item.const = 'const';
+    item.percent = toPercentage(item.value, total);
+  });
 
-  return {
-    series: [{
-      label: {
-        rich: {
-          fontSize: 18
-        },
-        formatter: '{b}: {c} ({d}%)',
-      },
-      type: 'pie',
-      radius: '60%',
-      avoidLabelOverlap: true,
-      data: chartData
-    }]
-  };
-};
+  return chartData;
+}
 
-export {
-  getPie1Option,
-  getPie2Option
-};
+function toPercentage(item, total) {
+  return `${Number(Number(item) / Number(total) * 100).toFixed(2)}%`;
+}

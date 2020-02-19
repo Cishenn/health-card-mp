@@ -44,11 +44,11 @@
     <view style="display: {{clockInData.already === 0 ? 'none':'block'}}">
       <view class="statistic-title">1. 当前健康状况</view>
       <view class="charts-container">
-        <ec-canvas id="pie1"></ec-canvas>
+        <ff-canvas id="pie1" canvas-id="column1" opts="{{ opts1 }}"></ff-canvas>
       </view>
       <view class="statistic-title">2. 人员分布情况</view>
       <view class="charts-container">
-        <ec-canvas id="pie2"></ec-canvas>
+        <ff-canvas id="pie2" canvas-id="column2" opts="{{ opts2 }}"></ff-canvas>
       </view>
     </view>
   </view>
