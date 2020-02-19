@@ -109,15 +109,10 @@
 }
 
 .charts-container {
-  width: 600rpx;
+  width: 630rpx;
   height: 400rpx;
   margin: 0 auto;
   padding-bottom: 20rpx;
-}
-
-ec-canvas {
-  width: 100%;
-  height: 100%;
 }
 
 .export-data {

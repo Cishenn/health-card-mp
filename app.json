@@ -48,7 +48,7 @@
     "van-cell-group": "@vant/weapp/cell-group",
     "van-field": "@vant/weapp/field",
     "van-button": "@vant/weapp/button",
-    "ec-canvas": "ec-canvas/ec-canvas",
+    "ff-canvas": "../../../f2-canvas/f2-canvas",
     "van-checkbox-group": "@vant/weapp/checkbox-group",
     "van-checkbox": "@vant/weapp/checkbox",
     "van-radio": "@vant/weapp/radio",

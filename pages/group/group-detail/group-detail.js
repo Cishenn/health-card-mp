@@ -1,8 +1,9 @@
+/* eslint-disable object-property-newline */
 // pages/group/group-detail/group-detail.js
 
-import * as echarts from '../../../ec-canvas/echarts';
+import F2 from '../../../f2-canvas/lib/f2-all.min.js';
+import { getPie1Data, getPie2Data } from '../../../utils/charts';
 import Dialog from '@vant/weapp/dialog/dialog';
-import { getPie1Option, getPie2Option } from '../../../utils/charts.js';
 import { exportData, getGroupDetail, getAnnouncement,
   getClockInData, getHealthData, getDistributeData, getClockInDetail
 } from '../../../api/service/group.js';
@@ -31,7 +32,9 @@ Page({
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
     dialogOnShow: false,
-    activeNames: []
+    activeNames: [],
+    opts1: { lazyLoad: true },
+    opts2: { lazyLoad: true },
   },
 
 
@@ -160,35 +163,6 @@ Page({
   },
 
 
-  initCharts: function() {
-    const ec1 = this.selectComponent('#pie1');
-    ec1.init((canvas, width, height) => {
-      pie1 = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      canvas.setChart(pie1);
-      pie1.setOption(getPie1Option(this.data.healthData));
-
-      return pie1;
-    });
-    const ec2 = this.selectComponent('#pie2');
-    ec2.init((canvas, width, height) => {
-      pie2 = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      canvas.setChart(pie2);
-      pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
-
-      return pie2;
-    });
-    this.setData({
-      chartsInited: true
-    });
-  },
-
-
   // 普通用户能看到的数据
   getNormalData: function() {
     const groupId = this.data.groupId;
@@ -198,19 +172,19 @@ Page({
       getHealthData(groupId, date),
       getDistributeData(groupId, date)
     ]).then(res => {
+      const clockInData = res[0].data;
+      const healthData = getPie1Data(res[1].data, clockInData.already);
+      const distributeData = getPie2Data(this.data.groupInfo.type, res[2].data, clockInData.already);
       this.setData({
-        clockInData: res[0].data,
-        healthData: res[1].data,
-        distributeData: res[2].data
+        clockInData,
+        healthData,
+        distributeData,
       });
-      // 发现：好像如果echarts在init之后，其所在的view没有渲染或展示，再次展示时就会变成空白
-      // 所以：要保证echarts在init时，必须是在展示的状态
       if (!this.data.chartsInited && this.data.clockInData.already !== 0 && this.data.showDetail === false) {
         this.initCharts();
       }
       else if (this.data.chartsInited && this.data.clockInData.already !== 0) {
-        pie1.setOption(getPie1Option(this.data.healthData));
-        pie2.setOption(getPie2Option(this.data.groupInfo.type, this.data.distributeData));
+        this.updateCharts();
       }
     }).catch(err => {
       console.error(err);
@@ -233,5 +207,99 @@ Page({
   onPullDownRefresh: function() {
     this.onShow();
     wx.stopPullDownRefresh();
+  },
+
+  initCharts: function() {
+    const canvas1 = this.selectComponent('#pie1');
+    canvas1.init(this.initChart1);
+    const canvas2 = this.selectComponent('#pie2');
+    canvas2.init(this.initChart2);
+  },
+
+  updateCharts: function() {
+    pie1.changeData(this.data.healthData);
+    pie2.changeData(this.data.distributeData);
+  },
+
+  initChart1: function(canvas, width, height) {
+    pie1 = new F2.Chart({
+      el: canvas,
+      width,
+      height
+    });
+    const data = this.data.healthData;
+    pie1.source(data);
+    pie1.coord('polar', {
+      transposed: true,
+      radius: 0.75
+    });
+    pie1.legend(false);
+    pie1.axis(false);
+    pie1.tooltip(false);
+    pie1.pieLabel({
+      sidePadding: 16,
+      label1: function label1(data, color) {
+        return {
+          text: data.name,
+          fill: color
+        };
+      },
+      label2: function label2(data) {
+        return {
+          text: `${data.value}人 (${data.percent})`,
+          fill: '#808080',
+          fontWeight: 'bold'
+        };
+      }
+    });
+
+    pie1.interval()
+      .position('const*value')
+      .color('name', [ '#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864' ])
+      .adjust('stack');
+    pie1.render();
+
+    return pie1;
+  },
+
+  initChart2: function(canvas, width, height) {
+    pie2 = new F2.Chart({
+      el: canvas,
+      width,
+      height
+    });
+    const data = this.data.distributeData;
+    pie2.source(data);
+    pie2.coord('polar', {
+      transposed: true,
+      radius: 0.75
+    });
+    pie2.legend(false);
+    pie2.axis(false);
+    pie2.tooltip(false);
+    pie2.pieLabel({
+      sidePadding: 16,
+      label1: function label1(data, color) {
+        return {
+          text: data.name,
+          fill: color
+        };
+      },
+      label2: function label2(data) {
+        return {
+          text: `${data.value}人 (${data.percent})`,
+          fill: '#808080',
+          fontWeight: 'bold'
+        };
+      }
+    });
+
+    pie2.interval()
+      .position('const*value')
+      .color('name', [ '#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864' ])
+      .adjust('stack');
+    pie2.render();
+
+    return pie2;
   },
 });
