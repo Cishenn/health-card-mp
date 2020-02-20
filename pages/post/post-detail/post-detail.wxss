@@ -2,7 +2,7 @@
 .info {
   margin: 30rpx 40rpx;
   font-size: 34rpx;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .section {
