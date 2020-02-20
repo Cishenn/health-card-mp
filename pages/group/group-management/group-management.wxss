@@ -10,17 +10,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 20rpx;
 }
 
 .head-title {
-  font-size: 34rpx;
-  font-weight: bold;
+  font-size: 40rpx;
+  font-weight: 600;
 }
 
 .info-item {
-  margin: 20rpx 0;
+  margin: 10rpx 0;
+  font-size: 32rpx;
 }
 
 .section view:last-child {
   margin-bottom: 0;
+}
+
+button {
+  font-size: 14px !important;
 }

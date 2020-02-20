@@ -1,11 +1,11 @@
 /* pages/group/group-detail/group-detail.wxss */
 
 .cell-title {
-  font-size: 28rpx !important;
+  font-size: 32rpx !important;
 }
 
 .cell-label {
-  font-size: 24rpx !important;
+  font-size: 26rpx !important;
 }
 
 .post-section {
@@ -19,7 +19,7 @@
 }
 .post-title {
   font-size: 38rpx;
-  font-weight: bold;
+  font-weight: 600;
 }
 .post-content {
   font-size: 26rpx;
@@ -30,7 +30,7 @@
   flex-shrink: 0;
   text-align: center;
   font-size: 38rpx;
-  font-weight: bold;
+  font-weight: 600;
   color: #303030;
 }
 
@@ -48,7 +48,7 @@
 .current {
   display: inline;
   font-size: 34rpx;
-  font-weight: bold;
+  font-weight: 600;
 }
 .backward text ::before {
   content: "<<";
@@ -73,7 +73,7 @@
 }
 .num {
   font-size: 32rpx;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .data-section {
@@ -91,12 +91,12 @@
 
 .tab-chosen {
   font-size: 36rpx;
-  font-weight: bold;
+  font-weight: 600;
   color: #0033CC;
 }
 .tab-not-chosen {
   font-size: 36rpx;
-  font-weight: bold;
+  font-weight: 600;
   color: gray;
 }
 

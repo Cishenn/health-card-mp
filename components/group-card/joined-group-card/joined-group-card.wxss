@@ -1,11 +1,23 @@
 /* components/group-card/joined-group-card/joined-group-card.wxss */
 .card-no-post, .card-with-post {
-  background-color: #ccffff;
+  background-color: rgba(25, 137, 250, 0.1);
   width: 610rpx;
   height: 140rpx;
   margin: 20rpx 0 40rpx 0;
   padding: 30rpx 20rpx;
   border-radius: 12rpx;
+  position: relative;
+  color: #282828;
+}
+
+.arrow {
+  font-size: 48rpx;
+  font-weight: lighter;
+  color: darkgray;
+  height: 140rpx;
+  line-height: 140rpx;
+  position: absolute;
+  right: 0;
 }
 
 .card-no-post {
@@ -24,17 +36,19 @@
 
 .group-name {
   font-size: 38rpx;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .post {
-  font-size: 28rpx;
+  font-size: 32rpx;
   width: 600rpx;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  color: #707070;
 }
 
 .post text ::before {
   content: "公告：";
+  color: #707070;
 }
