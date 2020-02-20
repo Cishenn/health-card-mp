@@ -1,9 +1,18 @@
 /* pages/index/home-page/home-page.wxss */
+page {
+  padding-bottom: 48rpx;
+}
+
+.hc-panel {
+  background: transparent;
+  padding: 48rpx 32rpx 0 32rpx;
+}
+
 .title {
-  margin: 60rpx 30rpx 0 30rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 16rpx;
 }
 
 .title-label {
@@ -12,15 +21,25 @@
 }
 
 .card-list {
-  background-color: #fff;
-  margin: 20rpx 30rpx;
-  width: 650rpx;
-  padding: 20rpx;
-  padding-bottom: 1rpx;
+  background-color: transparent;
+  width: 100%;
+  padding: 24rpx 0 0 0;
 }
 
-joined-group-card {
-  margin-bottom: 30rpx;
+.joined-group-card-wrapper {
+  margin-bottom: 32rpx;
+}
+
+.joined-group-card-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.managed-group-card-wrapper {
+  margin-bottom: 32rpx;
+}
+
+.managed-group-card-wrapper:last-child {
+  margin-bottom: 0;
 }
 
 .placeholder {

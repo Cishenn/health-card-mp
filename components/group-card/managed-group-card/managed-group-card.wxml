@@ -9,7 +9,7 @@
     <!-- <button hover-class="none" class="left" data-id="{{groupInfo.id}}" data-name="{{groupInfo.name}}" open-type="share">邀请好友</button> -->
     <van-button
       class="left"
-      color="rgb(244, 244, 244)"
+      plain
       type="default"
       size="small"
       data-id="{{groupInfo.id}}"
@@ -20,7 +20,7 @@
     <!-- <button hover-class="none" class="right" bind:tap="goToManage">小组管理</button> -->
     <van-button
       class="right"
-      color="rgb(244, 244, 244)"
+      plain
       type="default"
       size="small"
       bind:tap="goToManage">
