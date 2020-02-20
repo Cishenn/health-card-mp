@@ -2,10 +2,10 @@
 <view wx:if="{{0 === groupInfo.announcements.length}}" class="card-with-post no-post" bind:tap="goToGroup">
   <view class="group-name">{{groupInfo.name}}</view>
   <view class="post"><text>暂无小组公告</text></view>
-  <view class="arrow">〉</view>
+  <van-icon name="arrow" class="arrow" size="48rpx" color="darkgray"/>
 </view>
 <view wx:else class="card-with-post" bind:tap="goToGroup">
   <view class="group-name">{{groupInfo.name}}</view>
   <view class="post"><text>{{groupInfo.announcements[0].content}}</text></view>
-  <view class="arrow">〉</view>
+  <van-icon name="arrow" class="arrow" size="48rpx" color="darkgray"/>
 </view>

@@ -11,13 +11,10 @@
 }
 
 .arrow {
-  font-size: 48rpx;
-  font-weight: lighter;
-  color: darkgray;
   height: 140rpx;
   line-height: 140rpx;
   position: absolute;
-  right: 0;
+  right: 20rpx;
 }
 
 .card-no-post {
