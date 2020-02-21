@@ -13,27 +13,6 @@
   margin: 40rpx auto;
 }
 
-.post-body {
-  flex-shrink: 0;
-  width: 610rpx;
-}
-.post-title {
-  font-size: 38rpx;
-  font-weight: 600;
-}
-.post-content {
-  font-size: 26rpx;
-  margin-top: 20rpx;
-}
-
-.post-right-arrow {
-  flex-shrink: 0;
-  text-align: center;
-  font-size: 38rpx;
-  font-weight: 600;
-  color: #303030;
-}
-
 .switch-date-section {
   width: 670rpx;
   margin: 0 auto;
@@ -48,7 +27,7 @@
 .current {
   display: inline;
   font-size: 34rpx;
-  font-weight: 600;
+  font-weight: 700;
 }
 .backward text ::before {
   content: "<<";
@@ -73,7 +52,6 @@
 }
 .num {
   font-size: 32rpx;
-  font-weight: 600;
 }
 
 .data-section {
@@ -91,12 +69,10 @@
 
 .tab-chosen {
   font-size: 36rpx;
-  font-weight: 600;
   color: #0033CC;
 }
 .tab-not-chosen {
   font-size: 36rpx;
-  font-weight: 600;
   color: gray;
 }
 
@@ -142,4 +118,8 @@
 
 .no-clock-in view {
   padding-bottom: 100rpx;
+}
+
+.bold {
+  font-weight: 700;
 }
