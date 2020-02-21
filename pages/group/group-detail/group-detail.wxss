@@ -11,6 +11,8 @@
 .post-section {
   width: 690rpx;
   margin: 40rpx auto;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
+  border-radius: 6rpx
 }
 
 .switch-date-section {
@@ -58,6 +60,8 @@
   width: 690rpx;
   margin: 0 auto;
   background-color: #fff;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
+  border-radius: 6rpx
 }
 
 .data-section-tabbar {

@@ -145,7 +145,6 @@ Page({
   },
 
   onShareAppMessage: function(res) {
-    console.log(res);
     const id = res.target.dataset.id;
     const name = res.target.dataset.name;
 
