@@ -17,7 +17,6 @@ page {
 
 .title-label {
   font-size: 44rpx;
-  font-weight: 600;
 }
 
 .card-list {
@@ -49,7 +48,8 @@ page {
 
 .no-group {
   background-color: #fff;
-  margin: 20rpx 30rpx 0 30rpx;
+  /* margin: 20rpx 30rpx 0 30rpx; */
+  margin-top: 20rpx;
   width: 690rpx;
   height: 320rpx;
   display: flex;
@@ -57,7 +57,6 @@ page {
   align-items: center;
   justify-content: space-evenly;
   font-size: 38rpx;
-  font-weight: 600;
   padding: 30rpx 0 30rpx 0;
 }
 

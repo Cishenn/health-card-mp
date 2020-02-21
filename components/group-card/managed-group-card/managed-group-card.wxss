@@ -27,7 +27,6 @@
 
 .group-name {
   font-size: 38rpx;
-  font-weight: 600;
 }
 
 .group-id {

@@ -35,6 +35,8 @@ Page({
     activeNames: [],
     opts1: { lazyLoad: true },
     opts2: { lazyLoad: true },
+    // total 包括亲戚
+    total: 0,
   },
 
 
@@ -172,13 +174,19 @@ Page({
       getHealthData(groupId, date),
       getDistributeData(groupId, date)
     ]).then(res => {
+      let total = 0;
       const clockInData = res[0].data;
-      const healthData = getPie1Data(res[1].data, clockInData.already);
-      const distributeData = getPie2Data(this.data.groupInfo.type, res[2].data, clockInData.already);
+      let healthData = res[1].data;
+      for (const key in healthData) {
+        total += healthData[key];
+      }
+      healthData = getPie1Data(healthData, total);
+      const distributeData = getPie2Data(this.data.groupInfo.type, res[2].data, total);
       this.setData({
         clockInData,
         healthData,
         distributeData,
+        total,
       });
       if (!this.data.chartsInited && this.data.clockInData.already !== 0 && this.data.showDetail === false) {
         this.initCharts();
@@ -196,6 +204,12 @@ Page({
     getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
       const clockInDetail = res.data;
       clockInDetail.map(item => (item.formatedTime = dayjs(item.reports[0].createdAt).format('MM-DD HH:mm')));
+      clockInDetail.forEach(item => {
+        item.reports[0].formatedSymptom = this.formatSymptom(item.reports[0].symptoms);
+        item.reports[0].members.forEach(rela => {
+          rela.formatedSymptom = this.formatSymptom(rela.symptoms);
+        });
+      });
       this.setData({
         clockInDetail
       });
@@ -302,4 +316,16 @@ Page({
 
     return pie2;
   },
+
+  formatSymptom: function(symptoms) {
+    if (symptoms.length === 0) {
+      return '';
+    }
+    let formatedSymptom = '';
+    symptoms.forEach(item => {
+      formatedSymptom += `${item.detail}，`;
+    });
+
+    return formatedSymptom.substring(0, formatedSymptom.length - 1);
+  }
 });

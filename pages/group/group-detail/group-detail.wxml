@@ -63,10 +63,18 @@
     <van-collapse wx:else value="{{ activeNames }}" bind:change="onChange">
       <block wx:for="{{ clockInDetail }}">
         <van-collapse-item title="{{'序号' + (index+1) + '. 提交时间 ' + item.formatedTime}}" name="{{item.UserGroup.UserId}}">
-          <van-cell title="姓名：{{item.name}}"/>
+          <van-cell title="姓名：{{item.name}}" title-class="bold"/>
           <van-cell title="手机号：{{item.phone}}"/>
           <van-cell title="所在位置：{{item.reports[0].location}}"/>
           <van-cell title="本人状态：{{item.reports[0].status}}"/>
+          <van-cell title="本人症状：{{item.reports[0].formatedSymptom}}" wx:if="{{item.reports[0].formatedSymptom !== ''}}"/>
+          <block wx:for="{{ item.reports[0].members }}" wx:for-item="rela">
+            <van-cell title="家属姓名：{{rela.name}}" title-class="bold"/>
+            <van-cell title="手机号：{{rela.phone}}"/>
+            <van-cell title="所在位置：{{rela.location}}"/>
+            <van-cell title="家属状态：{{rela.status}}"/>
+            <van-cell title="家属症状：{{rela.formatedSymptom}}" wx:if="{{rela.formatedSymptom !== ''}}"/>
+         </block>
         </van-collapse-item>
       </block>
     </van-collapse>
