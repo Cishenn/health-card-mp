@@ -39,53 +39,37 @@
 }
 
 .card-foot {
-  /* padding: 0 32rpx 32rpx; */
-  font-size: 28rpx;
   overflow: hidden;
 }
 
 .left {
   float: left;
+}
+.right {
+  float: right;
+}
+
+.left, .right {
   width: 50%;
+  font-size: 32rpx;
+  background: #fff;
+  border: 1px solid #ebedf0;
+  border-radius: 0;
+  height: 96rpx;
+  line-height: 96rpx;
 }
 
 .right {
-  float: right;
-  width: 50%;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom-right-radius: 6rpx !important;
+}
+.left {
+  border-left: none !important;
+  border-bottom-left-radius: 6rpx !important;
 }
 
-.left button, .right button {
-  width: 100%;
-  font-size: 32rpx !important;
-  /* color: rgb(61, 153, 116) !important; */
-  background: #fff !important;
-  /* border-color: rgb(61, 153, 116) !important; */
-  border-radius: 6rpx;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  height: 96rpx;
-}
-
-.right button {
-  border-left: none;
-  border-bottom-left-radius: 0;
-}
-
-.left button {
-  border-left: none;
-  border-bottom-right-radius: 0;
-}
-/*
-button{
-  line-height: 32rpx;
-  margin: 0;
-  padding: 14rpx 20rpx;
-}
 button::after{
-  border:none;
+  border-radius: 0;
+  border: 0;
 }
-input{
-  outline:none;
-  border:none;
-  list-style: none;
-} */
