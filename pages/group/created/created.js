@@ -99,7 +99,7 @@ Page({
     // open-type 触发 对分享者而言, 不是被分享者!!!
     return {
       title: `Hi,你的好友创建了${this.data.groupDetail.name}健康打卡，快来加入吧！`,
-      imageUrl: '/assets/share.jpeg',
+      imageUrl: 'https://care-health-card.oss-cn-shanghai.aliyuncs.com/public/share.jpeg',
       path: `/pages/group/group-info/group-info?id=${this.data.groupDetail.id}`,
       success: res => {
         console.log(res);
