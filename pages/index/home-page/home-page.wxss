@@ -58,6 +58,8 @@ page {
   justify-content: space-evenly;
   font-size: 38rpx;
   padding: 30rpx 0 30rpx 0;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
+  border-radius: 6rpx
 }
 
 .no-group-text {

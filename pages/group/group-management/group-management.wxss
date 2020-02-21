@@ -4,6 +4,8 @@
   margin: 30rpx;
   padding: 30rpx;
   background-color: #fff;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
+  border-radius: 6rpx
 }
 
 .section-head {
