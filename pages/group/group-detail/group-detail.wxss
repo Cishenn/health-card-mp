@@ -17,18 +17,20 @@
 
 .switch-date-section {
   width: 670rpx;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  margin: 50rpx auto 30rpx auto;
+  font-size: 30rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .backward, .forward {
   display: inline;
-  font-size: 28rpx;
+  /* font-size: 28rpx; */
 }
 .current {
   display: inline;
-  font-size: 34rpx;
+  font-size: 36rpx;
   font-weight: 700;
 }
 .backward text ::before {

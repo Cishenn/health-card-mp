@@ -1,6 +1,6 @@
 <!--pages/group/group-detail/group-detail.wxml-->
 
-<view class="post-section" bindtap="goToPost">
+<view class="post-section" bindtap="goToPost" style="display: none;">
   <van-cell title="小组公告" is-link label="{{announcement[0].content}}" center title-class="cell-title" label-class="cell-label"/>
 </view>
 
