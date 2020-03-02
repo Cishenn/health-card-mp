@@ -1,2 +1,21 @@
 <!--pages/index/clock-in/clock-in.wxml-->
-<text>pages/index/clock-in/clock-in.wxml</text>
+
+
+<view class="img">
+  <van-image
+  width="5rem"
+  height="5rem"
+  round
+  fit="cover"
+  src="{{avatarUrl}}"
+/>
+<text class="txt">{{nickName}}</text>
+</view>
+
+<van-cell
+is-link
+icon="setting"
+title="编辑资料"
+link-type="navigateTo"
+url= "/pages/index/my/my-info/my-info"
+/>

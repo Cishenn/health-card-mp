@@ -6,7 +6,7 @@
     placeholder="填写组名"
     required
     value="{{name}}"
-    bind:change="getName"/>
+    bind:change="getName"/> 
     
     <van-field 
     clearable

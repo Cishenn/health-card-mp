@@ -7,10 +7,6 @@ import { validatePhoneNumber } from '../../../utils/validate';
 import { createGroup, modifyGroup } from '../../../api/service/group';
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     name: null,
     description: null,
@@ -26,10 +22,7 @@ Page({
     hasStatus: false,
     typeList: ['社区', '学校', '其他'],
   },
-
-  /**
-   * 自定义事件 --- 按钮事件
-   */
+  
   show(e) {
     const key = e.currentTarget.dataset.status;
     this.setData({
@@ -126,7 +119,7 @@ Page({
         Toast('创建成功');
         console.log(res.data);
         this.setData({
-          name: null,
+          name: null, 
           description: null,
           managerPhone: null,
           type: '',

@@ -1,0 +1,24 @@
+
+<view class="field">
+    <van-field
+    label="昵称"
+    placeholder="填写昵称"
+    value="{{nickName}}"
+    bind:change="getName"
+    />
+    <van-field
+    label="电话"
+    placeholder="填写电话号码"
+    value="{{phone}}"
+    bind:change="getPhone"
+    />
+</view>
+<view class="btn">
+    <van-button
+    type="info"
+    bindtap="toSave"
+    block
+    >保存
+    </van-button>
+</view>
+<van-toast id="van-toast" />
