@@ -73,8 +73,8 @@
     <van-button
     type="info"
     block
-    bindtap="toSubmit"
-    wx:if="{{!hasSubmit}}">
+    disabled="{{hasSubmit}}"
+    bindtap="toSubmit">
     提交
     </van-button>
   </view>

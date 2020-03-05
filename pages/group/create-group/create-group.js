@@ -20,6 +20,7 @@ Page({
 
     hasType: false,
     hasStatus: false,
+    hasSubmit: false,
     typeList: ['社区', '学校', '其他'],
   },
   
@@ -65,16 +66,25 @@ Page({
     const managerName = this.data.managerName;
     const managerPhone = this.data.managerPhone;
     const type = this.data.type;
+    this.setData({
+      hasSubmit: true
+    });
     if (!name || !description || !managerName || !managerPhone || !type) {
       Toast('请将以上信息填充完整!');
       console.log(name, description, managerName, managerPhone, type);
+      this.setData({
+        hasSubmit: false
+      });
 
       return;
     }
     else if (!validatePhoneNumber(managerPhone)) {
       Toast('请输入正确的手机号码!');
       console.log(managerPhone);
-
+      this.setData({
+        hasSubmit: false
+      });
+      
       return;
     }
 
@@ -129,6 +139,7 @@ Page({
         wx.navigateTo({
           url: `/pages/group/created/created?id=${this.data.groupId}`,
         });
+
       }).catch(error => {
         if (error.data.code) {
           Toast(`${error.data.message}`);

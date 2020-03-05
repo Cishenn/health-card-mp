@@ -1,9 +1,14 @@
 {
   "pages": [
     
-    "pages/index/my/my",
+    "pages/daily-form/school/school",
+    "pages/daily-form/other/other",
     "pages/index/home-page/home-page",
     "pages/group/create-group/create-group",
+    "pages/daily-form/community/community", 
+    "pages/index/my/my",
+    
+    
     "pages/group/created/created",
     "pages/group/group-info/group-info",
     "pages/daily-form/daily-index",
@@ -12,9 +17,9 @@
     "pages/group/group-detail/group-detail",
     "pages/post/post-detail/post-detail",
     "pages/post/post-management/post-management",
-    "pages/daily-form/community/community",
-    "pages/daily-form/school/school",
-    "pages/daily-form/other/other",
+    
+    
+    
     "pages/group/unchecked-list/unchecked-list"
   ],
   "window": {
@@ -64,7 +69,8 @@
     "van-popup": "@vant/weapp/popup",
     "van-panel": "@vant/weapp/panel",
     "van-icon": "@vant/weapp/icon",
-    "van-notify": "@vant/weapp/notify"
+    "van-notify": "@vant/weapp/notify",
+    "van-area": "@vant/weapp/area/index"
   },
   "sitemapLocation": "sitemap.json"
 }

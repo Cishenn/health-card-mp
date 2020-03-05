@@ -1,6 +1,7 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import AreaList from '../../../common/js/area';
 Component({
   properties: {
     hasSubmit: {
@@ -21,7 +22,15 @@ Component({
     schoolRole: '',
     schoolId: '',
     location: '',
+    site: '',
+    oppor: {
+      siteLabel: '',
+      siteProvinceId: '',
+      siteCityId: '',
+      siteCountyId: '',
+    },
     status: '',
+    touch: '',
     symptoms: [],
     message: '',
     familyNum: '',
@@ -30,13 +39,18 @@ Component({
 
     hasRole: false,
     hasLocation: false,
+    hasSite: false,
     hasStatus: false,
     hasSymptoms: false,
+    hasTouched: false,
+    showPicker: false,
 
+    AreaList: AreaList,
     schoolRoleList: ['教职工', '学生'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本校'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
-    symptomsList: ['发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
+    touchList: ['是', '否'],
+    symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
   },
 
   attached: function() {
@@ -61,6 +75,7 @@ Component({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
+        touch: tmp.touch,
         symptoms: setsymptoms,
         message: tmp.other,
         familyNum: tmp.familyNum,
@@ -78,12 +93,28 @@ Component({
     });
   },
   methods: {
+    onConfirm(data) {
+      const siteDataAddr = data.mp.detail.values;
+      this.oppor.siteLabel =
+      siteDataAddr[0].name +
+      siteDataAddr[1].name +
+      siteDataAddr[2].name;
+      this.setData({
+        // oppor.siteProvinceId: siteDataAddr[0].code,
+        // oppor.siteCityId: siteDataAddr[1].code,
+        // oppor.siteCountyId: siteDataAddr[2].code,
+        // showPicker: false
+      });
+    },
+
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
       this.setData({
         [key]: e.detail,
         hasLocation: false,
-        hasStatus: false
+        hasSite: false,
+        hasStatus: false,
+        hasTouched: false
       });
     },
 
@@ -105,7 +136,9 @@ Component({
       this.setData({
         [key]: name,
         hasLocation: false,
-        hasStatus: false
+        hasSite: false,
+        hasStatus: false,
+        hasTouched: false
       });
     },
     clickSymptoms(event) {
@@ -115,7 +148,7 @@ Component({
     },
 
     submit() {
-      if (!this.data.location || !this.data.status || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
+      if (!this.data.location || !this.data.status || !this.data.touch || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -131,6 +164,7 @@ Component({
         address: null,
         location: this.data.location,
         status: this.data.status,
+        touch: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
         familyNumber: this.familyNumber.toString(),

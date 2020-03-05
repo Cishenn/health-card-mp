@@ -4,5 +4,6 @@
     "community": "./community/community",
     "school": "./school/school",
     "other": "./other/other"
-  }
+  },
+  "component": true
 }
