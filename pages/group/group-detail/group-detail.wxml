@@ -1,14 +1,35 @@
 <!--pages/group/group-detail/group-detail.wxml-->
 
-<view class="post-section" bindtap="goToPost" style="display: none;">
-  <van-cell title="小组公告" is-link label="{{announcement[0].content}}" center title-class="cell-title" label-class="cell-label"/>
+<view class="post-section" bindtap="goToPost">
+  <!-- <view class="under-review" wx:if="{{announcement.length !== 0 && postUnderReview}}">审核中</view> -->
+  <view class="unpassed" wx:if="{{managed && announcement && announcement.checkContent}}">
+    未通过
+  </view>
+  <view class="post-cell">
+    <view class="post-cell-left">
+      <view class="post-cell-title"><van-icon name="bullhorn-o" style="color: gray;"/>小组公告</view>
+      <view class="post-cell-content">  {{!announcement ? '' :
+        (managed && announcement.checkContent ? announcement.checkContent : announcement.content)}}</view>
+    </view>
+    <view class="post-cell-right"><van-icon name="arrow" style="color: darkgray;"/></view>
+  </view>
 </view>
 
+<view class="switch-module-bar">
+  <view class="{{showClockin ? 'tab-chosen' : 'tab-not-chosen'}}" bindtap="switchModule">今日打卡</view>
+  <view class="{{showClockin ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchModule">打卡详情</view>
+</view>
+
+<view style="{{showClockin ? '' : 'display: noen;'}}">
+
+</view>
+
+<view style="{{showClockin ? 'display: none;' : ''}}">
 <view class="switch-date-section">
   <view class="backward" bindtap="backward" style="visibility: {{chosenDate === firstDate ? 'hidden':'visible'}}">
     <text>前一天</text>
   </view>
-  <view class="current">每日健康打卡 ({{displayedDate}})</view>
+  <view class="current">{{displayedDate}}</view>
   <view class="forward" bindtap="forward" style="visibility: {{chosenDate === latestDate ? 'hidden':'visible'}}">
     <text>后一天</text>
   </view>
@@ -25,7 +46,11 @@
   </view>
   <view class="clock-in-column">
     <view class="num">{{clockInData.no}}</view>
-    <view>未打卡</view>
+    <view class="column-unchecked">
+      <view>未打卡</view>
+      <van-button wx:if="{{managed && clockInData.no !== 0}}" type="info" size="mini" bind:click="goToUnchecked"
+        custom-style="min-width: unset; padding: 0 6rpx; margin-left: 2rpx;">详情</van-button>
+    </view>
   </view>
 </view>
 
@@ -81,6 +106,7 @@
   </view>
   <!-- </block> -->
 
+</view>
 </view>
 
 <van-dialog id="van-dialog"></van-dialog>

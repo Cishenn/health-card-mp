@@ -52,6 +52,17 @@ export function setAnnouncement(groupId, content) {
     data: { content: content }
   });
 }
+// 修改公告
+export function modifyAnnouncement(groupId, content) {
+  return requestAsync({
+    url: `${baseDocment}/announcement/security`,
+    method: 'POST',
+    data: {
+      content: content,
+      groupId: groupId
+    }
+  });
+}
 
 // 得到当前公告
 export function getAnnouncement(groupId) {
@@ -117,3 +128,12 @@ export function exportData(groupId, date) {
     method: 'GET',
   });
 }
+
+// 得到小组所有成员 -- 李闯版本
+export function getAllMembers(groupId) {
+  return requestAsync({
+    url: `${baseDocment}/${groupId}/all-member`,
+    method: 'GET',
+  });
+}
+

@@ -6,7 +6,7 @@ Page({
     groupId: null,
     groupDetail: null,
     announcement: null,
-    members: []
+    members: [],
   },
 
   goToPostManagement: function() {
@@ -43,9 +43,10 @@ Page({
       getAnnouncement(groupId),
       getMembers(groupId)
     ]).then(res => {
+      const announcement = res[1].data.length === 0 ? null : res[1].data[0];
       this.setData({
         groupDetail: res[0].data,
-        announcement: res[1].data,
+        announcement,
         members: res[2].data
       });
     });

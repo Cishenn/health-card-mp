@@ -1,2 +1,8 @@
 <!--pages/group/unchecked-list/unchecked-list.wxml-->
-<text>pages/group/unchecked-list/unchecked-list.wxml</text>
+<view class="unchecked-section">
+  <view class="unchecked-title">{{date}} 未打开人员（{{uncheckedList.length}} 人）</view>
+  <view class="unchecked-list" wx:for="{{uncheckedList}}" wx:key="index">
+    <view class="unchecked-list-item">{{index + 1}}. {{item}}</view>
+  </view>
+</view>
+<button class="reminder" open-type="share">一键提醒</button>

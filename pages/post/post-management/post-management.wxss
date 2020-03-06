@@ -14,3 +14,22 @@
 .field-input {
   font-size: 30rpx !important;
 }
+
+.post-status {
+  width: 630rpx;
+  margin: 40rpx auto;
+  padding: 30rpx;
+  background-color: #fff;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
+  font-size: 30rpx;
+}
+
+.unpassed {
+  color: #e64340;
+}
+.under-review {
+  color: #576b95;
+}
+.passed {
+  color: #09bb07;
+}

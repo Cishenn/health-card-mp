@@ -1,4 +1,4 @@
-import { wechatLogin } from './api/service/user';
+import { wechatLogin, getUserInfo } from './api/service/user';
 import { getInformation } from './api/service/report';
 import { emitLogin } from './utils/events';
 
@@ -17,6 +17,20 @@ App({
           this.globalData.role = 'community';
         }
 
+        return getUserInfo();
+
+        // emitLogin();
+      })
+      .then(res => {
+        const userInfo = res.data;
+        if (!this.globalData.name) {
+          this.globalData.name = userInfo.name;
+        }
+        if (!this.globalData.phone) {
+          this.globalData.phone = userInfo.phone;
+        }
+        this.globalData.userId = userInfo.id;
+
         emitLogin();
       })
       .catch(err => {
@@ -29,7 +43,7 @@ App({
       });
   },
   globalData: {
-    userInfo: null,
+    userId: null,
     hasGroup: true,
     role: 'community',
     hasSubmit: false,

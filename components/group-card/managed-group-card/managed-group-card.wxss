@@ -25,8 +25,28 @@
   right: 20rpx;
 }
 
+.group-name-bar {
+  display: flex;
+  align-items: center;
+}
+
 .group-name {
   font-size: 38rpx;
+  max-width: 460rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.unchecked-hint {
+  background-color: rgba(247, 86, 96, 0.6);
+  border-radius: 4rpx;
+  color: white;
+  font-size: 26rpx;
+  margin-left: 10rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  padding: 0 10rpx;
 }
 
 .group-id {

@@ -19,13 +19,12 @@ Page({
       getGroupDetail(options.id),
       getAnnouncement(options.id)
     ]).then(res => {
-      let announcementPostTime = '';
-      if (res[1].data.length !== 0) {
-        announcementPostTime = this.formatTime(res[1].data[0].updatedAt);
-      }
+      const announcement = res[1].data.length === 0 ? null : res[1].data[0];
+      const announcementPostTime =
+          announcement ? this.formatTime(announcement.updatedAt) : '';
       this.setData({
         groupInfo: res[0].data,
-        announcement: res[1].data,
+        announcement,
         announcementPostTime
       });
     }).catch(err => {

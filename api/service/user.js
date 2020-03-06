@@ -55,3 +55,10 @@ function wxLogin() {
 export {
   wechatLogin
 };
+
+export function getUserInfo() {
+  return requestAsync({
+    url: `${config.host}/account/getAccount`,
+    method: 'GET',
+  });
+}

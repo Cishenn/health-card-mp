@@ -1,24 +1,82 @@
 /* pages/group/group-detail/group-detail.wxss */
 
-.cell-title {
+/* .cell-title {
   font-size: 32rpx !important;
 }
 
 .cell-label {
   font-size: 26rpx !important;
-}
+  display: inline;
+} */
 
 .post-section {
   width: 690rpx;
   margin: 40rpx auto;
+  margin-bottom: 0;
+  position: relative;
   box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
   border-radius: 6rpx
 }
 
+.under-review, .unpassed {
+  position: absolute;
+  font-size: 24rpx;
+  height: 44rpx;
+  line-height: 40rpx;
+  width: 86rpx;
+  text-align: center;
+  border-bottom-left-radius: 10rpx;
+  color: white;
+  right: 0;
+  top: 0;
+}
+
+.under-review {
+  background-color: rgba(87,107,149, 0.4);
+}
+.unpassed {
+  background-color: rgba(230,67,64, 0.4);
+}
+
+.post-cell {
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-cell-left {
+  width: 580rpx;
+}
+
+.post-cell-title {
+  font-size: 32rpx;
+  display: inline;
+  line-height: 32rpx;
+}
+
+.post-cell-content {
+  font-size: 26rpx;
+  color: darkgray;
+  display: inline;
+}
+
+.switch-module-bar {
+  font-size: 44rpx;
+  font-weight: 700;
+  height: 120rpx;
+  line-height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 590rpx;
+  margin: 0 auto;
+}
+
 .switch-date-section {
   width: 670rpx;
-  /* margin: 0 auto; */
-  margin: 50rpx auto 30rpx auto;
+  /* margin: 50rpx auto 30rpx auto; */
+  margin: 0 auto 30rpx auto;
   font-size: 30rpx;
   display: flex;
   justify-content: space-between;
@@ -53,9 +111,15 @@
 .clock-in-column {
   font-size: 28rpx;
   text-align: center;
+  width: 230rpx;
 }
 .num {
   font-size: 32rpx;
+}
+.column-unchecked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .data-section {
