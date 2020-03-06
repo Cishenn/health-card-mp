@@ -6,6 +6,7 @@ Component({
       value: {
         id: '',
         name: '',
+        checked: false,
         announcements: [],
         UserGroup: {
           createdAt: '',
@@ -24,7 +25,8 @@ Component({
   methods: {
     goToGroup() {
       wx.navigateTo({
-        url: `/pages/group/group-detail/group-detail?managed=0&id=${this.data.groupInfo.id}`
+        // url: `/pages/group/group-detail/group-detail?managed=0&id=${this.data.groupInfo.id}`
+        url: `/pages/group/group-detail/group-detail?id=${this.data.groupInfo.id}`
       });
     }
   }

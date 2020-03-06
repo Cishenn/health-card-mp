@@ -10,4 +10,5 @@
   padding: 30rpx 20rpx;
   background-color: #fff;
   font-size: 30rpx;
+  box-shadow: 2rpx 2rpx 32rpx #e2e2e2;
 }

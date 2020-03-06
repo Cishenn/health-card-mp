@@ -1,10 +1,19 @@
 <!--pages/group/group-management/group-management.wxml-->
-<view class="section" style="display: none;">
+<view class="section">
   <view class="section-head">
-    <view class="head-title">小组公告</view>
+    <view class="head-title">
+      <view>小组公告</view>
+      <!-- <view class="under-review" wx:if="{{announcement.length !== 0 && postUnderReview}}">审核中</view> -->
+      <view class="unpassed" wx:if="{{announcement && announcement.checkContent}}">未通过</view>
+    </view>
     <van-button size="small" type="info" bindtap="goToPostManagement">修改公告</van-button>
   </view>
-  <view class="info-item">{{announcement[0].content}}</view>
+  <view class="info-item">
+    <view>
+      {{!announcement ? '' :
+          (announcement.checkContent ? announcement.checkContent : announcement.content)}}
+    </view>
+  </view>
 </view>
 <view class="section">
   <view class="section-head">

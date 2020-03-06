@@ -1,7 +1,10 @@
 <!--components/group-card/managed-group-card/managed-group-card.wxml-->
 <view class="card">
   <view class="card-body" bindtap="goToGroup">
-    <view class="group-name">{{groupInfo.name}}</view>
+    <view class="group-name-bar">
+      <view class="group-name">{{groupInfo.name}}</view>
+      <view class="unchecked-hint" wx:if="{{!groupInfo.checked}}">未打卡</view>
+    </view>
     <view class="group-id"><text>{{groupInfo.invitationCode}}</text></view>
     <van-icon name="arrow" class="arrow" size="48rpx" color="darkgray"/>
   </view>

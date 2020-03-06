@@ -6,6 +6,8 @@ import { validatePhoneNumber } from '../../../utils/validate';
 import { getJoinedGroups, getManagedGroups, joinGroup } from '../../../api/service/group.js';
 import { onLogin } from '../../../utils/events';
 
+const app = getApp();
+
 Page({
 
   data: {
@@ -19,16 +21,24 @@ Page({
 
   onShow: function() {
     onLogin(() => {
+      this.setData({
+        joiningName: app.globalData.name || null,
+        joiningPhone: app.globalData.phone || null,
+      });
       getJoinedGroups().then(res => {
+        const joinedGroupList = res.data;
+        this.insertCheckedInfoToGroupInfo(joinedGroupList);
         this.setData({
-          joinedGroupList: res.data
+          joinedGroupList,
         });
       }).catch(err => {
         console.error(err);
       });
       getManagedGroups().then(res => {
+        const managedGroupList = res.data;
+        this.insertCheckedInfoToGroupInfo(managedGroupList);
         this.setData({
-          managedGroupList: res.data
+          managedGroupList,
         });
       }).catch(err => {
         console.error(err);
@@ -56,12 +66,6 @@ Page({
     }
   },
 
-  createGroup: function() {
-    wx.navigateTo({
-      url: '../../group/create-group/create-group',
-    });
-  },
-
   joinGroup: function() {
     const invitationCode = this.data.joiningGroupInviteCode;
     const name = this.data.joiningName;
@@ -86,8 +90,8 @@ Page({
         this.setData({
           showJoin: false,
           joiningGroupInviteCode: null,
-          joiningName: null,
-          joiningPhone: null
+          joiningName: app.globalData.name || null,
+          joiningPhone: app.globalData.phone || null,
         });
         this.onShow();
       }).catch(err => {
@@ -110,8 +114,8 @@ Page({
     this.setData({
       showJoin: false,
       joiningGroupInviteCode: null,
-      joiningName: null,
-      joiningPhone: null
+      joiningName: app.globalData.name || null,
+      joiningPhone: app.globalData.phone || null,
     });
   },
 
@@ -142,6 +146,22 @@ Page({
         url: '/pages/group/create-group/create-group'
       });
     }
+  },
+
+  insertCheckedInfoToGroupInfo: function(groupList) {
+    const allGroups = groupList.groups;
+    const alreadyGroups = groupList.alreadyGroup;
+    allGroups.forEach(group => {
+      group.checked = false;
+    });
+    alreadyGroups.forEach(alreadyGroup => {
+      const alreadyGroupId = alreadyGroup.id;
+      allGroups.forEach(group => {
+        if (group.id === alreadyGroupId) {
+          group.checked = true;
+        }
+      });
+    });
   },
 
   onShareAppMessage: function(res) {

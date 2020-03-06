@@ -1,66 +1,57 @@
 // pages/group/unchecked-list/unchecked-list.js
+import { getAllMembers, getClockInDetail } from '../../../api/service/group';
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    uncheckedList: [],
+    date: '',
+    groupname: '',
+    groupId: null,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad: function(options) {
+    const groupId = options.id;
+    const date = options.date;
+    const groupname = options.name;
+    const displayedDate = `${date.substr(4, 2)}-${date.substr(6, 2)}`;
 
+    Promise.all([
+      getAllMembers(groupId),
+      getClockInDetail(groupId, date),
+    ]).then(res => {
+      let allMembers = res[0].data;
+      let checkedMembers = res[1].data;
+      const uncheckedList = [];
+      allMembers = allMembers.map(member => JSON.stringify({
+        userId: member.UserGroup.UserId,
+        userName: member.name,
+      }));
+      checkedMembers = checkedMembers.map(member => JSON.stringify({
+        userId: member.UserGroup.UserId,
+        userName: member.name,
+      }));
+      checkedMembers.forEach(member => {
+        if (allMembers.has(member)) {
+          allMembers.delete(member);
+        }
+      });
+      allMembers.forEach(member => {
+        uncheckedList.push(JSON.parse(member).userName);
+      });
+      this.setData({
+        groupId,
+        groupname,
+        date: displayedDate,
+        uncheckedList,
+      });
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShareAppMessage: function() {
+    return {
+      title: `你加入的“${this.data.groupname}”小组，今天还没有打卡哦，戳我速速打卡！`,
+      // path: `/pages/group/group-detail/group-detail?managed=0&id=${this.data.groupId}`,
+      path: `/pages/group/group-detail/group-detail?id=${this.data.groupId}`,
+    };
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
-})
+});

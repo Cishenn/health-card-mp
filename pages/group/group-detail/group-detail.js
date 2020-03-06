@@ -14,6 +14,7 @@ let pie2 = null;
 
 Page({
   data: {
+    showClockin: true,
     groupId: null,
     managed: null,
     groupInfo: null,
@@ -27,7 +28,7 @@ Page({
     chosenDate: dayjs().format('YYYYMMDD'),
     latestDate: dayjs().format('YYYYMMDD'),
     firstDate: null,
-    displayedDate: dayjs().format('MM-DD'),
+    displayedDate: dayjs().format('YYYY-MM-DD'),
     chartsInited: false,
     // showDetail: false 显示数据统计，true 显示详细数据
     showDetail: false,
@@ -39,6 +40,19 @@ Page({
     total: 0,
   },
 
+  switchModule: function() {
+    const showClockin = !this.data.showClockin;
+    this.setData({
+      showClockin
+    });
+  },
+
+  goToUnchecked: function() {
+    wx.navigateTo({
+      url: `/pages/group/unchecked-list/unchecked-list?` +
+      `id=${this.data.groupId}&date=${this.data.chosenDate}&name=${this.data.groupInfo.name}`,
+    });
+  },
 
   goToPost: function() {
     if (this.data.managed) {
@@ -62,7 +76,7 @@ Page({
   },
   changeData: function(_chosenDate) {
     const chosenDate = dayjs().add(_chosenDate, 'day').format('YYYYMMDD');
-    const displayedDate = dayjs().add(_chosenDate, 'day').format('MM-DD');
+    const displayedDate = dayjs().add(_chosenDate, 'day').format('YYYY-MM-DD');
     this.setData({
       _chosenDate,
       chosenDate,
@@ -137,22 +151,26 @@ Page({
     });
     this.setData({
       groupId: options.id,
-      managed: Boolean(Number(options.managed))
+      // managed: Boolean(Number(options.managed))
     });
   },
 
   onShow: function() {
     const groupId = this.data.groupId;
-    const managed = this.data.managed;
     Promise.all([
       getGroupDetail(groupId),
       getAnnouncement(groupId),
     ]).then(res => {
+      const groupInfo = res[0].data;
+      const managed =
+          groupInfo.managerId === getApp().globalData.userId ? true : false;
+      const announcement =
+          res[1].data.length === 0 ? null : res[1].data[0];
       this.setData({
         groupId,
         managed,
-        groupInfo: res[0].data,
-        announcement: res[1].data,
+        groupInfo,
+        announcement,
         firstDate: dayjs(res[0].data.createdAt).format('YYYYMMDD')
       });
       this.getNormalData();

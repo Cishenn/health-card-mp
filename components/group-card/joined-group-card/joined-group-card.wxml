@@ -1,6 +1,9 @@
 <!--components/group-card/joined-group-card/joined-group-card.wxml-->
 <view wx:if="{{0 === groupInfo.announcements.length}}" class="card-with-post no-post" bind:tap="goToGroup">
-  <view class="group-name">{{groupInfo.name}}</view>
+  <view class="group-name-bar">
+    <view class="group-name">{{groupInfo.name}}</view>
+    <view class="unchecked-hint" wx:if="{{!groupInfo.checked}}">未打卡</view>
+  </view>
   <view class="post"><text>暂无小组公告</text></view>
   <van-icon name="arrow" class="arrow" size="48rpx" color="darkgray"/>
 </view>

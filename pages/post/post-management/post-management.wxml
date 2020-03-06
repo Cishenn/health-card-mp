@@ -1,11 +1,23 @@
 <!--pages/post/post-management/post-management.wxml-->
+<view class="post-status">
+  <!-- <view wx:if="{{postUnderReview}}" class="under-review">
+    审核中，预计1小时内审核完成
+  </view> -->
+  <view wx:if="{{announcement && announcement.checkContent}}" class="unpassed">
+    由于存在违反相关法律法规或《微信小程序社区规范》的信息，公告审核未通过，请尽快修改！
+  </view>
+  <view wx:else class="passed">
+    审核通过，已发布
+  </view>
+</view>
 <view class="textarea">
     <van-field
-      value="{{ announcement[0].content }}"
+      value="{{!announcement ? '' : (managed && announcement.checkContent ? announcement.checkContent : announcement.content)}}"
       type="textarea"
       placeholder="请编写小组公告（140字以内）"
       autosize
       focus
+      maxlength="140"
       border="{{ false }}"
       bind:change="inputPost"
       input-class="field-input"
@@ -13,7 +25,7 @@
     />
 </view>
 <view class="block-van-btn">
-  <van-button plain type="primary" block bindtap="commit">提交</van-button>
+  <van-button plain type="primary" block bind:click="commit" disabled="{{disabled}}">提交</van-button>
 </view>
 
 <van-toast id="van-toast" />
