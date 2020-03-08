@@ -22,6 +22,7 @@ App({
         // emitLogin();
       })
       .then(res => {
+        console.log(res.data);
         const userInfo = res.data;
         if (!this.globalData.name) {
           this.globalData.name = userInfo.name;
@@ -30,6 +31,7 @@ App({
           this.globalData.phone = userInfo.phone;
         }
         this.globalData.userId = userInfo.id;
+        this.globalData.avatarUrl = userInfo.avatarURL;
 
         emitLogin();
       })
@@ -44,6 +46,7 @@ App({
   },
   globalData: {
     userId: null,
+    avatarUrl: null,
     hasGroup: true,
     role: 'community',
     hasSubmit: false,

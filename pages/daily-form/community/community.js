@@ -4,6 +4,9 @@ import dayjs from 'dayjs';
 
 Component({
   properties: {
+    groupId: {
+      type: Number,
+    },
     hasSubmit: {
       type: 'Boolean'
     },
@@ -29,15 +32,15 @@ Component({
     hasLocation: false,
     hasStatus: false,
     hasSymptoms: false,
+    hasConnected: false,
 
 
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本社区'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
-    symptomsList: ['发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
+    symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
   },
 
   attached: function() {
-    console.log('properties', this.properties);
     let time = dayjs();
     const days = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -45,8 +48,7 @@ Component({
       dayTime: this.properties.newTime
     });
 
-    getReport().then(res => {
-      console.log(res);
+    getReport(this.data.groupId).then(res => {
       if (res.data.length === 0 ) {
         return;
       }
@@ -237,6 +239,7 @@ Component({
         return;
       }
       const data = {
+        groupId: this.data.groupId,
         type: '社区',
         name: this.data.name,
         phone: this.data.phone,

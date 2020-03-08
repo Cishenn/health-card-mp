@@ -1,1 +1,19 @@
 /* pages/index/clock-in/clock-in.wxss */
+.avatar{
+    /* height: 128rpx;
+    width: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%; */
+}
+
+.img{
+    margin: 10% 5% 10% 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.txt{
+    font-size: 60rpx;
+    padding-left: 6%;
+}

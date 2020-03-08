@@ -20,7 +20,7 @@ Component({
     goToGroup() {
       wx.navigateTo({
         // url: `/pages/group/group-detail/group-detail?managed=1&id=${this.data.groupInfo.id}`
-        url: `/pages/group/group-detail/group-detail?id=${this.data.groupInfo.id}`
+        url: `/pages/group/group-detail/group-detail?id=${this.data.groupInfo.id}&hasSubmit=${this.data.groupInfo.checked}`
       });
     },
 

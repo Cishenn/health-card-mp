@@ -1,2 +1,29 @@
 <!--pages/index/clock-in/clock-in.wxml-->
-<text>pages/index/clock-in/clock-in.wxml</text>
+
+
+<view class="img">
+  <van-image
+  width="5rem"
+  height="5rem"
+  round
+  fit="cover"
+  src="{{avatarUrl}}"/>
+  <view class="txt">
+    <view wx:if="{{logIn}}" class="name">{{name}}</view>
+    <view wx:else>
+      <van-button type="info" custom-style="width: 160rpx;" open-type="getUserInfo"
+          bind:getuserinfo="getAvatarAndName">登录</van-button>
+    </view>
+  </view>
+</view>
+
+<van-cell
+  is-link
+  size="large"
+  icon="setting"
+  title="编辑资料"
+  clickable
+  bind:click="toMyInfo"
+/>
+
+<van-dialog id="van-dialog" />

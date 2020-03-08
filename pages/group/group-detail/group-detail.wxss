@@ -193,3 +193,8 @@
 .bold {
   font-weight: 700;
 }
+
+.clock-in-section {
+  width: 690rpx;
+  margin: 0 auto;
+}

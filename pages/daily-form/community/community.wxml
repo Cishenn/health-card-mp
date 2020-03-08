@@ -4,7 +4,7 @@
   <van-field
   label="报告日期"
   disabled
-  value="{{dayTime}}" />
+  value="{{newTime || dayTime}}" />
 </van-cell-group>
 
 <van-cell-group title=" ">

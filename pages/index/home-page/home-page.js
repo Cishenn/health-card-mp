@@ -16,12 +16,15 @@ Page({
     joiningName: null,
     joiningPhone: null,
     joinedGroupList: null,
-    managedGroupList: null
+    managedGroupList: null,
+    disabled: false,
   },
 
   onShow: function() {
     onLogin(() => {
+      const disabled = app.globalData.name ? true : false;
       this.setData({
+        disabled,
         joiningName: app.globalData.name || null,
         joiningPhone: app.globalData.phone || null,
       });
@@ -173,12 +176,8 @@ Page({
       imageUrl: 'https://care-health-card.oss-cn-shanghai.aliyuncs.com/public/share.jpeg',
       path: `/pages/group/group-info/group-info?id=${id}`,
       // eslint-disable-next-line no-shadow
-      success: res => {
-        console.log(res);
-      },
-      // eslint-disable-next-line no-shadow
       fail: res => {
-        console.log(res);
+        console.error(res);
       }
     };
   }

@@ -16,15 +16,15 @@
 </view>
 
 <view class="switch-module-bar">
-  <view class="{{showClockin ? 'tab-chosen' : 'tab-not-chosen'}}" bindtap="switchModule">今日打卡</view>
-  <view class="{{showClockin ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchModule">打卡详情</view>
+  <view class="{{showClockIn ? 'tab-chosen' : 'tab-not-chosen'}}" bindtap="switchModule">今日打卡</view>
+  <view class="{{showClockIn ? 'tab-not-chosen' : 'tab-chosen'}}" bindtap="switchModule">打卡详情</view>
 </view>
 
-<view style="{{showClockin ? '' : 'display: noen;'}}">
-
+<view style="{{showClockIn ? '' : 'display: none;'}}" class="clock-in-section">
+  <daily-index groupId="{{groupId}}" role="{{groupInfo.type}}" hasSubmit="{{hasSubmit}}"></daily-index>
 </view>
 
-<view style="{{showClockin ? 'display: none;' : ''}}">
+<view style="{{showClockIn ? 'display: none;' : ''}}">
 <view class="switch-date-section">
   <view class="backward" bindtap="backward" style="visibility: {{chosenDate === firstDate ? 'hidden':'visible'}}">
     <text>前一天</text>
@@ -110,4 +110,4 @@
 </view>
 
 <van-dialog id="van-dialog"></van-dialog>
-<cover-view class="export-data" wx:if="{{managed}}" bindtap="exportData" style="display:{{dialogOnShow ? 'none':'block'}}">导出数据</cover-view>
+<cover-view class="export-data" wx:if="{{managed && !showClockIn}}" bindtap="exportData" style="display:{{dialogOnShow ? 'none':'block'}}">导出数据</cover-view>

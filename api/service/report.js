@@ -14,9 +14,9 @@ export function createReport(data) {
 
 
 // 获取打卡日报
-export function getReport() {
+export function getReport(groupId) {
   return requestAsync({
-    url: `${baseDocment}`,
+    url: `${baseDocment}/${groupId}`,
     method: 'GET'
   });
 }

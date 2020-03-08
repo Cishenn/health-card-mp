@@ -4,7 +4,7 @@
   <van-field
   label="报告日期"
   disabled
-  value="{{dayTime}}" />
+  value="{{newTime || dayTime}}" />
 </van-cell-group>
 
 <van-cell-group title=" ">
@@ -148,6 +148,40 @@
   data-source="familyUnhealthyNum"
   bind:change="changeValue"
   value="{{familyUnhealthyNum}}" />
+
+  <van-cell
+  is-link
+  required
+  bind:click="show"
+  disabled="{{hasSubmit}}"
+  data-status="hasTouched"
+  title="是否与敏感/疑似/确诊人员接触过">{{touch}}
+  </van-cell>
+  <van-popup
+  show="{{hasTouched}}"
+  position="bottom"
+  data-status="hasTouched"
+  bind:close="close">
+    <van-radio-group
+    value="{{touch}}"
+    data-source="touch"
+    disabled="{{hasSubmit}}"
+    bind:change="changeValue">
+      <van-cell-group>
+        <van-cell
+          wx:for="{{touchList}}"
+          wx:key="index"
+          title="{{item}}"
+          clickable
+          data-source="touch"
+          data-name="{{item}}"
+          bind:click="clickShow"
+        >
+          <van-radio slot="right-icon" name="{{item}}" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </van-popup>
 </van-cell-group>
 
 
