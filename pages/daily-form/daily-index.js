@@ -30,7 +30,11 @@ Component({
         const time = dayjs();
         const days = ['日', '一', '二', '三', '四', '五', '六'];
 
-        const hasSubmit = res.data.length ? true : false;
+        let hasSubmit = false;
+        if (res.data.length &&
+            dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
+          hasSubmit = true;
+        }
         this.setData({
           name: app.globalData.name,
           phone: app.globalData.phone,

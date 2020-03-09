@@ -4,7 +4,7 @@
   <van-field
   label="报告日期"
   disabled
-  value="{{newTime || dayTime}}" />
+  value="{{hasSubmit ? dayTime : ''}}" />
 </van-cell-group>
 
 <van-cell-group title=" ">
@@ -13,17 +13,20 @@
   label="姓名"
   disabled
   required
+  input-align="right"
   value="{{name}}" />
   <van-field
   clearable
   label="手机号"
   disabled
   required
+  input-align="right"
   value="{{phone}}" />
   <van-field
   clearable
   label="门牌号"
   placeholder="几栋几单元几号"
+  input-align="right"
   required
   disabled="{{hasSubmit}}"
   data-source="door"
@@ -101,6 +104,7 @@
 
   <van-cell
   is-link
+  required
   data-status="hasSymptoms"
   bind:click="show"
   disabled="{{hasSubmit}}"
@@ -129,11 +133,47 @@
           <van-checkbox
           shape="square"
           class="checkboxes-{{index}}"
+          disabled="{{hasSubmit}}"
           name="{{item}}" />
         </van-cell>
       </van-cell-group>
     </van-checkbox-group>
   </van-popup>
+
+  <van-cell
+  is-link
+  required
+  bind:click="show"
+  disabled="{{hasSubmit}}"
+  data-status="hasTouched"
+  title="是否与敏感/疑似/确诊人员接触过">{{touch}}
+  </van-cell>
+  <van-popup
+  show="{{hasTouched}}"
+  position="bottom"
+  data-status="hasTouched"
+  bind:close="close">
+    <van-radio-group
+    value="{{touch}}"
+    data-source="touch"
+    disabled="{{hasSubmit}}"
+    bind:change="changeValue">
+      <van-cell-group>
+        <van-cell
+          wx:for="{{touchList}}"
+          wx:key="index"
+          title="{{item}}"
+          clickable
+          data-source="touch"
+          data-name="{{item}}"
+          bind:click="clickShow"
+        >
+          <van-radio slot="right-icon" name="{{item}}" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </van-popup>
+
 </van-cell-group>
 
 <view wx:for="{{familyList}}" wx:key="index">
@@ -157,6 +197,7 @@
     disabled="{{hasSubmit}}"
     data-source="name"
     placeholder="请输入家属姓名"
+    input-align="right"
     data-main-index="{{index}}"
     bind:change="changeItemValue"
     required
@@ -168,6 +209,7 @@
     required
     type="number"
     placeholder="请输入家属手机号"
+    input-align="right"
     data-source="phone"
     data-main-index="{{index}}"
     bind:change="changeItemValue"
@@ -256,6 +298,7 @@
 
     <van-cell
     is-link
+    required
     bind:click="showItem"
     data-main-index="{{index}}"
     data-status="hasSymptoms"

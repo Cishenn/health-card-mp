@@ -64,7 +64,7 @@ Component({
       dayTime: this.properties.newTime
     });
     getReport(this.data.groupId).then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.data.length === 0 ) {
         return;
       }
@@ -78,12 +78,12 @@ Component({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
-        touch: tmp.touch,
+        touch: tmp.contact,
         symptoms: setsymptoms,
         message: tmp.other,
         familyNum: tmp.familyNum,
         familyUnhealthyNum: tmp.familyUnhealthyNum,
-        schoolRole: tmp.schoolRole,
+        schoolRole: tmp.identity,
         schoolId: tmp.schoolId,
         dayTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`
       });
@@ -114,6 +114,7 @@ Component({
       const key = e.currentTarget.dataset.source;
       this.setData({
         [key]: e.detail,
+        hasRole: false,
         hasLocation: false,
         hasSite: false,
         hasStatus: false,
@@ -141,6 +142,7 @@ Component({
         hasLocation: false,
         hasSite: false,
         hasStatus: false,
+        hasRole: false,
         hasTouched: false
       });
     },
@@ -151,7 +153,13 @@ Component({
     },
 
     submit() {
-      if (!this.data.location || !this.data.status || !this.data.touch || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
+      let schoolIdEmpty = true;
+      if (this.data.schoolRole &&
+          (this.data.schoolRole === '教职工' || this.data.schoolId)) {
+        schoolIdEmpty = false;
+      }
+      if (!this.data.location || !this.data.status || !this.data.touch ||
+          schoolIdEmpty || !this.data.symptoms.length) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -168,15 +176,17 @@ Component({
         address: null,
         location: this.data.location,
         status: this.data.status,
-        touch: this.data.touch,
+        contact: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
-        familyNumber: this.familyNumber.toString(),
-        illNumber: this.familyUnhealthyNum.toString(),
+        // familyNumber: this.familyNumber.toString(),
+        // illNumber: this.familyUnhealthyNum.toString(),
+        members: [],
         schoolId: this.data.schoolId,
         identity: this.data.schoolRole
       };
       const self = this;
+
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {

@@ -68,7 +68,7 @@ Component({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
-        touch: tmp.touch,
+        touch: tmp.contact,
         symptoms: setsymptoms,
         message: tmp.other,
         familyNum: tmp.familyNum,
@@ -125,7 +125,8 @@ Component({
     },
 
     submit() {
-      if (!this.data.location || !this.data.status || !this.data.touch || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
+      if (!this.data.location || !this.data.status || !this.data.touch ||
+          !this.data.symptoms.length) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -142,17 +143,17 @@ Component({
         address: null,
         location: this.data.location,
         status: this.data.status,
-        touch: this.data.touch,
+        contact: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
-        familyNumber: this.familyNumber.toString(),
-        illNumber: this.familyUnhealthyNum.toString(),
+        // familyNumber: this.familyNumber.toString(),
+        // illNumber: this.familyUnhealthyNum.toString(),
         schoolId: null,
         identity: null,
         members: []
       };
       const self = this;
-      // console.log(data);
+
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {

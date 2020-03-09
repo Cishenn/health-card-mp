@@ -28,13 +28,16 @@ Component({
     symptoms: [],
     familyList: [],
     message: '',
+    touch: '',
 
     hasLocation: false,
     hasStatus: false,
     hasSymptoms: false,
     hasConnected: false,
+    hasTouchd: false,
 
 
+    touchList: ['是', '否'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本社区'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
     symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
@@ -54,7 +57,7 @@ Component({
       }
       const tmp = res.data[0];
       time = dayjs(tmp.createdAt);
-      const setsymptoms = tmp.symptoms.map(item => {
+      let setsymptoms = tmp.symptoms.map(item => {
         return item.detail;
       });
       const flist = tmp.members.map(item => {
@@ -65,10 +68,18 @@ Component({
 
         return tmpit;
       });
+      // 如果返回的数据的日期不是今天，即今天尚未打卡，则清空位置、症状等信息
+      if (!dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
+        setsymptoms = null;
+        tmp.location = null;
+        tmp.message = null;
+        tmp.status = null;
+      }
       this.setData({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
+        touch: tmp.contact,
         symptoms: setsymptoms,
         familyList: flist,
         message: tmp.other,
@@ -89,7 +100,8 @@ Component({
       this.setData({
         [key]: e.detail,
         hasLocation: false,
-        hasStatus: false
+        hasStatus: false,
+        hasTouched: false,
       });
     },
 
@@ -111,7 +123,8 @@ Component({
       this.setData({
         [key]: name,
         hasLocation: false,
-        hasStatus: false
+        hasStatus: false,
+        hasTouched: false,
       });
       // console.log(this.data[key]);
     },
@@ -133,6 +146,7 @@ Component({
         hasLocation: false,
         hasStatus: false,
         hasSymptoms: false,
+        hasTouched: false,
       });
       this.setData({
         familyList: tmplist
@@ -216,7 +230,12 @@ Component({
       checkbox.toggle();
     },
     submit() {
-      if (!this.data.door || !this.data.location || !this.data.status) {
+      let symptomsEmpty = this.data.symptoms.length === 0 ? true : false;
+      this.data.familyList.forEach(member => {
+        symptomsEmpty = member.symptoms.length === 0 ? true : false;
+      });
+      if (!this.data.door || !this.data.location || !this.data.status ||
+          !this.data.touch || symptomsEmpty) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -246,6 +265,7 @@ Component({
         address: this.data.door,
         location: this.data.location,
         status: this.data.status,
+        contact: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
         members: this.data.familyList,
@@ -255,7 +275,7 @@ Component({
         identity: null
       };
       const self = this;
-      // console.log(data);
+
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {
