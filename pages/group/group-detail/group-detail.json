@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "daily-index": "/pages/daily-form/daily-index"
+  },
   "enablePullDownRefresh": true
 }

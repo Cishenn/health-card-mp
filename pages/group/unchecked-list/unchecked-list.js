@@ -30,6 +30,7 @@ Page({
         userId: member.UserGroup.UserId,
         userName: member.name,
       }));
+      allMembers = new Set(allMembers);
       checkedMembers.forEach(member => {
         if (allMembers.has(member)) {
           allMembers.delete(member);

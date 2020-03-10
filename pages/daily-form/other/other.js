@@ -3,6 +3,9 @@ import { getReport, createReport, postSubscribe } from '../../../api/service/rep
 import dayjs from 'dayjs';
 Component({
   properties: {
+    groupId: {
+      type: Number,
+    },
     hasSubmit: {
       type: 'Boolean'
     },
@@ -22,6 +25,7 @@ Component({
     schoolId: '',
     location: '',
     status: '',
+    touch: '',
     symptoms: [],
     message: '',
     familyNum: '',
@@ -31,12 +35,14 @@ Component({
     hasRole: false,
     hasLocation: false,
     hasStatus: false,
+    hasTouched: false,
     hasSymptoms: false,
 
     schoolRoleList: ['教职工', '学生'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本校'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
-    symptomsList: ['发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
+    touchList: ['是', '否'],
+    symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
   },
 
   attached: function() {
@@ -47,7 +53,7 @@ Component({
       dayTime: this.properties.newTime
     });
 
-    getReport().then(res => {
+    getReport(this.data.groupId).then(res => {
       console.log(res);
       if (res.data.length === 0 ) {
         return;
@@ -62,6 +68,7 @@ Component({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
+        touch: tmp.contact,
         symptoms: setsymptoms,
         message: tmp.other,
         familyNum: tmp.familyNum,
@@ -83,7 +90,8 @@ Component({
       this.setData({
         [key]: e.detail,
         hasLocation: false,
-        hasStatus: false
+        hasStatus: false,
+        hasTouched: false
       });
       // console.log(this.data);
     },
@@ -117,7 +125,8 @@ Component({
     },
 
     submit() {
-      if (!this.data.location || !this.data.status || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
+      if (!this.data.location || !this.data.status || !this.data.touch ||
+          !this.data.symptoms.length) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -127,22 +136,24 @@ Component({
         return;
       }
       const data = {
+        groupId: this.data.groupId,
         type: '其他',
         name: this.data.name,
         phone: this.data.phone,
         address: null,
         location: this.data.location,
         status: this.data.status,
+        contact: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
-        familyNumber: this.familyNumber.toString(),
-        illNumber: this.familyUnhealthyNum.toString(),
+        // familyNumber: this.familyNumber.toString(),
+        // illNumber: this.familyUnhealthyNum.toString(),
         schoolId: null,
         identity: null,
         members: []
       };
       const self = this;
-      // console.log(data);
+
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {

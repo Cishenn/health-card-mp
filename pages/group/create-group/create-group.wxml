@@ -1,21 +1,21 @@
 <!--pages/group/group.wxml-->
-<view class="create-group">  
-    <van-field 
+<view class="create-group">
+    <van-field
     clearable
     label="组名"
     placeholder="填写组名"
     required
     value="{{name}}"
     bind:change="getName"/>
-    
-    <van-field 
+
+    <van-field
     clearable
     label="简介(50字内)"
     placeholder="填写简介"
     required
     value="{{description}}"
     bind:change="getIntro"/>
-    
+
 
     <van-field
     clearable
@@ -23,19 +23,21 @@
     placeholder="填写姓名"
     required
     value="{{managerName}}"
+    disabled="{{disabled}}"
     bind:change="getCreator"/>
-    
 
-    <van-field 
+
+    <van-field
     clearable
     label="创建人电话"
     placeholder="填写手机号码"
     required
     value="{{managerPhone}}"
+    disabled="{{disabled}}"
     bind:change="getPhone"/>
-    
 
-    
+
+
     <van-cell
     is-link
     required
@@ -68,13 +70,13 @@
       </van-radio-group>
     </van-popup>
 
-    
+
   <view class="btn">
     <van-button
     type="info"
     block
-    bindtap="toSubmit"
-    wx:if="{{!hasSubmit}}">
+    disabled="{{hasSubmit}}"
+    bindtap="toSubmit">
     提交
     </van-button>
   </view>

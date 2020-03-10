@@ -7,10 +7,6 @@ import { validatePhoneNumber } from '../../../utils/validate';
 import { createGroup, modifyGroup } from '../../../api/service/group';
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     name: null,
     description: null,
@@ -24,14 +20,10 @@ Page({
 
     hasType: false,
     hasStatus: false,
-    // , '学校', '其他'
-    typeList: ['社区'],
-    // raido here to complemented.
+    hasSubmit: false,
+    typeList: ['社区', '学校', '其他'],
   },
 
-  /**
-   * 自定义事件 --- 按钮事件
-   */
   show(e) {
     const key = e.currentTarget.dataset.status;
     this.setData({
@@ -74,15 +66,24 @@ Page({
     const managerName = this.data.managerName;
     const managerPhone = this.data.managerPhone;
     const type = this.data.type;
+    this.setData({
+      hasSubmit: true
+    });
     if (!name || !description || !managerName || !managerPhone || !type) {
       Toast('请将以上信息填充完整!');
       console.log(name, description, managerName, managerPhone, type);
+      this.setData({
+        hasSubmit: false
+      });
 
       return;
     }
     else if (!validatePhoneNumber(managerPhone)) {
       Toast('请输入正确的手机号码!');
       console.log(managerPhone);
+      this.setData({
+        hasSubmit: false
+      });
 
       return;
     }
@@ -191,61 +192,18 @@ Page({
         type: options.type,
         changedGroupId: options.id,
       });
-      console.log(this.data);
     }
     else {
       wx.setNavigationBarTitle({
         title: '创建小组',
       });
+      const globalData = getApp().globalData;
+      const disabled = globalData.name ? true : false;
+      this.setData({
+        managerName: globalData.name,
+        managerPhone: globalData.phone,
+        disabled,
+      });
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
   }
 });

@@ -62,3 +62,24 @@ export function getUserInfo() {
     method: 'GET',
   });
 }
+
+export function setAvatarUrl(avatarUrl) {
+  return requestAsync({
+    url: `${config.host}/account/avatar`,
+    method: 'POST',
+    data: {
+      avatarURL: avatarUrl,
+    },
+  });
+}
+
+export function setNameAndPhone(name, phone) {
+  return requestAsync({
+    url: `${config.host}/account`,
+    method: 'POST',
+    data: {
+      name: name,
+      phone: phone,
+    },
+  });
+}

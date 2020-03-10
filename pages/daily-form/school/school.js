@@ -1,8 +1,12 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import AreaList from '../../../common/js/area';
 Component({
   properties: {
+    groupId: {
+      type: Number,
+    },
     hasSubmit: {
       type: 'Boolean'
     },
@@ -21,7 +25,15 @@ Component({
     schoolRole: '',
     schoolId: '',
     location: '',
+    site: '',
+    oppor: {
+      siteLabel: '',
+      siteProvinceId: '',
+      siteCityId: '',
+      siteCountyId: '',
+    },
     status: '',
+    touch: '',
     symptoms: [],
     message: '',
     familyNum: '',
@@ -30,13 +42,18 @@ Component({
 
     hasRole: false,
     hasLocation: false,
+    hasSite: false,
     hasStatus: false,
     hasSymptoms: false,
+    hasTouched: false,
+    showPicker: false,
 
+    AreaList: AreaList,
     schoolRoleList: ['教职工', '学生'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本校'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
-    symptomsList: ['发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
+    touchList: ['是', '否'],
+    symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
   },
 
   attached: function() {
@@ -46,8 +63,8 @@ Component({
     this.setData({
       dayTime: this.properties.newTime
     });
-    getReport().then(res => {
-      console.log(res);
+    getReport(this.data.groupId).then(res => {
+      // console.log(res);
       if (res.data.length === 0 ) {
         return;
       }
@@ -61,11 +78,12 @@ Component({
         door: tmp.address,
         location: tmp.location,
         status: tmp.status,
+        touch: tmp.contact,
         symptoms: setsymptoms,
         message: tmp.other,
         familyNum: tmp.familyNum,
         familyUnhealthyNum: tmp.familyUnhealthyNum,
-        schoolRole: tmp.schoolRole,
+        schoolRole: tmp.identity,
         schoolId: tmp.schoolId,
         dayTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`
       });
@@ -78,12 +96,29 @@ Component({
     });
   },
   methods: {
+    onConfirm(data) {
+      const siteDataAddr = data.mp.detail.values;
+      this.oppor.siteLabel =
+      siteDataAddr[0].name +
+      siteDataAddr[1].name +
+      siteDataAddr[2].name;
+      this.setData({
+        // oppor.siteProvinceId: siteDataAddr[0].code,
+        // oppor.siteCityId: siteDataAddr[1].code,
+        // oppor.siteCountyId: siteDataAddr[2].code,
+        // showPicker: false
+      });
+    },
+
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
       this.setData({
         [key]: e.detail,
+        hasRole: false,
         hasLocation: false,
-        hasStatus: false
+        hasSite: false,
+        hasStatus: false,
+        hasTouched: false
       });
     },
 
@@ -105,7 +140,10 @@ Component({
       this.setData({
         [key]: name,
         hasLocation: false,
-        hasStatus: false
+        hasSite: false,
+        hasStatus: false,
+        hasRole: false,
+        hasTouched: false
       });
     },
     clickSymptoms(event) {
@@ -115,7 +153,13 @@ Component({
     },
 
     submit() {
-      if (!this.data.location || !this.data.status || !this.data.schoolId || !this.data.schoolRole || !this.data.familyNum || !this.data.familyUnhealthyNum) {
+      let schoolIdEmpty = true;
+      if (this.data.schoolRole &&
+          (this.data.schoolRole === '教职工' || this.data.schoolId)) {
+        schoolIdEmpty = false;
+      }
+      if (!this.data.location || !this.data.status || !this.data.touch ||
+          schoolIdEmpty || !this.data.symptoms.length) {
         wx.showToast({
           title: '个人信息有空',
           icon: 'none',
@@ -125,20 +169,24 @@ Component({
         return;
       }
       const data = {
+        groupId: this.data.groupId,
         type: '学校',
         name: this.data.name,
         phone: this.data.phone,
         address: null,
         location: this.data.location,
         status: this.data.status,
+        contact: this.data.touch,
         other: this.data.message,
         symptoms: this.data.symptoms,
-        familyNumber: this.familyNumber.toString(),
-        illNumber: this.familyUnhealthyNum.toString(),
+        // familyNumber: this.familyNumber.toString(),
+        // illNumber: this.familyUnhealthyNum.toString(),
+        members: [],
         schoolId: this.data.schoolId,
         identity: this.data.schoolRole
       };
       const self = this;
+
       wx.requestSubscribeMessage({
         tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
         success(res) {

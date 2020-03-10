@@ -14,7 +14,8 @@ let pie2 = null;
 
 Page({
   data: {
-    showClockin: true,
+    showClockIn: false,
+    hasSubmit: false,
     groupId: null,
     managed: null,
     groupInfo: null,
@@ -41,9 +42,9 @@ Page({
   },
 
   switchModule: function() {
-    const showClockin = !this.data.showClockin;
+    const showClockIn = !this.data.showClockIn;
     this.setData({
-      showClockin
+      showClockIn
     });
   },
 
@@ -95,7 +96,7 @@ Page({
     this.setData({
       showDetail
     });
-    if (showDetail === false && this.data.chartsInited === false && this.data.clockInData.already !== 0) {
+    if (!showDetail && !this.data.chartsInited && !this.data.clockInData.already) {
       this.initCharts();
     }
   },
@@ -151,7 +152,7 @@ Page({
     });
     this.setData({
       groupId: options.id,
-      // managed: Boolean(Number(options.managed))
+      hasSubmit: options.hasSubmit,
     });
   },
 
@@ -246,6 +247,9 @@ Page({
     canvas1.init(this.initChart1);
     const canvas2 = this.selectComponent('#pie2');
     canvas2.init(this.initChart2);
+    this.setData({
+      chartsInited: true,
+    });
   },
 
   updateCharts: function() {
