@@ -1,6 +1,7 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import areaList from '../../../common/js/area';
 
 Component({
   properties: {
@@ -30,13 +31,15 @@ Component({
     message: '',
     touch: '',
 
+    // 填写某个家属信息时，将下面的值设为该家属在familyList中的索引
+    currentFamilyIndex: -1,
     hasLocation: false,
     hasStatus: false,
     hasSymptoms: false,
     hasConnected: false,
     hasTouchd: false,
 
-
+    areaList: areaList,
     touchList: ['是', '否'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本社区'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
@@ -76,7 +79,6 @@ Component({
         tmp.message = '';
         tmp.status = '';
         tmp.contact = '';
-        console.log(flist);
         flist.forEach(member => {
           member.status = '';
           member.location = '';
@@ -110,6 +112,48 @@ Component({
         hasLocation: false,
         hasStatus: false,
         hasTouched: false,
+      });
+    },
+
+    onAreaConfirm(res) {
+      if (this.data.hasSubmit) {
+        this.onAreaCancel();
+
+        return;
+      }
+      let location = res.detail.values;
+      if (!location[2]) {
+        // 三列地址中，如果最后一项为空即undefined，移除最后一项
+        location.pop();
+      }
+      location = res.detail.values.map(obj => obj.name);
+      // 去掉三列地址中重复的名称
+      for (let i = 1; i < location.length; ++ i) {
+        while (location[i - 1] === location[i] && i < location.length) {
+          location.splice(i, 1);
+        }
+      }
+
+      const index = this.data.currentFamilyIndex;
+      if (index === -1) {
+        this.setData({
+          location,
+          hasLocation: false,
+        });
+      }
+      else {
+        const familyList = this.data.familyList;
+        familyList[index].location = location;
+        familyList[index].hasLocation = false;
+        this.setData({
+          familyList,
+          currentFamilyIndex: -1,
+        });
+      }
+    },
+    onAreaCancel() {
+      this.setData({
+        hasLocation: false,
       });
     },
 
@@ -203,6 +247,7 @@ Component({
       const tmplist = this.data.familyList;
       tmplist[index][key] = true;
       this.setData({
+        currentFamilyIndex: index,
         familyList: tmplist
       });
       // console.log(this.data);
@@ -213,6 +258,7 @@ Component({
       const tmplist = this.data.familyList;
       tmplist[index][key] = false;
       this.setData({
+        currentFamilyIndex: -1,
         familyList: tmplist
       });
       // console.log(this.data);

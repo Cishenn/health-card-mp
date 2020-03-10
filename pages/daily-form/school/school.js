@@ -1,7 +1,8 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
-import AreaList from '../../../common/js/area';
+import areaList from '../../../common/js/area';
+
 Component({
   properties: {
     groupId: {
@@ -48,7 +49,7 @@ Component({
     hasTouched: false,
     showPicker: false,
 
-    AreaList: AreaList,
+    areaList: areaList,
     schoolRoleList: ['教职工', '学生'],
     locationList: ['武汉市内', '湖北省内', '国内', '国外', '本校'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
@@ -127,6 +128,35 @@ Component({
         hasSite: false,
         hasStatus: false,
         hasTouched: false
+      });
+    },
+
+    onAreaConfirm(res) {
+      if (this.data.hasSubmit) {
+        this.onAreaCancel();
+
+        return;
+      }
+      let location = res.detail.values;
+      if (!location[2]) {
+        // 三列地址中，如果最后一项为空即undefined，移除最后一项
+        location.pop();
+      }
+      location = res.detail.values.map(obj => obj.name);
+      // 去掉三列地址中重复的名称
+      for (let i = 1; i < location.length; ++ i) {
+        while (location[i - 1] === location[i] && i < location.length) {
+          location.splice(i, 1);
+        }
+      }
+      this.setData({
+        location,
+        hasLocation: false,
+      });
+    },
+    onAreaCancel() {
+      this.setData({
+        hasLocation: false,
       });
     },
 

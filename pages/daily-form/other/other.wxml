@@ -38,7 +38,7 @@
   position="bottom"
   data-status="hasLocation"
   bind:close="close">
-    <van-radio-group
+    <!-- <van-radio-group
     value="{{location}}"
     disabled="{{hasSubmit}}"
     data-source="location"
@@ -56,7 +56,11 @@
           <van-radio slot="right-icon" name="{{item}}" disabled="{{hasSubmit}}" />
         </van-cell>
       </van-cell-group>
-    </van-radio-group>
+    </van-radio-group> -->
+    <van-area area-list="{{ areaList }}"
+      bind:confirm="onAreaConfirm"
+      bind:cancel="onAreaCancel"
+    />
   </van-popup>
 
 

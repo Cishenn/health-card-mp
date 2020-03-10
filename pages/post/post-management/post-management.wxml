@@ -1,5 +1,5 @@
 <!--pages/post/post-management/post-management.wxml-->
-<view class="post-status">
+<view wx:if="{{announcement}}" class="post-status">
   <!-- <view wx:if="{{postUnderReview}}" class="under-review">
     审核中，预计1小时内审核完成
   </view> -->

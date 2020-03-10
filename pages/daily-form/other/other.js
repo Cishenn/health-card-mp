@@ -1,6 +1,8 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import areaList from '../../../common/js/area';
+
 Component({
   properties: {
     groupId: {
@@ -31,7 +33,7 @@ Component({
     // familyNum: '',
     // familyUnhealthyNum: '',
 
-
+    areaList: areaList,
     hasRole: false,
     hasLocation: false,
     hasStatus: false,
@@ -54,7 +56,7 @@ Component({
     });
 
     getReport(this.data.groupId).then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.data.length === 0 ) {
         return;
       }
@@ -102,6 +104,35 @@ Component({
         hasTouched: false
       });
       // console.log(this.data);
+    },
+
+    onAreaConfirm(res) {
+      if (this.data.hasSubmit) {
+        this.onAreaCancel();
+
+        return;
+      }
+      let location = res.detail.values;
+      if (!location[2]) {
+        // 三列地址中，如果最后一项为空即undefined，移除最后一项
+        location.pop();
+      }
+      location = res.detail.values.map(obj => obj.name);
+      // 去掉三列地址中重复的名称
+      for (let i = 1; i < location.length; ++ i) {
+        while (location[i - 1] === location[i] && i < location.length) {
+          location.splice(i, 1);
+        }
+      }
+      this.setData({
+        location,
+        hasLocation: false,
+      });
+    },
+    onAreaCancel() {
+      this.setData({
+        hasLocation: false,
+      });
     },
 
     show(e) {
