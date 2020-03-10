@@ -36,8 +36,8 @@ Component({
     touch: '',
     symptoms: [],
     message: '',
-    familyNum: '',
-    familyUnhealthyNum: '',
+    // familyNum: '',
+    // familyUnhealthyNum: '',
 
 
     hasRole: false,
@@ -70,10 +70,18 @@ Component({
       }
       const tmp = res.data[0];
       time = dayjs(tmp.createdAt);
-      const setsymptoms = tmp.symptoms.map(item => {
+      let setsymptoms = tmp.symptoms.map(item => {
         return item.detail;
       });
 
+      // 如果返回的数据的日期不是今天，即今天尚未打卡，则清空位置、症状等信息
+      if (!dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
+        setsymptoms = [];
+        tmp.location = '';
+        tmp.message = '';
+        tmp.status = '';
+        tmp.contact = '';
+      }
       this.setData({
         door: tmp.address,
         location: tmp.location,
@@ -81,8 +89,8 @@ Component({
         touch: tmp.contact,
         symptoms: setsymptoms,
         message: tmp.other,
-        familyNum: tmp.familyNum,
-        familyUnhealthyNum: tmp.familyUnhealthyNum,
+        // familyNum: tmp.familyNum,
+        // familyUnhealthyNum: tmp.familyUnhealthyNum,
         schoolRole: tmp.identity,
         schoolId: tmp.schoolId,
         dayTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`

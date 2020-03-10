@@ -68,12 +68,20 @@ Component({
 
         return tmpit;
       });
+
       // 如果返回的数据的日期不是今天，即今天尚未打卡，则清空位置、症状等信息
       if (!dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
-        setsymptoms = null;
-        tmp.location = null;
-        tmp.message = null;
-        tmp.status = null;
+        setsymptoms = [];
+        tmp.location = '';
+        tmp.message = '';
+        tmp.status = '';
+        tmp.contact = '';
+        console.log(flist);
+        flist.forEach(member => {
+          member.status = '';
+          member.location = '';
+          member.symptoms = [];
+        });
       }
       this.setData({
         door: tmp.address,
