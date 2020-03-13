@@ -1,6 +1,7 @@
 <!--pages/daily-form/daily-index.wxml-->
 
 <community  wx:if="{{role=='社区'}}"
+bind:clockin="onClockIn"
 groupId="{{groupId}}"
 hasSubmit="{{hasSubmit}}"
 name="{{name}}"
@@ -9,6 +10,7 @@ newTime="{{newTime}}"
 >
 </community>
 <school wx:elif="{{role=='学校'}}"
+bind:clockin="onClockIn"
 groupId="{{groupId}}"
 hasSubmit="{{hasSubmit}}"
 name="{{name}}"
@@ -16,6 +18,7 @@ phone="{{phone}}"
 newTime="{{newTime}}">
 </school>
 <other wx:elif="{{role=='其他'}}"
+bind:clockin="onClockIn"
 groupId="{{groupId}}"
 hasSubmit="{{hasSubmit}}"
 name="{{name}}"

@@ -39,33 +39,15 @@
   data-status="hasLocation"
   bind:click="show"
   disabled="{{hasSubmit}}"
-  title="当前位置">{{location}}
+  title="当前位置">{{locationArray}}
   </van-cell>
   <van-popup
   show="{{hasLocation}}"
   position="bottom"
   data-status="hasLocation"
   bind:close="close">
-    <!-- <van-radio-group
-    value="{{location}}"
-    data-source="location"
-    disabled="{{hasSubmit}}"
-    bind:change="changeValue">
-      <van-cell-group>
-        <van-cell
-          wx:for="{{locationList}}"
-          wx:key="index"
-          title="{{item}}"
-          clickable
-          data-name="{{item}}"
-          data-source="location"
-          bind:click="clickShow"
-        >
-          <van-radio slot="right-icon" name="{{item}}" disabled="{{hasSubmit}}" />
-        </van-cell>
-      </van-cell-group>
-    </van-radio-group> -->
     <van-area area-list="{{ areaList }}"
+      value="{{location}}"
       bind:confirm="onAreaConfirm"
       bind:cancel="onAreaCancel"
     />
@@ -150,13 +132,13 @@
   required
   bind:click="show"
   disabled="{{hasSubmit}}"
-  data-status="hasTouched"
-  title="是否与敏感/疑似/确诊人员接触过">{{touch}}
+  data-status="hasTouch"
+  title="是否接触过敏感/疑似/确诊人员">{{touch}}
   </van-cell>
   <van-popup
-  show="{{hasTouched}}"
+  show="{{hasTouch}}"
   position="bottom"
-  data-status="hasTouched"
+  data-status="hasTouch"
   bind:close="close">
     <van-radio-group
     value="{{touch}}"
@@ -226,7 +208,7 @@
     data-main-index="{{index}}"
     data-status="hasLocation"
     bind:click="showItem"
-    title="家属当前位置">{{item.location}}
+    title="家属当前位置">{{item.locationArray}}
     </van-cell>
     <van-popup
     show="{{item.hasLocation}}"
@@ -234,30 +216,8 @@
     data-status="hasLocation"
     data-main-index="{{index}}"
     bind:close="closeItem">
-      <!-- <van-radio-group
-      value="{{item.location}}"
-      data-main-index="{{index}}"
-      data-source="location"
-      disabled="{{hasSubmit}}"
-      bind:change="changeItemValue">
-        <van-cell-group>
-          <van-cell
-            wx:for="{{locationList}}"
-            wx:for-index="itemindex"
-            wx:for-item="itemx"
-            wx:key="itemindex"
-            title="{{itemx}}"
-            clickable
-            data-name="{{itemx}}"
-            data-main-index="{{index}}"
-            data-source="location"
-            bind:click="clickItem"
-          >
-            <van-radio slot="right-icon" name="{{itemx}}" disabled="{{hasSubmit}}" />
-          </van-cell>
-        </van-cell-group>
-      </van-radio-group> -->
     <van-area area-list="{{ areaList }}"
+      value="{{item.location}}"
       bind:confirm="onAreaConfirm"
       bind:cancel="onAreaCancel"
     />
@@ -347,6 +307,46 @@
         </van-cell-group>
       </van-checkbox-group>
     </van-popup>
+
+    <van-cell
+    is-link
+    required
+    bind:click="showItem"
+    data-main-index="{{index}}"
+    data-status="hasTouch"
+    title="是否接触过敏感/疑似/确诊人员">{{item.touch}}
+    </van-cell>
+    <van-popup
+    show="{{item.hasTouch}}"
+    position="bottom"
+    data-main-index="{{index}}"
+    data-status="hasTouch"
+    bind:close="closeItem">
+      <van-radio-group
+      value="{{item.touch}}"
+      data-main-index="{{index}}"
+      data-source="touch"
+      disabled="{{hasSubmit}}"
+      bind:change="changeItemValue">
+        <van-cell-group>
+          <van-cell
+            wx:for="{{touchList}}"
+            wx:for-index="itemindex"
+            wx:for-item="itemx"
+            wx:key="itemindex"
+            title="{{itemx}}"
+            clickable
+            data-name="{{itemx}}"
+            data-main-index="{{index}}"
+            data-source="touch"
+            bind:click="clickItem"
+          >
+            <van-radio slot="right-icon" name="{{itemx}}" disabled="{{hasSubmit}}" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-popup>
+
   </van-cell-group>
 </view>
 

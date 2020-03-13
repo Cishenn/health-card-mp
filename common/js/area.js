@@ -1,4 +1,44 @@
-export default {
+function convertCodeToStringArray(code) {
+  // 如果是海外，直接返回国家名称
+  if (code[0] === '9') {
+    return [areaList.city_list[code]];
+  }
+
+  let province = `${code.substring(0, 2)}0000`;
+  let city = `${code.substring(0, 4)}00`;
+  let county = '';
+  province = areaList.province_list[province];
+  city = areaList.city_list[city];
+  county = areaList.county_list[code];
+
+  return removeSame([province, city, county]);
+}
+
+function convertComfirmResultToStringArray(values) {
+  let location = values;
+  // 三列地址中，如果最后一项为空即用户选择海外，直接展示国家名称
+  if (!location[2]) {
+    return [location[1].name];
+  }
+
+  location = location.map(obj => obj.name);
+  // 去掉三列地址中重复的名称
+
+  return removeSame(location);
+}
+
+function removeSame(array) {
+  const _array = array;
+  for (let i = 1; i < _array.length; ++ i) {
+    while (_array[i - 1] === _array[i] && i < _array.length) {
+      _array.splice(i, 1);
+    }
+  }
+
+  return _array;
+}
+
+const areaList = {
   province_list: {
     110000: '北京市',
     120000: '天津市',
@@ -4038,4 +4078,10 @@ export default {
     820101: '澳门半岛',
     820201: '离岛',
   },
+};
+
+export {
+  areaList,
+  convertCodeToStringArray,
+  convertComfirmResultToStringArray,
 };

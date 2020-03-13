@@ -3,15 +3,15 @@ import Renderer from './lib/renderer';
 import F2 from './lib/f2';
 
 // 适配小程序的事件机制
-F2.Util.addEventListener = function (source, type, listener) {
+F2.Util.addEventListener = function(source, type, listener) {
   source.addListener(type, listener);
 };
 
-F2.Util.removeEventListener = function (source, type, listener) {
+F2.Util.removeEventListener = function(source, type, listener) {
   source.removeListener(type, listener);
 };
 
-F2.Util.createEvent = function (event, chart) {
+F2.Util.createEvent = function(event, chart) {
   const type = event.type;
   let x = 0;
   let y = 0;
@@ -51,10 +51,11 @@ Component({
 
   },
 
-  ready: function () {
+  ready: function() {
     if (!this.data.opts) {
-      console.warn('组件需绑定 opts 变量，例：<ff-canvas id="mychart-dom-bar" '
-        + 'canvas-id="mychart-bar" opts="{{ opts }}"></ff-canvas>');
+      console.warn('组件需绑定 opts 变量，例：<ff-canvas id="mychart-dom-bar" ' +
+        'canvas-id="mychart-bar" opts="{{ opts }}"></ff-canvas>');
+
       return;
     }
 
@@ -67,12 +68,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    init: function(callback) {
+    init: function(callback, instanceId) {
       const version = wx.version.version.split('.').map(n => parseInt(n, 10));
-      const isValid = version[0] > 1 || (version[0] === 1 && version[1] > 9)
-        || (version[0] === 1 && version[1] === 9 && version[2] >= 91);
+      const isValid = version[0] > 1 || (version[0] === 1 && version[1] > 9) ||
+        (version[0] === 1 && version[1] === 9 && version[2] >= 91);
       if (!isValid) {
         console.error('微信基础库版本过低，需大于等于 1.9.91。');
+
         return;
       }
 
@@ -83,16 +85,17 @@ Component({
       const query = wx.createSelectorQuery().in(this);
       query.select('.f2-canvas').boundingClientRect(res => {
         if (typeof callback === 'function') {
-          this.chart = callback(canvas, res.width, res.height);
-        } else if (this.data.opts && this.data.opts.onInit) {
-          this.chart = this.data.opts.onInit(canvas, res.width, res.height);
+          this.chart = callback(canvas, res.width, res.height, instanceId);
+        }
+        else if (this.data.opts && this.data.opts.onInit) {
+          this.chart = this.data.opts.onInit(canvas, res.width, res.height, instanceId);
         }
       }).exec();
     },
     touchStart(e) {
-       if (this.canvas) {
-         this.canvas.emitEvent('touchstart', [e]);
-       }
+      if (this.canvas) {
+        this.canvas.emitEvent('touchstart', [e]);
+      }
     },
     touchMove(e) {
       if (this.canvas) {
@@ -110,4 +113,4 @@ Component({
       }
     }
   }
-})
+});

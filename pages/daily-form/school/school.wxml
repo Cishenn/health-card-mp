@@ -74,61 +74,19 @@
   disabled="{{hasSubmit}}"
   data-status="hasLocation"
   bind:click="show"
-  title="当前位置">{{location}}
+  title="当前位置">{{locationArray}}
   </van-cell>
   <van-popup
   show="{{hasLocation}}"
   position="bottom"
   data-status="hasLocation"
   bind:close="close">
-    <!-- <van-radio-group
-    value="{{location}}"
-    disabled="{{hasSubmit}}"
-    data-source="location"
-    bind:change="changeValue">
-      <van-cell-group>
-        <van-cell
-          wx:for="{{locationList}}"
-          wx:key="index"
-          title="{{item}}"
-          clickable
-          data-name="{{item}}"
-          data-source="location"
-          bind:click="clickShow"
-        >
-          <van-radio slot="right-icon" name="{{item}}" disabled="{{hasSubmit}}" />
-        </van-cell>
-      </van-cell-group>
-    </van-radio-group> -->
     <van-area area-list="{{ areaList }}"
+      value="{{location}}"
       bind:confirm="onAreaConfirm"
       bind:cancel="onAreaCancel"
     />
   </van-popup>
-
-
-  <!-- <van-field
-  v-model="locationList[1]"
-  is-link
-  data-status="hasSite"
-  bind:click="show"
-  disabled="{{hasSubmit}}"
-  title="省市选择"
-  required
-  bind: click="showPicker=true">
-  </van-field>
-  <van-popup
-  position="bottom"
-  data-status="hasSite"
-  bind:close="close">
-  <van-area
-  :area-list="{{AreaList}}"
-  value="site"
-  title="省市"
-  bind:confirm="onConfirm"
-  bind:cancel="showPicker=false"
-  />
-  </van-popup> -->
 
 
   <van-cell
@@ -230,13 +188,13 @@
   required
   bind:click="show"
   disabled="{{hasSubmit}}"
-  data-status="hasTouched"
-  title="是否与敏感/疑似/确诊人员接触过">{{touch}}
+  data-status="hasTouch"
+  title="是否接触过敏感/疑似/确诊人员">{{touch}}
   </van-cell>
   <van-popup
-  show="{{hasTouched}}"
+  show="{{hasTouch}}"
   position="bottom"
-  data-status="hasTouched"
+  data-status="hasTouch"
   bind:close="close">
     <van-radio-group
     value="{{touch}}"

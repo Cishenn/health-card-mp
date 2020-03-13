@@ -38,3 +38,12 @@ export function postSubscribe() {
     method: 'POST'
   });
 }
+
+
+// 获取小组是否接触过确诊人员
+export function getContactData(groupId, date) {
+  return requestAsync({
+    url: `${baseDocment}/contact/${groupId}?time=${date}`,
+    method: 'GET'
+  });
+}
