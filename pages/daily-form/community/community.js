@@ -342,9 +342,8 @@ Component({
       };
       const self = this;
 
-      wx.showLoading();
       wx.requestSubscribeMessage({
-        tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
+        tmplIds: ['NoBDyg8tlJH4zDERchE3sQbE9KxRFD3e8VW29PRbHL4'],
         success(res) {
           console.log(res, '订阅成功');
           postSubscribe();
@@ -353,6 +352,7 @@ Component({
           console.error('订阅err', res);
         },
         complete() {
+          wx.showLoading();
           createReport(data)
             .then(() => {
               return getReport(self.data.groupId);

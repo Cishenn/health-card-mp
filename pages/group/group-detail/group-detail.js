@@ -225,7 +225,6 @@ Page({
       healthData = getPie1Data(healthData, total);
       const distributeData = getPie2Data(this.data.groupInfo.type, res[2].data, total);
       const contactData = getPie3Data(res[3].data, total);
-      console.log('contact', contactData);
       this.setData({
         clockInData,
         healthData,
