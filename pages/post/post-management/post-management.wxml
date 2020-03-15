@@ -1,5 +1,5 @@
 <!--pages/post/post-management/post-management.wxml-->
-<view class="post-status">
+<view wx:if="{{announcement}}" class="post-status">
   <!-- <view wx:if="{{postUnderReview}}" class="under-review">
     审核中，预计1小时内审核完成
   </view> -->
@@ -12,7 +12,7 @@
 </view>
 <view class="textarea">
     <van-field
-      value="{{!announcement ? '' : (managed && announcement.checkContent ? announcement.checkContent : announcement.content)}}"
+      value="{{!announcement ? '' : (announcement.checkContent ? announcement.checkContent : announcement.content)}}"
       type="textarea"
       placeholder="请编写小组公告（140字以内）"
       autosize

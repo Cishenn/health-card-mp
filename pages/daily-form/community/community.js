@@ -1,6 +1,8 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import { convertCodeToStringArray, convertComfirmResultToStringArray,
+  areaList } from '../../../common/js/area';
 
 Component({
   properties: {
@@ -23,22 +25,26 @@ Component({
   data: {
     dayTime: '',
     door: null,
-    location: '',
+    // 地区代码
+    location: '110101',
+    // ['省','市','区']
+    locationArray: [],
     status: '',
     symptoms: [],
     familyList: [],
     message: '',
     touch: '',
 
+    // 填写某个家属信息时，将该值设为该家属在familyList中的索引
+    currentFamilyIndex: -1,
     hasLocation: false,
     hasStatus: false,
     hasSymptoms: false,
     hasConnected: false,
-    hasTouchd: false,
+    hasTouch: false,
 
-
+    areaList: areaList,
     touchList: ['是', '否'],
-    locationList: ['武汉市内', '湖北省内', '国内', '国外', '本社区'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
     symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
   },
@@ -60,26 +66,42 @@ Component({
       let setsymptoms = tmp.symptoms.map(item => {
         return item.detail;
       });
+      let touch = tmp.contact ? '是' : '否';
       const flist = tmp.members.map(item => {
         const tmpit = item;
         tmpit.symptoms = item.symptoms.map(it => {
           return it.detail;
         });
+        tmpit.touch = tmpit.contact ? '是' : '否';
 
         return tmpit;
       });
+      let locationArray = [];
+
       // 如果返回的数据的日期不是今天，即今天尚未打卡，则清空位置、症状等信息
       if (!dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
-        setsymptoms = null;
-        tmp.location = null;
-        tmp.message = null;
-        tmp.status = null;
+        setsymptoms = [];
+        tmp.message = '';
+        tmp.status = '';
+        touch = '';
+        flist.forEach(member => {
+          member.status = '';
+          member.symptoms = [];
+          member.touch = '';
+        });
+      }
+      else {
+        locationArray = convertCodeToStringArray(tmp.location);
+        flist.forEach(member => {
+          member.locationArray = convertCodeToStringArray(member.location);
+        });
       }
       this.setData({
         door: tmp.address,
         location: tmp.location,
+        locationArray,
         status: tmp.status,
-        touch: tmp.contact,
+        touch,
         symptoms: setsymptoms,
         familyList: flist,
         message: tmp.other,
@@ -93,6 +115,7 @@ Component({
       });
     });
   },
+
   methods: {
     changeValue(e) {
       const key = e.currentTarget.dataset.source;
@@ -101,7 +124,42 @@ Component({
         [key]: e.detail,
         hasLocation: false,
         hasStatus: false,
-        hasTouched: false,
+        hasTouch: false,
+      });
+    },
+
+    onAreaConfirm(res) {
+      if (this.data.hasSubmit) {
+        this.onAreaCancel();
+
+        return;
+      }
+      const location = res.detail.values[2] ?
+        res.detail.values[2].code : res.detail.values[1].code;
+      const locationArray = convertComfirmResultToStringArray(res.detail.values);
+
+      const index = this.data.currentFamilyIndex;
+      if (index === -1) {
+        this.setData({
+          location,
+          locationArray,
+          hasLocation: false,
+        });
+      }
+      else {
+        const familyList = this.data.familyList;
+        familyList[index].location = location;
+        familyList[index].locationArray = locationArray;
+        familyList[index].hasLocation = false;
+        this.setData({
+          familyList,
+          currentFamilyIndex: -1,
+        });
+      }
+    },
+    onAreaCancel() {
+      this.setData({
+        hasLocation: false,
       });
     },
 
@@ -124,7 +182,7 @@ Component({
         [key]: name,
         hasLocation: false,
         hasStatus: false,
-        hasTouched: false,
+        hasTouch: false,
       });
       // console.log(this.data[key]);
     },
@@ -140,13 +198,14 @@ Component({
       tmplist.push({
         name: '',
         phone: '',
-        location: '',
+        location: '110101',
+        locationArray: [],
         status: '',
         symptoms: [],
         hasLocation: false,
         hasStatus: false,
         hasSymptoms: false,
-        hasTouched: false,
+        hasTouch: false,
       });
       this.setData({
         familyList: tmplist
@@ -182,6 +241,7 @@ Component({
       tmplist[index][key] = e.detail;
       tmplist[index]['hasLocation'] = false;
       tmplist[index]['hasStatus'] = false;
+      tmplist[index]['hasTouch'] = false;
       this.setData({
         familyList: tmplist
       });
@@ -195,6 +255,7 @@ Component({
       const tmplist = this.data.familyList;
       tmplist[index][key] = true;
       this.setData({
+        currentFamilyIndex: index,
         familyList: tmplist
       });
       // console.log(this.data);
@@ -205,6 +266,7 @@ Component({
       const tmplist = this.data.familyList;
       tmplist[index][key] = false;
       this.setData({
+        currentFamilyIndex: -1,
         familyList: tmplist
       });
       // console.log(this.data);
@@ -218,6 +280,7 @@ Component({
       tmplist[index][key] = name;
       tmplist[index]['hasLocation'] = false;
       tmplist[index]['hasStatus'] = false;
+      tmplist[index]['hasTouch'] = false;
       this.setData({
         familyList: tmplist
       });
@@ -229,6 +292,7 @@ Component({
       const checkbox = this.selectComponent(`.checkboxes-${maninIndex}-${index}`);
       checkbox.toggle();
     },
+
     submit() {
       let symptomsEmpty = this.data.symptoms.length === 0 ? true : false;
       this.data.familyList.forEach(member => {
@@ -245,7 +309,7 @@ Component({
         return;
       }
       const uncompleteList = this.data.familyList.filter(member => {
-        return (!member.name || !member.phone || !member.location || !member.status);
+        return (!member.name || !member.phone || !member.location || !member.status || !member.touch);
       });
       if (uncompleteList.length > 0) {
         wx.showToast({
@@ -257,6 +321,10 @@ Component({
 
         return;
       }
+
+      this.data.familyList.forEach(member => {
+        member.contact = member.touch === '是' ? true : false;
+      });
       const data = {
         groupId: this.data.groupId,
         type: '社区',
@@ -265,53 +333,63 @@ Component({
         address: this.data.door,
         location: this.data.location,
         status: this.data.status,
-        contact: this.data.touch,
+        contact: this.data.touch === '是' ? true : false,
         other: this.data.message,
         symptoms: this.data.symptoms,
         members: this.data.familyList,
-        familyNumber: null,
-        illNumber: null,
         schoolId: null,
         identity: null
       };
       const self = this;
 
       wx.requestSubscribeMessage({
-        tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
+        tmplIds: ['NoBDyg8tlJH4zDERchE3sQbE9KxRFD3e8VW29PRbHL4'],
         success(res) {
           console.log(res, '订阅成功');
-          wx.showLoading();
           postSubscribe();
         },
         fail(res) {
-          console.log('订阅err', res);
-          wx.showLoading();
+          console.error('订阅err', res);
         },
         complete() {
-          createReport(data).then(() => {
-            wx.hideLoading();
-            wx.showToast({
-              title: '提交成功',
-              icon: 'success',
-              duration: 2000
+          wx.showLoading();
+          createReport(data)
+            .then(() => {
+              return getReport(self.data.groupId);
+            })
+            .then(res => {
+              const days = ['日', '一', '二', '三', '四', '五', '六'];
+              const dayTime = dayjs(res.data[0].createdAt);
+              self.setData({
+                dayTime: `${dayTime.format('YYYY年MM月DD日')} 星期${days[dayTime.day()]} ${dayTime.format('HH:mm')}`
+              });
+            })
+            .then(() => {
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交成功',
+                icon: 'success',
+                duration: 2000
+              });
+              self.setData({
+                hasSubmit: true
+              });
+              self.triggerEvent('clockin', {}, {
+                bubbles: true,
+                composed: true,
+              });
+            })
+            .catch(err => {
+              console.error(err);
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交失败',
+                icon: 'none',
+                duration: 2000
+              });
             });
-            self.setData({
-              hasSubmit: true
-            });
-          }).catch(err => {
-            console.log(err);
-            wx.hideLoading();
-            wx.showToast({
-              title: '提交失败',
-              icon: 'none',
-              duration: 2000
-            });
-          });
         }
       });
-
-
-      // console.log('submit');
     }
   }
 

@@ -21,58 +21,32 @@ export function getPie1Data(healthData, total) {
 }
 
 export function getPie2Data(groupType, distributeData, total) {
-  let chartData = null;
-  if (groupType === '社区') {
-    chartData = [{
-      value: distributeData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: distributeData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: distributeData.inCountry,
-      name: '国内'
-    }, {
-      value: distributeData.outCountry,
-      name: '国外'
-    }, {
-      value: distributeData.localCommunity,
-      name: '本社区'
-    }];
-  }
-  else if (groupType === '学校') {
-    chartData = [{
-      value: distributeData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: distributeData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: distributeData.inCountry,
-      name: '国内'
-    }, {
-      value: distributeData.outCountry,
-      name: '国外'
-    }, {
-      value: distributeData.localSchool,
-      name: '本学校'
-    }];
-  }
-  else {
-    chartData = [{
-      value: distributeData.inWuHan,
-      name: '武汉市内'
-    }, {
-      value: distributeData.inHuBei,
-      name: '湖北省内'
-    }, {
-      value: distributeData.inCountry,
-      name: '国内'
-    }, {
-      value: distributeData.outCountry,
-      name: '国外'
-    }];
-  }
+  const chartData = [{
+    value: distributeData.inWuHan,
+    name: '武汉市内'
+  }, {
+    value: distributeData.inHuBei,
+    name: '湖北省内'
+  }, {
+    value: distributeData.other,
+    name: '其他地区'
+  }];
+  chartData.forEach(item => {
+    item.const = 'const';
+    item.percent = toPercentage(item.value, total);
+  });
+
+  return chartData;
+}
+
+export function getPie3Data(contactData, total) {
+  const chartData = [{
+    value: contactData.isContact,
+    name: '是'
+  }, {
+    value: contactData.noContact,
+    name: '否'
+  }];
   chartData.forEach(item => {
     item.const = 'const';
     item.percent = toPercentage(item.value, total);

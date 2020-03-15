@@ -21,7 +21,7 @@
 </view>
 
 <view style="{{showClockIn ? '' : 'display: none;'}}" class="clock-in-section">
-  <daily-index groupId="{{groupId}}" role="{{groupInfo.type}}" hasSubmit="{{hasSubmit}}"></daily-index>
+  <daily-index groupId="{{groupId}}" role="{{groupInfo.type}}" hasSubmit="{{hasSubmit}}" bind:clockin="onClockIn"></daily-index>
 </view>
 
 <view style="{{showClockIn ? 'display: none;' : ''}}">
@@ -75,6 +75,10 @@
       <view class="charts-container">
         <ff-canvas id="pie2" canvas-id="column2" opts="{{ opts2 }}"></ff-canvas>
       </view>
+      <view class="statistic-title">3. 是否接触过敏感/疑似/确诊人员</view>
+      <view class="charts-container">
+        <ff-canvas id="pie3" canvas-id="column3" opts="{{ opts3 }}"></ff-canvas>
+      </view>
     </view>
   </view>
   <!-- </block> -->
@@ -92,13 +96,15 @@
           <van-cell title="手机号：{{item.phone}}"/>
           <van-cell title="所在位置：{{item.reports[0].location}}"/>
           <van-cell title="本人状态：{{item.reports[0].status}}"/>
-          <van-cell title="本人症状：{{item.reports[0].formatedSymptom}}" wx:if="{{item.reports[0].formatedSymptom !== ''}}"/>
+          <van-cell title="本人症状：{{item.reports[0].symptoms}}"/>
+          <van-cell title="是否接触过敏感/疑似/确诊人员：{{item.reports[0].touch}}"/>
           <block wx:for="{{ item.reports[0].members }}" wx:for-item="rela">
             <van-cell title="家属姓名：{{rela.name}}" title-class="bold"/>
             <van-cell title="手机号：{{rela.phone}}"/>
             <van-cell title="所在位置：{{rela.location}}"/>
             <van-cell title="家属状态：{{rela.status}}"/>
-            <van-cell title="家属症状：{{rela.formatedSymptom}}" wx:if="{{rela.formatedSymptom !== ''}}"/>
+            <van-cell title="家属症状：{{rela.symptoms}}"/>
+            <van-cell title="是否接触过敏感/疑似/确诊人员：{{rela.touch}}"/>
          </block>
         </van-collapse-item>
       </block>

@@ -37,6 +37,8 @@ Page({
     setNameAndPhone(name, phone)
       .then(() => {
         Toast('修改成功');
+        getApp().globalData.name = name;
+        getApp().globalData.phone = phone;
         setTimeout(() => {
           wx.navigateBack();
         }, 1000);

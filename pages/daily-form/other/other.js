@@ -1,6 +1,9 @@
 // pages/daily-form/community/community.js
 import { getReport, createReport, postSubscribe } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import { convertCodeToStringArray, convertComfirmResultToStringArray,
+  areaList } from '../../../common/js/area';
+
 Component({
   properties: {
     groupId: {
@@ -23,23 +26,25 @@ Component({
     dayTime: '',
     schoolRole: '',
     schoolId: '',
-    location: '',
+    // 地区代码
+    location: '110101',
+    // ['省','市','区']
+    locationArray: [],
     status: '',
     touch: '',
     symptoms: [],
     message: '',
-    familyNum: '',
-    familyUnhealthyNum: '',
+    // familyNum: '',
+    // familyUnhealthyNum: '',
 
-
+    areaList: areaList,
     hasRole: false,
     hasLocation: false,
     hasStatus: false,
-    hasTouched: false,
+    hasTouch: false,
     hasSymptoms: false,
 
     schoolRoleList: ['教职工', '学生'],
-    locationList: ['武汉市内', '湖北省内', '国内', '国外', '本校'],
     statusList: ['正常', '疑似', '确诊', '自查异常'],
     touchList: ['是', '否'],
     symptomsList: ['无症状', '发热', '咳嗽', '食欲不佳', '乏力', '肌肉酸痛', '气促', '腹泻', '结膜充血']
@@ -54,25 +59,38 @@ Component({
     });
 
     getReport(this.data.groupId).then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.data.length === 0 ) {
         return;
       }
       const tmp = res.data[0];
       time = dayjs(tmp.createdAt);
-      const setsymptoms = tmp.symptoms.map(item => {
+      let setsymptoms = tmp.symptoms.map(item => {
         return item.detail;
       });
+      let locationArray = [];
+      let touch = tmp.contact ? '是' : '否';
 
+      // 如果返回的数据的日期不是今天，即今天尚未打卡，则清空位置、症状等信息
+      if (!dayjs(res.data[0].createdAt).isSame(dayjs(), 'date')) {
+        setsymptoms = [];
+        tmp.message = '';
+        tmp.status = '';
+        touch = '';
+      }
+      else {
+        locationArray = convertCodeToStringArray(tmp.location);
+      }
       this.setData({
         door: tmp.address,
         location: tmp.location,
+        locationArray,
         status: tmp.status,
-        touch: tmp.contact,
+        touch,
         symptoms: setsymptoms,
         message: tmp.other,
-        familyNum: tmp.familyNum,
-        familyUnhealthyNum: tmp.familyUnhealthyNum,
+        // familyNum: tmp.familyNum,
+        // familyUnhealthyNum: tmp.familyUnhealthyNum,
         dayTime: `${time.format('YYYY年MM月DD日')} 星期${days[time.day()]} ${time.format('HH:mm')}`
       });
     }).catch(() => {
@@ -91,9 +109,31 @@ Component({
         [key]: e.detail,
         hasLocation: false,
         hasStatus: false,
-        hasTouched: false
+        hasTouch: false
       });
       // console.log(this.data);
+    },
+
+    onAreaConfirm(res) {
+      if (this.data.hasSubmit) {
+        this.onAreaCancel();
+
+        return;
+      }
+      const location = res.detail.values[2] ?
+        res.detail.values[2].code : res.detail.values[1].code;
+      const locationArray = convertComfirmResultToStringArray(res.detail.values);
+      this.setData({
+        location,
+        locationArray,
+        hasLocation: false,
+      });
+    },
+
+    onAreaCancel() {
+      this.setData({
+        hasLocation: false,
+      });
     },
 
     show(e) {
@@ -114,7 +154,8 @@ Component({
       this.setData({
         [key]: name,
         hasLocation: false,
-        hasStatus: false
+        hasStatus: false,
+        hasTouch: false,
       });
       // console.log(this.data[key]);
     },
@@ -143,7 +184,7 @@ Component({
         address: null,
         location: this.data.location,
         status: this.data.status,
-        contact: this.data.touch,
+        contact: this.data.touch === '是' ? true : false,
         other: this.data.message,
         symptoms: this.data.symptoms,
         // familyNumber: this.familyNumber.toString(),
@@ -154,36 +195,56 @@ Component({
       };
       const self = this;
 
+      wx.showLoading();
       wx.requestSubscribeMessage({
-        tmplIds: ['XWrCEfaxxzElgjfmr5jhACv3-45UiJgUAm0_cRYgk48'],
+        tmplIds: ['NoBDyg8tlJH4zDERchE3sQbE9KxRFD3e8VW29PRbHL4'],
         success(res) {
           console.log(res, '订阅成功');
           postSubscribe();
+          wx.showLoading();
         },
         fail(res) {
-          console.log('订阅err', res);
+          console.error('订阅err', res);
+          wx.showLoading();
         },
         complete() {
-          createReport(data).then(() => {
-            wx.showToast({
-              title: '提交成功',
-              icon: 'success',
-              duration: 2000
+          createReport(data)
+            .then(() => {
+              return getReport(self.data.groupId);
+            })
+            .then(res => {
+              const days = ['日', '一', '二', '三', '四', '五', '六'];
+              const dayTime = dayjs(res.data[0].createdAt);
+              self.setData({
+                dayTime: `${dayTime.format('YYYY年MM月DD日')} 星期${days[dayTime.day()]} ${dayTime.format('HH:mm')}`
+              });
+            })
+            .then(() => {
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交成功',
+                icon: 'success',
+                duration: 2000
+              });
+              self.setData({
+                hasSubmit: true
+              });
+              self.triggerEvent('clockin', {}, {
+                bubbles: true,
+                composed: true,
+              });
+            })
+            .catch(err => {
+              console.error(err);
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交失败',
+                icon: 'none',
+                duration: 2000
+              });
             });
-            self.setData({
-              hasSubmit: true
-            });
-          }).catch(err => {
-            console.log(err);
-            wx.showToast({
-              title: '提交失败',
-              icon: 'none',
-              duration: 2000
-            });
-          });
         }
       });
-      // console.log('submit');
     }
   }
 

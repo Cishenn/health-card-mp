@@ -2,15 +2,18 @@
 // pages/group/group-detail/group-detail.js
 
 import F2 from '../../../f2-canvas/lib/f2-all.min.js';
-import { getPie1Data, getPie2Data } from '../../../utils/charts';
+import { getPie1Data, getPie2Data, getPie3Data } from '../../../utils/charts';
 import Dialog from '@vant/weapp/dialog/dialog';
 import { exportData, getGroupDetail, getAnnouncement,
   getClockInData, getHealthData, getDistributeData, getClockInDetail
 } from '../../../api/service/group.js';
+import { getContactData } from '../../../api/service/report';
 import dayjs from 'dayjs';
+import { convertCodeToStringArray } from '../../../common/js/area';
 
 let pie1 = null;
 let pie2 = null;
+let pie3 = null;
 
 Page({
   data: {
@@ -23,6 +26,7 @@ Page({
     clockInData: null,
     healthData: null,
     distributeData: null,
+    contactData: null,
     clockInDetail: [],
     _chosenDate: 0,
     // chosenDate = getDate(_chosenDate)
@@ -37,6 +41,7 @@ Page({
     activeNames: [],
     opts1: { lazyLoad: true },
     opts2: { lazyLoad: true },
+    opts3: { lazyLoad: true },
     // total 包括亲戚
     total: 0,
   },
@@ -46,6 +51,14 @@ Page({
     this.setData({
       showClockIn
     });
+    if (!this.data.showDetail && !this.data.chartsInited &&
+        !showClockIn && this.data.clockInData.already) {
+      this.initCharts();
+    }
+    else if (!this.data.showDetail && this.data.chartsInited &&
+      !showClockIn && this.data.clockInData.already) {
+      this.updateCharts();
+    }
   },
 
   goToUnchecked: function() {
@@ -96,8 +109,11 @@ Page({
     this.setData({
       showDetail
     });
-    if (!showDetail && !this.data.chartsInited && !this.data.clockInData.already) {
+    if (!showDetail && !this.data.chartsInited && this.data.clockInData.already) {
       this.initCharts();
+    }
+    else if (!showDetail && this.data.chartsInited && this.data.clockInData.already) {
+      this.updateCharts();
     }
   },
 
@@ -122,7 +138,6 @@ Page({
       else {
         const download = `https://health-card.dataee.net/file/${res.data}`;
         let message = '';
-        // 注意 setClipboardData 是异步的
         wx.setClipboardData({
           data: download,
           success: () => {
@@ -183,6 +198,13 @@ Page({
     });
   },
 
+  // 打卡组件打卡事件监听
+  onClockIn: function() {
+    this.setData({
+      hasSubmit: true,
+    });
+    this.onShow();
+  },
 
   // 普通用户能看到的数据
   getNormalData: function() {
@@ -191,7 +213,8 @@ Page({
     Promise.all([
       getClockInData(groupId, date),
       getHealthData(groupId, date),
-      getDistributeData(groupId, date)
+      getDistributeData(groupId, date),
+      getContactData(groupId, date),
     ]).then(res => {
       let total = 0;
       const clockInData = res[0].data;
@@ -201,16 +224,20 @@ Page({
       }
       healthData = getPie1Data(healthData, total);
       const distributeData = getPie2Data(this.data.groupInfo.type, res[2].data, total);
+      const contactData = getPie3Data(res[3].data, total);
       this.setData({
         clockInData,
         healthData,
         distributeData,
+        contactData,
         total,
       });
-      if (!this.data.chartsInited && this.data.clockInData.already !== 0 && this.data.showDetail === false) {
+      if (!this.data.chartsInited && this.data.clockInData.already &&
+          !this.data.showDetail && !this.data.showClockIn) {
         this.initCharts();
       }
-      else if (this.data.chartsInited && this.data.clockInData.already !== 0) {
+      else if (this.data.chartsInited && this.data.clockInData.already &&
+          !this.data.showDetail && !this.data.showClockIn) {
         this.updateCharts();
       }
     }).catch(err => {
@@ -222,11 +249,15 @@ Page({
   getManageData: function() {
     getClockInDetail(this.data.groupId, this.data.chosenDate).then(res => {
       const clockInDetail = res.data;
-      clockInDetail.map(item => (item.formatedTime = dayjs(item.reports[0].createdAt).format('MM-DD HH:mm')));
       clockInDetail.forEach(item => {
-        item.reports[0].formatedSymptom = this.formatSymptom(item.reports[0].symptoms);
-        item.reports[0].members.forEach(rela => {
-          rela.formatedSymptom = this.formatSymptom(rela.symptoms);
+        item.formatedTime = dayjs(item.reports[0].createdAt).format('MM-DD HH:mm');
+        item.reports[0].location = convertCodeToStringArray(item.reports[0].location);
+        item.reports[0].symptoms = this.formatSymptom(item.reports[0].symptoms);
+        item.reports[0].touch = item.reports[0].contact ? '是' : '否';
+        item.reports[0].members.forEach(relative => {
+          relative.location = convertCodeToStringArray(relative.location);
+          relative.symptoms = this.formatSymptom(relative.symptoms);
+          relative.touch = relative.contact ? '是' : '否';
         });
       });
       this.setData({
@@ -244,9 +275,11 @@ Page({
 
   initCharts: function() {
     const canvas1 = this.selectComponent('#pie1');
-    canvas1.init(this.initChart1);
+    canvas1.init(this.initChart, 1);
     const canvas2 = this.selectComponent('#pie2');
-    canvas2.init(this.initChart2);
+    canvas2.init(this.initChart, 2);
+    const canvas3 = this.selectComponent('#pie3');
+    canvas3.init(this.initChart, 3);
     this.setData({
       chartsInited: true,
     });
@@ -255,99 +288,75 @@ Page({
   updateCharts: function() {
     pie1.changeData(this.data.healthData);
     pie2.changeData(this.data.distributeData);
+    pie3.changeData(this.data.contactData);
   },
 
-  initChart1: function(canvas, width, height) {
-    pie1 = new F2.Chart({
+
+  initChart: function(canvas, width, height, instanceId) {
+    // console.log(instanceId);
+    const pie = new F2.Chart({
       el: canvas,
       width,
       height
     });
-    const data = this.data.healthData;
-    pie1.source(data);
-    pie1.coord('polar', {
+    // eslint-disable-next-line no-nested-ternary
+    const data = instanceId === 1 ? this.data.healthData :
+      (instanceId === 2 ? this.data.distributeData : this.data.contactData);
+    pie.source(data);
+    pie.coord('polar', {
       transposed: true,
       radius: 0.75
     });
-    pie1.legend(false);
-    pie1.axis(false);
-    pie1.tooltip(false);
-    pie1.pieLabel({
+    pie.legend(false);
+    pie.axis(false);
+    pie.tooltip(false);
+    pie.pieLabel({
       sidePadding: 16,
-      label1: function label1(data, color) {
+      // eslint-disable-next-line func-names
+      label1: function label1(_data, color) {
         return {
-          text: data.name,
+          text: _data.name,
           fill: color
         };
       },
-      label2: function label2(data) {
+      // eslint-disable-next-line func-names
+      label2: function label2(_data) {
         return {
-          text: `${data.value}人 (${data.percent})`,
+          text: `${_data.value}人 (${_data.percent})`,
           fill: '#808080',
           fontWeight: 'bold'
         };
       }
     });
 
-    pie1.interval()
+    pie.interval()
       .position('const*value')
       .color('name', [ '#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864' ])
       .adjust('stack');
-    pie1.render();
+    pie.render();
 
-    return pie1;
-  },
+    switch (instanceId) {
+    case 1:
+      pie1 = pie;
 
-  initChart2: function(canvas, width, height) {
-    pie2 = new F2.Chart({
-      el: canvas,
-      width,
-      height
-    });
-    const data = this.data.distributeData;
-    pie2.source(data);
-    pie2.coord('polar', {
-      transposed: true,
-      radius: 0.75
-    });
-    pie2.legend(false);
-    pie2.axis(false);
-    pie2.tooltip(false);
-    pie2.pieLabel({
-      sidePadding: 16,
-      label1: function label1(data, color) {
-        return {
-          text: data.name,
-          fill: color
-        };
-      },
-      label2: function label2(data) {
-        return {
-          text: `${data.value}人 (${data.percent})`,
-          fill: '#808080',
-          fontWeight: 'bold'
-        };
-      }
-    });
+      return pie1;
+    case 2:
+      pie2 = pie;
 
-    pie2.interval()
-      .position('const*value')
-      .color('name', [ '#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864' ])
-      .adjust('stack');
-    pie2.render();
+      return pie2;
+    case 3:
+      pie3 = pie;
 
-    return pie2;
+      return pie3;
+    default:
+      return null;
+    }
   },
 
   formatSymptom: function(symptoms) {
-    if (symptoms.length === 0) {
-      return '';
-    }
-    let formatedSymptom = '';
-    symptoms.forEach(item => {
-      formatedSymptom += `${item.detail}，`;
-    });
-
-    return formatedSymptom.substring(0, formatedSymptom.length - 1);
+    // if (symptoms.length === 0) {
+    //   return [];
+    // }
+    return symptoms.map(item => item.detail);
   }
 });

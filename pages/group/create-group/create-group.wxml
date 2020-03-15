@@ -4,6 +4,7 @@
     clearable
     label="组名"
     placeholder="填写组名"
+    input-align="right"
     required
     value="{{name}}"
     bind:change="getName"/>
@@ -12,6 +13,7 @@
     clearable
     label="简介(50字内)"
     placeholder="填写简介"
+    input-align="right"
     required
     value="{{description}}"
     bind:change="getIntro"/>
@@ -21,6 +23,7 @@
     clearable
     label="创建人姓名"
     placeholder="填写姓名"
+    input-align="right"
     required
     value="{{managerName}}"
     disabled="{{disabled}}"
@@ -31,6 +34,7 @@
     clearable
     label="创建人电话"
     placeholder="填写手机号码"
+    input-align="right"
     required
     value="{{managerPhone}}"
     disabled="{{disabled}}"

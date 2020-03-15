@@ -13,7 +13,7 @@ Page({
     const groupId = options.id;
     const date = options.date;
     const groupname = options.name;
-    const displayedDate = `${date.substr(4, 2)}-${date.substr(6, 2)}`;
+    const displayedDate = `${date.substr(4, 6)}-${date.substr(6, 8)}`;
 
     Promise.all([
       getAllMembers(groupId),

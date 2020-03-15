@@ -5,7 +5,7 @@ Page({
 
   data: {
     name: '',
-    avatarUrl: 'https://img.yzcdn.cn/vant/cat.jpeg',
+    avatarUrl: '',
     logIn: false,
   },
   onLoad: function() {
@@ -13,7 +13,7 @@ Page({
     this.setData({
       logIn: globalData.avatarUrl ? true : false,
       name: globalData.name,
-      avatarUrl: globalData.avatarUrl,
+      avatarUrl: globalData.avatarUrl ? globalData.avatarUrl : '/assets/avatar.jpeg',
     });
   },
 

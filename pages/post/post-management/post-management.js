@@ -70,7 +70,7 @@ Page({
           Toast('修改成功');
           setTimeout(() => {
             wx.navigateBack();
-          }, 1000);
+          }, 1500);
         }
         else {
           Toast('修改失败');
